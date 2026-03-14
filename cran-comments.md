@@ -6,7 +6,7 @@
 
 ## Test environments
 
-* local macOS (aarch64-apple-darwin24), R 4.4.2
+* local macOS (aarch64-apple-darwin20), R 4.5.2
 * win-builder (devel, release)
 
 ## Downstream dependencies
