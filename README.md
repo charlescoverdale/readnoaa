@@ -124,18 +124,4 @@ noaa_stations(bbox = c(35, -120, 40, -115))
 | `list_datatypes()` | Available data types for a dataset |
 | `clear_cache()` | Clear local cache |
 
-## Related packages
-
-`readnoaa` is part of a suite of R packages for accessing economic and environmental data:
-
-| Package | Source | CRAN |
-|---|---|---|
-| [ons](https://github.com/charlescoverdale/ons) | UK Office for National Statistics | [![CRAN](https://www.r-pkg.org/badges/version/ons)](https://cran.r-project.org/package=ons) |
-| [boe](https://github.com/charlescoverdale/boe) | Bank of England | [![CRAN](https://www.r-pkg.org/badges/version/boe)](https://cran.r-project.org/package=boe) |
-| [hmrc](https://github.com/charlescoverdale/hmrc) | HM Revenue & Customs | [![CRAN](https://www.r-pkg.org/badges/version/hmrc)](https://cran.r-project.org/package=hmrc) |
-| [obr](https://github.com/charlescoverdale/obr) | Office for Budget Responsibility | [![CRAN](https://www.r-pkg.org/badges/version/obr)](https://cran.r-project.org/package=obr) |
-| [readecb](https://github.com/charlescoverdale/readecb) | European Central Bank | [![CRAN](https://www.r-pkg.org/badges/version/readecb)](https://cran.r-project.org/package=readecb) |
-| [readoecd](https://github.com/charlescoverdale/readoecd) | OECD | [![CRAN](https://www.r-pkg.org/badges/version/readoecd)](https://cran.r-project.org/package=readoecd) |
-| [fred](https://github.com/charlescoverdale/fred) | Federal Reserve (FRED) | [![CRAN](https://www.r-pkg.org/badges/version/fred)](https://cran.r-project.org/package=fred) |
-| [inflateR](https://github.com/charlescoverdale/inflateR) | Historical inflation adjustment | [![CRAN](https://www.r-pkg.org/badges/version/inflateR)](https://cran.r-project.org/package=inflateR) |
 
