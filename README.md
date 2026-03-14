@@ -181,4 +181,8 @@ Use `list_datatypes()` to discover all available variables for a given dataset a
 | `list_datatypes()` | Available data types for a dataset |
 | `clear_cache()` | Clear local cache |
 
+## Licence and limitations
 
+NOAA data is produced by the US federal government and is in the public domain. There are no restrictions on its use, redistribution, or modification.
+
+The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on rate-limit errors, but very large bulk downloads may still be slow. Data is typically available up to 2-3 days behind real time, and station coverage varies — some stations have gaps or limited variable availability. This package is not affiliated with or endorsed by NOAA.
