@@ -115,6 +115,22 @@ noaa_stations(bbox = c(35, -120, 40, -115))
 | `GME00111445` | Berlin-Tempelhof |
 | `FRE00104898` | Paris-Montsouris |
 
+## Common variables
+
+| Variable | Code | Unit (metric) | Function |
+|---|---|---|---|
+| Maximum temperature | `TMAX` | °C | `noaa_daily()` |
+| Minimum temperature | `TMIN` | °C | `noaa_daily()` |
+| Precipitation | `PRCP` | mm | `noaa_daily()`, `noaa_monthly()` |
+| Snowfall | `SNOW` | mm | `noaa_daily()` |
+| Snow depth | `SNWD` | mm | `noaa_daily()` |
+| Average temperature | `TAVG` | °C | `noaa_monthly()`, `noaa_annual()` |
+| Wind speed | `AWND` | m/s | `noaa_daily()` |
+| Normal temperature | `MLY-TAVG-NORMAL` | °C | `noaa_normals()` |
+| Normal precipitation | `MLY-PRCP-NORMAL` | mm | `noaa_normals()` |
+
+Use `list_datatypes()` to discover all available variables for a given dataset and station.
+
 ## Functions
 
 | Function | Description |
