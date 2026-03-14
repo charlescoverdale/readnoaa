@@ -1,7 +1,5 @@
 # readnoaa
 
-[![CRAN status](https://www.r-pkg.org/badges/version/readnoaa)](https://CRAN.R-project.org/package=readnoaa)
-[![Downloads](https://cranlogs.r-pkg.org/badges/readnoaa)](https://CRAN.R-project.org/package=readnoaa)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 **readnoaa** provides clean, tidy access to climate and weather data from [NOAA](https://www.noaa.gov/) (the National Oceanic and Atmospheric Administration) directly from R. No API key required.
