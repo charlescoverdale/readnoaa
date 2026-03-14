@@ -113,6 +113,10 @@ head(df)
 # without a dedicated function
 df <- noaa_get("global-hourly", station = "USW00094728",
                start_date = "2024-07-01", end_date = "2024-07-01")
+head(df)
+#>       station       date                          name  ...
+#>   USW00094728 2024-07-01 NEW YORK CITY CENTRAL PARK, NY ...
+#>   ...
 ```
 
 ## Finding stations
