@@ -128,6 +128,10 @@ Every NOAA data request needs a station ID. There are two ways to find stations:
 ```r
 # Stations within 50 km of Sydney, Australia
 noaa_nearby(-33.87, 151.21, radius_km = 50)
+#>        station                    name latitude longitude distance_km
+#>   ASN00066062 SYDNEY OBSERVATORY HILL   -33.86    151.21         1.1
+#>   ASN00066006 SYDNEY AIRPORT AMO       -33.95    151.17         9.8
+#>   ...
 ```
 
 **2. Search by name or bounding box** using `noaa_stations()`:
@@ -135,9 +139,15 @@ noaa_nearby(-33.87, 151.21, radius_km = 50)
 ```r
 # Search by name
 noaa_stations(text = "Heathrow")
+#>        station              name latitude longitude elevation
+#>   UKW00035054 HEATHROW            51.478    -0.449      25.3
+#>   ...
 
 # Search by bounding box (south, west, north, east)
 noaa_stations(bbox = c(35, -120, 40, -115))
+#>        station                    name latitude longitude elevation
+#>   USC00040232   BAKERSFIELD MEADOWS FLD   35.433  -119.050     150.0
+#>   ...
 ```
 
 ### Common station IDs
