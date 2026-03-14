@@ -26,3 +26,10 @@ request to identify available columns.
 list_datatypes("daily-summaries", "USW00094728")
 }
 }
+\seealso{
+Other data access: 
+\code{\link{clear_cache}()},
+\code{\link{list_datasets}()},
+\code{\link{noaa_get}()}
+}
+\concept{data access}

@@ -17,6 +17,7 @@
 #'
 #' @return A data frame. Columns vary by dataset.
 #'
+#' @family data access
 #' @export
 #' @examples
 #' \donttest{

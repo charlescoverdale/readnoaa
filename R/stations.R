@@ -21,6 +21,7 @@
 #'   \item{elevation}{Numeric. Elevation in metres.}
 #' }
 #'
+#' @family station discovery
 #' @export
 #' @examples
 #' \donttest{
@@ -70,6 +71,7 @@ noaa_stations <- function(bbox = NULL, text = NULL, limit = 25L,
 #'     kilometres.}
 #' }
 #'
+#' @family station discovery
 #' @export
 #' @examples
 #' \donttest{

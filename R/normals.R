@@ -12,6 +12,7 @@
 #'   station, date or month, and normal values for temperature,
 #'   precipitation, and other variables.
 #'
+#' @family weather data
 #' @export
 #' @examples
 #' \donttest{

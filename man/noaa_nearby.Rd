@@ -32,3 +32,8 @@ sorted by distance. Uses the GHCN-Daily station inventory.
 noaa_nearby(51.5, -0.1, radius_km = 25)
 }
 }
+\seealso{
+Other station discovery: 
+\code{\link{noaa_stations}()}
+}
+\concept{station discovery}

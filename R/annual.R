@@ -19,6 +19,7 @@
 #'   \item{...}{Numeric. Data columns vary by station and request.}
 #' }
 #'
+#' @family weather data
 #' @export
 #' @examples
 #' \donttest{

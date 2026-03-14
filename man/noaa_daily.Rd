@@ -53,3 +53,10 @@ noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
            datatypes = c("TMAX", "TMIN"))
 }
 }
+\seealso{
+Other weather data: 
+\code{\link{noaa_annual}()},
+\code{\link{noaa_monthly}()},
+\code{\link{noaa_normals}()}
+}
+\concept{weather data}

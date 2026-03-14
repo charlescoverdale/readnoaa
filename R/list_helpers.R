@@ -10,6 +10,7 @@
 #'   \item{frequency}{Character. Temporal resolution.}
 #' }
 #'
+#' @family data access
 #' @export
 #' @examples
 #' list_datasets()
@@ -63,6 +64,7 @@ list_datasets <- function() {
 #'
 #' @return A character vector of available data type codes.
 #'
+#' @family data access
 #' @export
 #' @examples
 #' \donttest{

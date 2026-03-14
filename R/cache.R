@@ -5,6 +5,7 @@
 #'
 #' @return Invisible `NULL`.
 #'
+#' @family data access
 #' @export
 #' @examples
 #' \donttest{

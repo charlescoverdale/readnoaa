@@ -42,3 +42,8 @@ noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 noaa_stations(text = "Heathrow")
 }
 }
+\seealso{
+Other station discovery: 
+\code{\link{noaa_nearby}()}
+}
+\concept{station discovery}

@@ -126,15 +126,16 @@ noaa_stations(bbox = c(35, -120, 40, -115))
 
 ## Related packages
 
-The **readnoaa** package is part of a suite of R packages for economic and climate data:
+`readnoaa` is part of a suite of R packages for accessing economic and environmental data:
 
-| Package | Source | Status |
+| Package | Source | CRAN |
 |---|---|---|
-| [ons](https://github.com/charlescoverdale/ons) | UK Office for National Statistics | On CRAN |
-| [boe](https://github.com/charlescoverdale/boe) | Bank of England | On CRAN |
-| [hmrc](https://github.com/charlescoverdale/hmrc) | HM Revenue & Customs | On CRAN |
-| [obr](https://github.com/charlescoverdale/obr) | Office for Budget Responsibility | On CRAN |
-| [readecb](https://github.com/charlescoverdale/readecb) | European Central Bank | On CRAN |
-| [readoecd](https://github.com/charlescoverdale/readoecd) | OECD | On CRAN |
-| [fred](https://github.com/charlescoverdale/fred) | Federal Reserve (FRED) | On GitHub |
-| [inflateR](https://github.com/charlescoverdale/inflateR) | Inflation adjustment | On CRAN |
+| [ons](https://github.com/charlescoverdale/ons) | UK Office for National Statistics | [![CRAN](https://www.r-pkg.org/badges/version/ons)](https://cran.r-project.org/package=ons) |
+| [boe](https://github.com/charlescoverdale/boe) | Bank of England | [![CRAN](https://www.r-pkg.org/badges/version/boe)](https://cran.r-project.org/package=boe) |
+| [hmrc](https://github.com/charlescoverdale/hmrc) | HM Revenue & Customs | [![CRAN](https://www.r-pkg.org/badges/version/hmrc)](https://cran.r-project.org/package=hmrc) |
+| [obr](https://github.com/charlescoverdale/obr) | Office for Budget Responsibility | [![CRAN](https://www.r-pkg.org/badges/version/obr)](https://cran.r-project.org/package=obr) |
+| [readecb](https://github.com/charlescoverdale/readecb) | European Central Bank | [![CRAN](https://www.r-pkg.org/badges/version/readecb)](https://cran.r-project.org/package=readecb) |
+| [readoecd](https://github.com/charlescoverdale/readoecd) | OECD | [![CRAN](https://www.r-pkg.org/badges/version/readoecd)](https://cran.r-project.org/package=readoecd) |
+| [fred](https://github.com/charlescoverdale/fred) | Federal Reserve (FRED) | [![CRAN](https://www.r-pkg.org/badges/version/fred)](https://cran.r-project.org/package=fred) |
+| [inflateR](https://github.com/charlescoverdale/inflateR) | Historical inflation adjustment | [![CRAN](https://www.r-pkg.org/badges/version/inflateR)](https://cran.r-project.org/package=inflateR) |
+

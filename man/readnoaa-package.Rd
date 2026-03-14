@@ -17,7 +17,15 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Charles Coverdale \email{charlesfcoverdale@gmail.com}
+\strong{Maintainer}: Charles Coverdale \email{charlesfcoverdale@gmail.com} [copyright holder]
 
 }
+\concept{NCEI}
+\concept{NOAA}
+\concept{climate}
+\concept{climate normals}
+\concept{precipitation}
+\concept{temperature}
+\concept{weather}
+\concept{weather stations}
 \keyword{internal}

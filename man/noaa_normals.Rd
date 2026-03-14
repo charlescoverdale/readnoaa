@@ -29,3 +29,10 @@ represent the average climate conditions over the 1991-2020 period.
 noaa_normals("USW00094728", "monthly")
 }
 }
+\seealso{
+Other weather data: 
+\code{\link{noaa_annual}()},
+\code{\link{noaa_daily}()},
+\code{\link{noaa_monthly}()}
+}
+\concept{weather data}

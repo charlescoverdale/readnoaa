@@ -1,0 +1,36 @@
+url: https://charlescoverdale.github.io/readnoaa/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/charlescoverdale/readnoaa
+
+reference:
+  - title: "Weather Data"
+    desc: "Fetch weather and climate observations"
+    contents:
+      - noaa_daily
+      - noaa_monthly
+      - noaa_annual
+      - noaa_normals
+
+  - title: "Station Discovery"
+    desc: "Find weather stations by location or name"
+    contents:
+      - noaa_stations
+      - noaa_nearby
+
+  - title: "Data Access"
+    desc: "Generic data access and discovery"
+    contents:
+      - noaa_get
+      - list_datasets
+      - list_datatypes
+      - clear_cache

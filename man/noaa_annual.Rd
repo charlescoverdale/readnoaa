@@ -45,3 +45,10 @@ dataset.
 noaa_annual("USW00094728", "2020-01-01", "2024-01-01")
 }
 }
+\seealso{
+Other weather data: 
+\code{\link{noaa_daily}()},
+\code{\link{noaa_monthly}()},
+\code{\link{noaa_normals}()}
+}
+\concept{weather data}

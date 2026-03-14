@@ -25,6 +25,7 @@
 #'     `tmax`, `tmin`, `prcp`).}
 #' }
 #'
+#' @family weather data
 #' @export
 #' @examples
 #' \donttest{

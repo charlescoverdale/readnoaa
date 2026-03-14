@@ -18,3 +18,10 @@ function will re-download from the NCEI API.
 clear_cache()
 }
 }
+\seealso{
+Other data access: 
+\code{\link{list_datasets}()},
+\code{\link{list_datatypes}()},
+\code{\link{noaa_get}()}
+}
+\concept{data access}
