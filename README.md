@@ -10,6 +10,12 @@ The National Oceanic and Atmospheric Administration is a US federal agency respo
 
 NCEI maintains the [Data Service API](https://www.ncei.noaa.gov/access/services/data/v1), which provides free, open access to this archive. Unlike many government data APIs, it requires no API key - you can start pulling data immediately. The API returns clean CSV with data current to approximately 2-3 days ago.
 
+## Types of data
+
+NOAA's archive covers a wide range of weather and climate variables. Daily observations include maximum and minimum temperature, precipitation, snowfall, snow depth, and wind speed. Monthly and annual summaries aggregate these into averages and totals. The data spans land-based weather stations, marine buoys, and airport observation sites worldwide.
+
+Beyond current observations, NOAA publishes 30-year climate normals — statistical baselines calculated from the 1991-2020 period that represent "typical" weather for a given location. These are widely used in agriculture, energy, construction, and climate research to understand how current conditions compare to long-term averages. The archive also includes hourly observations, 15-minute precipitation data, and local climatological records for more specialised use cases.
+
 ## Why readnoaa?
 
 The flagship R package for NOAA data, [rnoaa](https://github.com/ropensci/rnoaa) (~3,300 downloads/month at its peak), was archived from CRAN in February 2024 when NOAA deprecated its CDO v2 API. The planned rOpenSci replacement never materialised. The only remaining CRAN package ([noaa](https://cran.r-project.org/package=noaa), 3 functions, ~180 downloads/month) still targets the broken old API.
