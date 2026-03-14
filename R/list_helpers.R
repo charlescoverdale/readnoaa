@@ -23,11 +23,13 @@ list_datasets <- function() {
       "normals-daily-1991-2020",
       "normals-monthly-1991-2020",
       "normals-annualseasonal-1991-2020",
+      "normals-hourly-1991-2020",
       "global-hourly",
+      "global-summary-of-the-day",
       "global-marine",
       "local-climatological-data",
-      "precipitation-15",
-      "precipitation-hourly"
+      "coop-hourly-precipitation",
+      "noaa-global-surface-temperature"
     ),
     description = c(
       "Daily weather observations (TMAX, TMIN, PRCP, SNOW, etc.)",
@@ -36,16 +38,18 @@ list_datasets <- function() {
       "30-year daily climate normals (1991-2020)",
       "30-year monthly climate normals (1991-2020)",
       "30-year annual/seasonal climate normals (1991-2020)",
-      "Hourly weather observations",
+      "30-year hourly climate normals (1991-2020)",
+      "Hourly weather observations (ISD)",
+      "Daily summary of global observations (GSOD)",
       "Marine surface observations",
       "Local climatological data (hourly, daily, monthly)",
-      "15-minute precipitation",
-      "Hourly precipitation"
+      "Cooperative observer hourly precipitation",
+      "Global surface temperature anomalies (NOAAGlobalTemp)"
     ),
     frequency = c(
       "Daily", "Monthly", "Annual", "Daily", "Monthly", "Annual",
-      "Hourly", "Variable", "Hourly/Daily/Monthly",
-      "15-minute", "Hourly"
+      "Hourly", "Hourly", "Daily", "Variable",
+      "Hourly/Daily/Monthly", "Hourly", "Monthly"
     ),
     stringsAsFactors = FALSE
   )

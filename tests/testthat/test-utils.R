@@ -20,6 +20,42 @@ test_that("validate_date rejects invalid date values", {
   expect_error(readnoaa:::validate_date("2024-02-30"), "not a valid date")
 })
 
+test_that("validate_date_range rejects start after end", {
+  expect_error(
+    readnoaa:::validate_date_range("2024-06-01", "2024-01-01"),
+    "must be before"
+  )
+})
+
+test_that("validate_date_range accepts valid range", {
+  expect_silent(readnoaa:::validate_date_range("2024-01-01", "2024-06-01"))
+})
+
+test_that("validate_date_range accepts NULL dates", {
+  expect_silent(readnoaa:::validate_date_range(NULL, "2024-01-01"))
+  expect_silent(readnoaa:::validate_date_range("2024-01-01", NULL))
+})
+
+test_that("chunk_date_range returns single chunk for short range", {
+  chunks <- readnoaa:::chunk_date_range("2024-01-01", "2024-06-30")
+  expect_length(chunks, 1)
+  expect_equal(chunks[[1]], c("2024-01-01", "2024-06-30"))
+})
+
+test_that("chunk_date_range splits multi-year range", {
+  chunks <- readnoaa:::chunk_date_range("2020-06-15", "2023-03-10")
+  expect_true(length(chunks) > 1)
+  # First chunk ends at 2020-12-31
+  expect_equal(chunks[[1]][2], "2020-12-31")
+  # Last chunk ends at original end date
+  expect_equal(chunks[[length(chunks)]][2], "2023-03-10")
+})
+
+test_that("chunk_date_range handles exact year boundary", {
+  chunks <- readnoaa:::chunk_date_range("2024-01-01", "2024-12-31")
+  expect_length(chunks, 1)
+})
+
 test_that("haversine computes known distance", {
   # London to Paris ~ 343 km
   d <- readnoaa:::haversine(51.5074, -0.1278, 48.8566, 2.3522)

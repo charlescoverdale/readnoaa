@@ -10,6 +10,8 @@ noaa_daily(
   end_date,
   datatypes = NULL,
   units = "metric",
+  include_flags = FALSE,
+  include_location = FALSE,
   cache = TRUE
 )
 }
@@ -28,6 +30,12 @@ noaa_daily(
 \item{units}{Character. \code{"metric"} (default, Celsius/mm) or \code{"standard"}
 (Fahrenheit/inches).}
 
+\item{include_flags}{Logical. Include data quality flags from NCEI
+(default \code{FALSE}).}
+
+\item{include_location}{Logical. Include station latitude, longitude,
+and elevation columns (default \code{FALSE}).}
+
 \item{cache}{Logical. Use cached data if available (default \code{TRUE}).}
 }
 \value{
@@ -41,10 +49,14 @@ A data frame with columns including:
 }
 }
 \description{
-Returns daily weather data from the NCEI Daily Summaries dataset.
-Common data types include TMAX (maximum temperature), TMIN (minimum
-temperature), PRCP (precipitation), SNOW (snowfall), and SNWD (snow
-depth).
+Returns daily weather data from the NCEI Daily Summaries dataset
+(GHCN-Daily). Common data types include TMAX (maximum temperature),
+TMIN (minimum temperature), PRCP (precipitation), SNOW (snowfall),
+and SNWD (snow depth).
+}
+\details{
+Requests spanning more than one year are automatically split into
+yearly chunks to avoid API timeouts.
 }
 \examples{
 \donttest{

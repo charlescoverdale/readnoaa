@@ -6,6 +6,10 @@
 #' @param station Character. One or more station IDs.
 #' @param period Character. One of `"monthly"`, `"daily"`, or `"annual"`.
 #' @param datatypes Optional character vector of data type codes.
+#' @param include_flags Logical. Include data quality flags from NCEI
+#'   (default `FALSE`).
+#' @param include_location Logical. Include station latitude, longitude,
+#'   and elevation columns (default `FALSE`).
 #' @param cache Logical. Use cached data if available (default `TRUE`).
 #'
 #' @return A data frame. Columns vary by period but typically include
@@ -19,6 +23,7 @@
 #' noaa_normals("USW00094728", "monthly")
 #' }
 noaa_normals <- function(station, period = "monthly", datatypes = NULL,
+                         include_flags = FALSE, include_location = FALSE,
                          cache = TRUE) {
   period <- match.arg(period, c("monthly", "daily", "annual"))
   dataset <- paste0("normals-", period, "-1991-2020")
@@ -28,6 +33,8 @@ noaa_normals <- function(station, period = "monthly", datatypes = NULL,
     dataset = dataset,
     stations = station,
     datatypes = datatypes,
+    include_flags = include_flags,
+    include_location = include_location,
     cache = cache
   )
   cli::cli_progress_done()

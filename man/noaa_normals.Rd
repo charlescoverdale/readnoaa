@@ -4,7 +4,14 @@
 \alias{noaa_normals}
 \title{Climate normals (1991-2020)}
 \usage{
-noaa_normals(station, period = "monthly", datatypes = NULL, cache = TRUE)
+noaa_normals(
+  station,
+  period = "monthly",
+  datatypes = NULL,
+  include_flags = FALSE,
+  include_location = FALSE,
+  cache = TRUE
+)
 }
 \arguments{
 \item{station}{Character. One or more station IDs.}
@@ -12,6 +19,12 @@ noaa_normals(station, period = "monthly", datatypes = NULL, cache = TRUE)
 \item{period}{Character. One of \code{"monthly"}, \code{"daily"}, or \code{"annual"}.}
 
 \item{datatypes}{Optional character vector of data type codes.}
+
+\item{include_flags}{Logical. Include data quality flags from NCEI
+(default \code{FALSE}).}
+
+\item{include_location}{Logical. Include station latitude, longitude,
+and elevation columns (default \code{FALSE}).}
 
 \item{cache}{Logical. Use cached data if available (default \code{TRUE}).}
 }

@@ -17,6 +17,13 @@ test_that("noaa_daily validates dates", {
   expect_error(noaa_daily("USW00094728", "bad-date", "2024-01-07"), "YYYY-MM-DD")
 })
 
+test_that("noaa_daily rejects start after end", {
+  expect_error(
+    noaa_daily("USW00094728", "2024-06-01", "2024-01-01"),
+    "must be before"
+  )
+})
+
 test_that("noaa_daily accepts YYYY-MM dates", {
   skip_on_cran()
   skip_if_offline()

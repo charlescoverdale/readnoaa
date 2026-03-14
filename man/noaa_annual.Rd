@@ -10,6 +10,8 @@ noaa_annual(
   end_date,
   datatypes = NULL,
   units = "metric",
+  include_flags = FALSE,
+  include_location = FALSE,
   cache = TRUE
 )
 }
@@ -24,6 +26,12 @@ noaa_annual(
 \item{datatypes}{Optional character vector of data type codes.}
 
 \item{units}{Character. \code{"metric"} (default) or \code{"standard"}.}
+
+\item{include_flags}{Logical. Include data quality flags from NCEI
+(default \code{FALSE}).}
+
+\item{include_location}{Logical. Include station latitude, longitude,
+and elevation columns (default \code{FALSE}).}
 
 \item{cache}{Logical. Use cached data if available (default \code{TRUE}).}
 }

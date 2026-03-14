@@ -13,6 +13,10 @@
 #' @param bbox Optional numeric vector of length 4 defining a bounding box:
 #'   `c(south_lat, west_lon, north_lat, east_lon)`.
 #' @param units Character. `"metric"` (default) or `"standard"`.
+#' @param include_flags Logical. Include data quality flags from NCEI
+#'   (default `FALSE`).
+#' @param include_location Logical. Include station latitude, longitude,
+#'   and elevation columns (default `FALSE`).
 #' @param cache Logical. Use cached data if available (default `TRUE`).
 #'
 #' @return A data frame. Columns vary by dataset.
@@ -27,9 +31,11 @@
 #' }
 noaa_get <- function(dataset, station = NULL, start_date = NULL,
                      end_date = NULL, datatypes = NULL, bbox = NULL,
-                     units = "metric", cache = TRUE) {
+                     units = "metric", include_flags = FALSE,
+                     include_location = FALSE, cache = TRUE) {
   if (!is.null(start_date)) start_date <- validate_date(start_date, "start_date")
   if (!is.null(end_date))   end_date   <- validate_date(end_date, "end_date")
+  validate_date_range(start_date, end_date)
 
   cli::cli_progress_step("Fetching {dataset} data")
   df <- noaa_fetch(
@@ -40,6 +46,8 @@ noaa_get <- function(dataset, station = NULL, start_date = NULL,
     datatypes = datatypes,
     units = units,
     bbox = bbox,
+    include_flags = include_flags,
+    include_location = include_location,
     cache = cache
   )
   cli::cli_progress_done()

@@ -166,6 +166,19 @@ noaa_stations(bbox = c(35, -120, 40, -115))
 
 Use `list_datatypes()` to discover all available variables for a given dataset and station.
 
+## Data quality flags
+
+NCEI applies automated quality control checks to all observations, flagging approximately 0.3% of values. You can include these flags by setting `include_flags = TRUE`:
+
+```r
+df <- noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
+                 datatypes = c("TMAX", "TMIN"), include_flags = TRUE)
+```
+
+This adds attribute columns alongside each data column containing measurement and quality flag codes. Flags are useful for filtering suspect observations in research workflows.
+
+To include station coordinates (latitude, longitude, elevation) with each observation, use `include_location = TRUE`.
+
 ## Functions
 
 | Function | Description |
@@ -181,8 +194,12 @@ Use `list_datatypes()` to discover all available variables for a given dataset a
 | `list_datatypes()` | Available data types for a dataset |
 | `clear_cache()` | Clear local cache |
 
+## Data sources
+
+Daily observations come from the [Global Historical Climatology Network - Daily (GHCN-Daily)](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily), which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month/Year datasets. Climate normals follow the [WMO guidelines](https://library.wmo.int/idurl/4/55797) for calculating 30-year averages.
+
 ## Licence and limitations
 
 NOAA data is produced by the US federal government and is in the public domain. There are no restrictions on its use, redistribution, or modification.
 
-The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on rate-limit errors, but very large bulk downloads may still be slow. Data is typically available up to 2-3 days behind real time, and station coverage varies — some stations have gaps or limited variable availability. This package is not affiliated with or endorsed by NOAA.
+The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on rate-limit errors. Daily data requests spanning more than one year are automatically split into yearly chunks to avoid API timeouts. Data is typically available up to 2-3 days behind real time, and station coverage varies — some stations have gaps or limited variable availability. This package is not affiliated with or endorsed by NOAA.

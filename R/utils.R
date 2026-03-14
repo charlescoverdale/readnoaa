@@ -32,6 +32,58 @@ validate_date <- function(x, arg_name = "date") {
 }
 
 
+#' Validate that start_date is before end_date
+#'
+#' @param start_date Character. Start date in YYYY-MM-DD format.
+#' @param end_date Character. End date in YYYY-MM-DD format.
+#' @noRd
+validate_date_range <- function(start_date, end_date) {
+  if (is.null(start_date) || is.null(end_date)) return(invisible(NULL))
+  s <- as.Date(start_date)
+  e <- as.Date(end_date)
+  if (s > e) {
+    cli::cli_abort(
+      "{.arg start_date} ({.val {start_date}}) must be before {.arg end_date} ({.val {end_date}})."
+    )
+  }
+  invisible(NULL)
+}
+
+
+#' Split a date range into yearly chunks
+#'
+#' Returns a list of 2-element character vectors, each covering at most
+#' one year. Used to avoid API timeouts on large daily requests.
+#'
+#' @param start_date Character. Start date in YYYY-MM-DD format.
+#' @param end_date Character. End date in YYYY-MM-DD format.
+#' @return A list of `c(start, end)` character vectors.
+#' @noRd
+chunk_date_range <- function(start_date, end_date) {
+  s <- as.Date(start_date)
+  e <- as.Date(end_date)
+
+  if (as.numeric(difftime(e, s, units = "days")) <= 365) {
+    return(list(c(start_date, end_date)))
+  }
+
+  chunks <- list()
+  current <- s
+  while (current <= e) {
+    chunk_end <- min(
+      as.Date(paste0(format(current, "%Y"), "-12-31")),
+      e
+    )
+    chunks <- c(chunks, list(c(
+      format(current, "%Y-%m-%d"),
+      format(chunk_end, "%Y-%m-%d")
+    )))
+    current <- chunk_end + 1L
+  }
+  chunks
+}
+
+
 #' Haversine distance between two points
 #'
 #' @param lat1,lon1 Numeric. Coordinates of point 1.

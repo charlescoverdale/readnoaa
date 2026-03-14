@@ -13,12 +13,16 @@ noaa_stations_url <- "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-statio
 #' @param datatypes Optional character vector of data type codes.
 #' @param units Character. `"metric"` or `"standard"`.
 #' @param bbox Optional numeric vector of length 4: c(south, west, north, east).
+#' @param include_flags Logical. Include data quality flags (default `FALSE`).
+#' @param include_location Logical. Include station lat/lon/elevation
+#'   (default `FALSE`).
 #' @param cache Logical. Cache the result locally.
 #' @return A data frame parsed from the CSV response.
 #' @noRd
 noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
                        end_date = NULL, datatypes = NULL, units = "metric",
-                       bbox = NULL, cache = TRUE) {
+                       bbox = NULL, include_flags = FALSE,
+                       include_location = FALSE, cache = TRUE) {
   # Build cache key
 
   cache_dir <- tools::R_user_dir("readnoaa", "cache")
@@ -39,6 +43,8 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
     cache_parts <- paste0(cache_parts, "_bbox_", paste(bbox, collapse = "_"))
   }
   cache_parts <- paste0(cache_parts, "_", units)
+  if (include_flags) cache_parts <- paste0(cache_parts, "_flags")
+  if (include_location) cache_parts <- paste0(cache_parts, "_loc")
   cache_file <- file.path(cache_dir, paste0(cache_parts, ".csv"))
 
   if (cache && file.exists(cache_file)) {
@@ -49,6 +55,13 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
   # Build query params
   params <- list(dataset = dataset, format = "csv", units = units,
                  includeStationName = "true")
+
+  if (include_flags) {
+    params$includeAttributes <- "true"
+  }
+  if (include_location) {
+    params$includeStationLocation <- "true"
+  }
 
   if (!is.null(stations)) {
     params$stations <- paste(stations, collapse = ",")
