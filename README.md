@@ -80,6 +80,41 @@ head(normals)
 #>   ...
 ```
 
+### Multiple stations in one call
+
+```r
+# Compare rainfall across three US cities
+df <- noaa_monthly(c("USW00094728", "USW00023174", "USW00014739"),
+                   "2024-01", "2024-12", datatypes = "PRCP")
+head(df)
+#>       station       date                               name  prcp
+#>   USW00094728 2024-01-01 NEW YORK CITY CENTRAL PARK, NY US   87.6
+#>   USW00023174 2024-01-01 LOS ANGELES INTL AP, CA US         52.3
+#>   USW00014739 2024-01-01 CHICAGO OHARE INTL AP, IL US       44.2
+#>   ...
+```
+
+### Annual temperature trends
+
+```r
+df <- noaa_annual("USW00094728", "2000-01-01", "2024-01-01",
+                  datatypes = "TAVG")
+head(df)
+#>       station       date                          name  tavg
+#>   USW00094728 2000-01-01 NEW YORK CITY CENTRAL PARK, NY  13.1
+#>   USW00094728 2001-01-01 NEW YORK CITY CENTRAL PARK, NY  13.4
+#>   ...
+```
+
+### Hourly data with the generic fetcher
+
+```r
+# noaa_get() can access any NCEI dataset, including those
+# without a dedicated function
+df <- noaa_get("global-hourly", station = "USW00094728",
+               start_date = "2024-07-01", end_date = "2024-07-01")
+```
+
 ## Finding stations
 
 Every NOAA data request needs a station ID. There are two ways to find stations:
