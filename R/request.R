@@ -3,6 +3,11 @@
 noaa_data_url <- "https://www.ncei.noaa.gov/access/services/data/v1"
 noaa_stations_url <- "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"
 
+#' @noRd
+noaa_cache_dir <- function() {
+  getOption("readnoaa.cache_dir", default = tools::R_user_dir("readnoaa", "cache"))
+}
+
 
 #' Fetch data from the NCEI Data Service API
 #'
@@ -25,7 +30,7 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
                        include_location = FALSE, cache = TRUE) {
   # Build cache key
 
-  cache_dir <- tools::R_user_dir("readnoaa", "cache")
+  cache_dir <- noaa_cache_dir()
   cache_parts <- dataset
   if (!is.null(stations)) {
     cache_parts <- paste0(cache_parts, "_", paste(stations, collapse = "-"))
@@ -146,7 +151,7 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
 #' @noRd
 fetch_station_list <- function(cache = TRUE) {
 
-  cache_dir  <- tools::R_user_dir("readnoaa", "cache")
+  cache_dir  <- noaa_cache_dir()
   cache_file <- file.path(cache_dir, "ghcnd_stations.rds")
 
   if (cache && file.exists(cache_file)) {

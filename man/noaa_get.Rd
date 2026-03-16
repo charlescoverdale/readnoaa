@@ -52,9 +52,11 @@ A generic fetcher for direct access to any NCEI dataset. Use
 }
 \examples{
 \donttest{
+op <- options(readnoaa.cache_dir = tempdir())
 # Fetch daily data using the generic function
 noaa_get("daily-summaries", station = "USW00094728",
          start_date = "2024-01-01", end_date = "2024-01-31")
+options(op)
 }
 }
 \seealso{

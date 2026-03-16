@@ -25,11 +25,13 @@
 #' @export
 #' @examples
 #' \donttest{
+#' op <- options(readnoaa.cache_dir = tempdir())
 #' # Search for stations in London area
 #' noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 #'
 #' # Search by name
 #' noaa_stations(text = "Heathrow")
+#' options(op)
 #' }
 noaa_stations <- function(bbox = NULL, text = NULL, limit = 25L,
                           cache = TRUE) {
@@ -75,8 +77,10 @@ noaa_stations <- function(bbox = NULL, text = NULL, limit = 25L,
 #' @export
 #' @examples
 #' \donttest{
+#' op <- options(readnoaa.cache_dir = tempdir())
 #' # Stations within 25 km of central London
 #' noaa_nearby(51.5, -0.1, radius_km = 25)
+#' options(op)
 #' }
 noaa_nearby <- function(lat, lon, radius_km = 50, limit = 25L) {
   # Use bounding box to pre-filter, then compute exact distances

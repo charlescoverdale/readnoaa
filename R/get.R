@@ -25,9 +25,11 @@
 #' @export
 #' @examples
 #' \donttest{
+#' op <- options(readnoaa.cache_dir = tempdir())
 #' # Fetch daily data using the generic function
 #' noaa_get("daily-summaries", station = "USW00094728",
 #'          start_date = "2024-01-01", end_date = "2024-01-31")
+#' options(op)
 #' }
 noaa_get <- function(dataset, station = NULL, start_date = NULL,
                      end_date = NULL, datatypes = NULL, bbox = NULL,

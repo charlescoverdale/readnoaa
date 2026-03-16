@@ -15,7 +15,9 @@ function will re-download from the NCEI API.
 }
 \examples{
 \donttest{
+op <- options(readnoaa.cache_dir = tempdir())
 clear_cache()
+options(op)
 }
 }
 \seealso{

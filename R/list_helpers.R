@@ -72,7 +72,9 @@ list_datasets <- function() {
 #' @export
 #' @examples
 #' \donttest{
+#' op <- options(readnoaa.cache_dir = tempdir())
 #' list_datatypes("daily-summaries", "USW00094728")
+#' options(op)
 #' }
 list_datatypes <- function(dataset, station, cache = TRUE) {
   cli::cli_progress_step("Discovering data types for {dataset}")

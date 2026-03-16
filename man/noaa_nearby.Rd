@@ -28,8 +28,10 @@ sorted by distance. Uses the GHCN-Daily station inventory.
 }
 \examples{
 \donttest{
+op <- options(readnoaa.cache_dir = tempdir())
 # Stations within 25 km of central London
 noaa_nearby(51.5, -0.1, radius_km = 25)
+options(op)
 }
 }
 \seealso{

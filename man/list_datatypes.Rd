@@ -23,7 +23,9 @@ request to identify available columns.
 }
 \examples{
 \donttest{
+op <- options(readnoaa.cache_dir = tempdir())
 list_datatypes("daily-summaries", "USW00094728")
+options(op)
 }
 }
 \seealso{

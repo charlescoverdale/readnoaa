@@ -20,7 +20,9 @@
 #' @export
 #' @examples
 #' \donttest{
+#' op <- options(readnoaa.cache_dir = tempdir())
 #' noaa_normals("USW00094728", "monthly")
+#' options(op)
 #' }
 noaa_normals <- function(station, period = "monthly", datatypes = NULL,
                          include_flags = FALSE, include_location = FALSE,

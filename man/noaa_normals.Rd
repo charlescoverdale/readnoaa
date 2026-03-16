@@ -39,7 +39,9 @@ represent the average climate conditions over the 1991-2020 period.
 }
 \examples{
 \donttest{
+op <- options(readnoaa.cache_dir = tempdir())
 noaa_normals("USW00094728", "monthly")
+options(op)
 }
 }
 \seealso{
