@@ -217,3 +217,5 @@ Daily observations come from the [Global Historical Climatology Network - Daily 
 NOAA data is produced by the US federal government and is in the public domain. There are no restrictions on its use, redistribution, or modification.
 
 The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on rate-limit errors. Daily data requests spanning more than one year are automatically split into yearly chunks to avoid API timeouts. Data is typically available up to 2-3 days behind real time, and station coverage varies — some stations have gaps or limited variable availability. This package is not affiliated with or endorsed by NOAA.
+
+NOAA, weather data, climate data, NCEI, GHCN, temperature, precipitation, meteorology, environmental data, API, R package
