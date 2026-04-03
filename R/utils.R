@@ -127,7 +127,9 @@ parse_noaa_csv <- function(csv_text) {
   for (col in setdiff(names(df), c("date", char_cols))) {
     if (is.character(df[[col]])) {
       nums <- suppressWarnings(as.numeric(df[[col]]))
-      if (!all(is.na(nums) & !is.na(df[[col]]))) {
+      # Convert if at least one non-NA original value parsed to a valid number
+      non_na_orig <- !is.na(df[[col]])
+      if (any(non_na_orig) && !all(is.na(nums[non_na_orig]))) {
         df[[col]] <- nums
       }
     }

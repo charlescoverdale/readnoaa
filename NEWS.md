@@ -1,3 +1,8 @@
+# readnoaa 0.1.2
+
+* Fixed edge case in CSV numeric coercion where columns with all-NA original
+  values could be incorrectly converted.
+
 # readnoaa 0.1.1
 
 * Examples now cache to `tempdir()` instead of the user's home directory,
