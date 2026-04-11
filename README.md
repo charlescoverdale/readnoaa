@@ -208,6 +208,12 @@ To include station coordinates (latitude, longitude, elevation) with each observ
 | `list_datatypes()` | Available data types for a dataset |
 | `clear_cache()` | Clear local cache |
 
+## Related packages
+
+| Package | What it covers |
+|---|---|
+| [`climatekit`](https://github.com/charlescoverdale/climatekit) | Climate indices computed from weather data (frost days, degree days, SPI/SPEI drought, Huglin/Winkler, heat stress) |
+
 ## Data sources
 
 Daily observations come from the [Global Historical Climatology Network - Daily (GHCN-Daily)](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily), which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month/Year datasets. Climate normals follow the [WMO guidelines](https://library.wmo.int/idurl/4/55797) for calculating 30-year averages.
