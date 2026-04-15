@@ -25,7 +25,10 @@ The flagship R package for NOAA data, [rnoaa](https://github.com/ropensci/rnoaa)
 ## Installation
 
 ```r
-# Install from GitHub
+install.packages("readnoaa")
+
+# Or install the development version from GitHub
+# install.packages("devtools")
 devtools::install_github("charlescoverdale/readnoaa")
 ```
 
@@ -214,6 +217,12 @@ To include station coordinates (latitude, longitude, elevation) with each observ
 |---|---|
 | [`climatekit`](https://github.com/charlescoverdale/climatekit) | Climate indices computed from weather data (frost days, degree days, SPI/SPEI drought, Huglin/Winkler, heat stress) |
 
+## Caching
+
+Data is cached locally in `tools::R_user_dir("readnoaa", "cache")` on first download. Subsequent calls with the same parameters return instantly from the cache.
+
+To force a fresh download, pass `cache = FALSE`. To clear the entire cache, call `clear_cache()`.
+
 ## Data sources
 
 Daily observations come from the [Global Historical Climatology Network - Daily (GHCN-Daily)](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily), which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month/Year datasets. Climate normals follow the [WMO guidelines](https://library.wmo.int/idurl/4/55797) for calculating 30-year averages.
@@ -223,5 +232,11 @@ Daily observations come from the [Global Historical Climatology Network - Daily 
 NOAA data is produced by the US federal government and is in the public domain. There are no restrictions on its use, redistribution, or modification.
 
 The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on rate-limit errors. Daily data requests spanning more than one year are automatically split into yearly chunks to avoid API timeouts. Data is typically available up to 2-3 days behind real time, and station coverage varies — some stations have gaps or limited variable availability. This package is not affiliated with or endorsed by NOAA.
+
+## Issues
+
+Please report bugs or requests at <https://github.com/charlescoverdale/readnoaa/issues>.
+
+## Keywords
 
 NOAA, weather data, climate data, NCEI, GHCN, temperature, precipitation, meteorology, environmental data, API, R package
