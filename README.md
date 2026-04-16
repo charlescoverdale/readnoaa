@@ -14,7 +14,7 @@ NCEI maintains the [Data Service API](https://www.ncei.noaa.gov/access/services/
 
 NOAA's archive covers a wide range of weather and climate variables. Daily observations include maximum and minimum temperature, precipitation, snowfall, snow depth, and wind speed. Monthly and annual summaries aggregate these into averages and totals. The data spans land-based weather stations, marine buoys, and airport observation sites worldwide.
 
-Beyond current observations, NOAA publishes 30-year climate normals — statistical baselines calculated from the 1991-2020 period that represent "typical" weather for a given location. These are widely used in agriculture, energy, construction, and climate research to understand how current conditions compare to long-term averages. The archive also includes hourly observations, 15-minute precipitation data, and local climatological records for more specialised use cases.
+Beyond current observations, NOAA publishes 30-year climate normals: statistical baselines calculated from the 1991-2020 period that represent "typical" weather for a given location. These are widely used in agriculture, energy, construction, and climate research to understand how current conditions compare to long-term averages. The archive also includes hourly observations, 15-minute precipitation data, and local climatological records for more specialised use cases.
 
 ## Why readnoaa?
 
