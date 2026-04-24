@@ -34,3 +34,7 @@ reference:
       - list_datasets
       - list_datatypes
       - clear_cache
+
+  - title: "Package"
+    contents:
+      - readnoaa-package
