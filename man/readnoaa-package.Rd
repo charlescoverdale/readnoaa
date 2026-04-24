@@ -11,6 +11,7 @@ Provides clean, tidy access to climate and weather data from the 'National Ocean
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://charlescoverdale.github.io/readnoaa/}
   \item \url{https://github.com/charlescoverdale/readnoaa}
   \item Report bugs at \url{https://github.com/charlescoverdale/readnoaa/issues}
 }
