@@ -1,0 +1,25 @@
+# readnoaa
+
+> Provides clean, tidy access to climate and weather data from the 'National Oceanic and Atmospheric Administration' ('NOAA') via the 'National Centers for Environmental Information' ('NCEI') Data Se... Install with `install.packages("readnoaa")`.
+
+Version: 0.1.2. License: MIT.
+
+## Functions
+
+- [`clear_cache()`](https://charlescoverdale.github.io/readnoaa/reference/clear_cache.html): Clear the readnoaa cache
+- [`list_datasets()`](https://charlescoverdale.github.io/readnoaa/reference/list_datasets.html): List common NCEI datasets
+- [`list_datatypes()`](https://charlescoverdale.github.io/readnoaa/reference/list_datatypes.html): List available data types for a dataset
+- [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.html): Annual weather summaries
+- [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.html): Daily weather observations
+- [`noaa_get()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_get.html): Fetch any NCEI dataset
+- [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.html): Monthly weather summaries
+- [`noaa_nearby()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_nearby.html): Find stations near a location
+- [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.html): Climate normals (1991-2020)
+- [`noaa_stations()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_stations.html): Search for weather stations
+
+## Documentation
+
+- [Full reference](https://charlescoverdale.github.io/readnoaa/reference/)
+- [GitHub](https://github.com/charlescoverdale/readnoaa)
+- [CRAN](https://CRAN.R-project.org/package=readnoaa)
+
