@@ -63,7 +63,7 @@ Other weather data:
 op <- options(readnoaa.cache_dir = tempdir())
 noaa_normals("USW00094728", "monthly")
 #> ℹ Fetching monthly climate normals
-#> ✔ Fetching monthly climate normals [138ms]
+#> ✔ Fetching monthly climate normals [150ms]
 #> 
 #>        station                         name date mly.cldd.base40
 #> 1  USW00094728 NEW YORK CNTRL PK TWR, NY US <NA>             7.7

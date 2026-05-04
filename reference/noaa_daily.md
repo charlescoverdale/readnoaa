@@ -100,7 +100,7 @@ op <- options(readnoaa.cache_dir = tempdir())
 noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
            datatypes = c("TMAX", "TMIN"))
 #> ℹ Fetching daily summaries
-#> ✔ Fetching daily summaries [333ms]
+#> ✔ Fetching daily summaries [241ms]
 #> 
 #>        station                        name       date tmax tmin
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7

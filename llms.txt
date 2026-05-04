@@ -67,6 +67,7 @@ help you find stations by location or name.
 ## Installation
 
 ``` r
+
 install.packages("readnoaa")
 
 # Or install the development version from GitHub
@@ -79,6 +80,7 @@ devtools::install_github("charlescoverdale/readnoaa")
 ### Daily temperature for Central Park, NYC
 
 ``` r
+
 library(readnoaa)
 
 df <- noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
@@ -94,6 +96,7 @@ head(df)
 ### Find stations near London
 
 ``` r
+
 stations <- noaa_nearby(51.5, -0.1, radius_km = 25)
 head(stations)
 #>        station                    name latitude longitude distance_km
@@ -105,6 +108,7 @@ head(stations)
 ### Monthly precipitation summary
 
 ``` r
+
 df <- noaa_monthly("USW00094728", "2024-01", "2024-12",
                    datatypes = c("PRCP"))
 head(df)
@@ -117,6 +121,7 @@ head(df)
 ### Climate normals
 
 ``` r
+
 normals <- noaa_normals("USW00094728", "monthly")
 head(normals)
 #>       station                          name  month  mly_tavg_normal  mly_prcp_normal
@@ -128,6 +133,7 @@ head(normals)
 ### Multiple stations in one call
 
 ``` r
+
 # Compare rainfall across three US cities
 df <- noaa_monthly(c("USW00094728", "USW00023174", "USW00014739"),
                    "2024-01", "2024-12", datatypes = "PRCP")
@@ -142,6 +148,7 @@ head(df)
 ### Annual temperature trends
 
 ``` r
+
 df <- noaa_annual("USW00094728", "2000-01-01", "2024-01-01",
                   datatypes = "TAVG")
 head(df)
@@ -154,6 +161,7 @@ head(df)
 ### Hourly data with the generic fetcher
 
 ``` r
+
 # noaa_get() can access any NCEI dataset, including those
 # without a dedicated function
 df <- noaa_get("global-hourly", station = "USW00094728",
@@ -173,6 +181,7 @@ stations:
 [`noaa_nearby()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_nearby.md):
 
 ``` r
+
 # Stations within 50 km of Sydney, Australia
 noaa_nearby(-33.87, 151.21, radius_km = 50)
 #>        station                    name latitude longitude distance_km
@@ -185,6 +194,7 @@ noaa_nearby(-33.87, 151.21, radius_km = 50)
 [`noaa_stations()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_stations.md):
 
 ``` r
+
 # Search by name
 noaa_stations(text = "Heathrow")
 #>        station              name latitude longitude elevation
@@ -214,17 +224,17 @@ noaa_stations(bbox = c(35, -120, 40, -115))
 
 ## Common variables
 
-| Variable             | Code              | Unit (metric) | Function                                                                                                                                                                           |
-|----------------------|-------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Maximum temperature  | `TMAX`            | °C            | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md)                                                                                              |
-| Minimum temperature  | `TMIN`            | °C            | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md)                                                                                              |
-| Precipitation        | `PRCP`            | mm            | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md), [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.md)   |
-| Snowfall             | `SNOW`            | mm            | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md)                                                                                              |
-| Snow depth           | `SNWD`            | mm            | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md)                                                                                              |
-| Average temperature  | `TAVG`            | °C            | [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.md), [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.md) |
-| Wind speed           | `AWND`            | m/s           | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md)                                                                                              |
-| Normal temperature   | `MLY-TAVG-NORMAL` | °C            | [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md)                                                                                          |
-| Normal precipitation | `MLY-PRCP-NORMAL` | mm            | [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md)                                                                                          |
+| Variable | Code | Unit (metric) | Function |
+|----|----|----|----|
+| Maximum temperature | `TMAX` | °C | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md) |
+| Minimum temperature | `TMIN` | °C | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md) |
+| Precipitation | `PRCP` | mm | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md), [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.md) |
+| Snowfall | `SNOW` | mm | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md) |
+| Snow depth | `SNWD` | mm | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md) |
+| Average temperature | `TAVG` | °C | [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.md), [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.md) |
+| Wind speed | `AWND` | m/s | [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md) |
+| Normal temperature | `MLY-TAVG-NORMAL` | °C | [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md) |
+| Normal precipitation | `MLY-PRCP-NORMAL` | mm | [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md) |
 
 Use
 [`list_datatypes()`](https://charlescoverdale.github.io/readnoaa/reference/list_datatypes.md)
@@ -237,6 +247,7 @@ flagging approximately 0.3% of values. You can include these flags by
 setting `include_flags = TRUE`:
 
 ``` r
+
 df <- noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
                  datatypes = c("TMAX", "TMIN"), include_flags = TRUE)
 ```
@@ -250,24 +261,26 @@ each observation, use `include_location = TRUE`.
 
 ## Functions
 
-| Function                                                                                      | Description                          |
-|-----------------------------------------------------------------------------------------------|--------------------------------------|
-| [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md)         | Daily weather observations           |
-| [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.md)     | Monthly summaries                    |
-| [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.md)       | Annual summaries                     |
-| [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md)     | 30-year climate normals (1991-2020)  |
-| [`noaa_get()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_get.md)             | Generic fetcher for any NCEI dataset |
-| [`noaa_stations()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_stations.md)   | Search for stations by bbox or text  |
-| [`noaa_nearby()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_nearby.md)       | Find stations near a point           |
-| [`list_datasets()`](https://charlescoverdale.github.io/readnoaa/reference/list_datasets.md)   | Curated table of common datasets     |
-| [`list_datatypes()`](https://charlescoverdale.github.io/readnoaa/reference/list_datatypes.md) | Available data types for a dataset   |
-| [`clear_cache()`](https://charlescoverdale.github.io/readnoaa/reference/clear_cache.md)       | Clear local cache                    |
+| Function | Description |
+|----|----|
+| [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.md) | Daily weather observations |
+| [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.md) | Monthly summaries |
+| [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.md) | Annual summaries |
+| [`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md) | 30-year climate normals (1991-2020) |
+| [`noaa_get()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_get.md) | Generic fetcher for any NCEI dataset |
+| [`noaa_stations()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_stations.md) | Search for stations by bbox or text |
+| [`noaa_nearby()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_nearby.md) | Find stations near a point |
+| [`list_datasets()`](https://charlescoverdale.github.io/readnoaa/reference/list_datasets.md) | Curated table of common datasets |
+| [`list_datatypes()`](https://charlescoverdale.github.io/readnoaa/reference/list_datatypes.md) | Available data types for a dataset |
+| [`clear_cache()`](https://charlescoverdale.github.io/readnoaa/reference/clear_cache.md) | Clear local cache |
 
 ## Related packages
 
-| Package                                                        | What it covers                                                                                                      |
-|----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| Package | Description |
+|----|----|
 | [`climatekit`](https://github.com/charlescoverdale/climatekit) | Climate indices computed from weather data (frost days, degree days, SPI/SPEI drought, Huglin/Winkler, heat stress) |
+| [`carbondata`](https://github.com/charlescoverdale/carbondata) | Carbon market data (EU/UK ETS, voluntary registries) |
+| [`cer`](https://github.com/charlescoverdale/cer) | Clean Energy Regulator data (Australia) |
 
 ## Caching
 

@@ -87,7 +87,7 @@ Other weather data:
 op <- options(readnoaa.cache_dir = tempdir())
 noaa_annual("USW00094728", "2020-01-01", "2024-01-01")
 #> ℹ Fetching annual summaries
-#> ✔ Fetching annual summaries [182ms]
+#> ✔ Fetching annual summaries [299ms]
 #> 
 #>       station                        name       date awnd  cdsd  cldd dp01 dp05
 #> 1 USW00094728 NY CITY CENTRAL PARK, NY US 2020-01-01   NA 725.4 725.4  127   NA

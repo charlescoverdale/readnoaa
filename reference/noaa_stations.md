@@ -66,7 +66,7 @@ op <- options(readnoaa.cache_dir = tempdir())
 # Search for stations in London area
 noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 #> ℹ Searching for stations
-#> ✔ Searching for stations [175ms]
+#> ✔ Searching for stations [164ms]
 #> 
 #>       station latitude longitude elevation      name
 #> 1 UKE00105915  51.5608    0.1789     137.0 HAMPSTEAD
@@ -75,7 +75,7 @@ noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 # Search by name
 noaa_stations(text = "Heathrow")
 #> ℹ Searching for stations
-#> ✔ Searching for stations [263ms]
+#> ✔ Searching for stations [264ms]
 #> 
 #>       station latitude longitude elevation     name
 #> 1 UKE00107650  51.4789    0.4489      25.0 HEATHROW

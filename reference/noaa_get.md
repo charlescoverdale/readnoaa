@@ -86,7 +86,7 @@ op <- options(readnoaa.cache_dir = tempdir())
 noaa_get("daily-summaries", station = "USW00094728",
          start_date = "2024-01-01", end_date = "2024-01-31")
 #> ℹ Fetching daily-summaries data
-#> ✔ Fetching daily-summaries data [337ms]
+#> ✔ Fetching daily-summaries data [287ms]
 #> 
 #>        station                        name       date acmc acmh acsc acsh  adpt
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01   NA   NA   NA   NA  -1.1
