@@ -213,9 +213,11 @@ To include station coordinates (latitude, longitude, elevation) with each observ
 
 ## Related packages
 
-| Package | What it covers |
+| Package | Description |
 |---|---|
 | [`climatekit`](https://github.com/charlescoverdale/climatekit) | Climate indices computed from weather data (frost days, degree days, SPI/SPEI drought, Huglin/Winkler, heat stress) |
+| [`carbondata`](https://github.com/charlescoverdale/carbondata) | Carbon market data (EU/UK ETS, voluntary registries) |
+| [`cer`](https://github.com/charlescoverdale/cer) | Clean Energy Regulator data (Australia) |
 
 ## Caching
 
