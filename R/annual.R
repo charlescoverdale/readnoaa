@@ -13,7 +13,11 @@
 #'   (default `FALSE`).
 #' @param include_location Logical. Include station latitude, longitude,
 #'   and elevation columns (default `FALSE`).
+#' @param drop_empty Logical. Drop columns that contain no data at all.
+#'   Defaults to `TRUE` when `datatypes` is `NULL`.
 #' @param cache Logical. Use cached data if available (default `TRUE`).
+#' @param refresh Logical. Ignore any cached copy and refetch (default
+#'   `FALSE`).
 #'
 #' @return A data frame with columns including:
 #' \describe{
@@ -33,7 +37,9 @@
 #' }
 noaa_annual <- function(station, start_date, end_date, datatypes = NULL,
                         units = "metric", include_flags = FALSE,
-                        include_location = FALSE, cache = TRUE) {
+                        include_location = FALSE,
+                        drop_empty = is.null(datatypes),
+                        cache = TRUE, refresh = FALSE) {
   start_date <- validate_date(start_date, "start_date")
   end_date   <- validate_date(end_date, "end_date")
   validate_date_range(start_date, end_date)
@@ -48,11 +54,11 @@ noaa_annual <- function(station, start_date, end_date, datatypes = NULL,
     units = units,
     include_flags = include_flags,
     include_location = include_location,
-    cache = cache
+    cache = cache,
+    refresh = refresh
   )
   cli::cli_progress_done()
 
-  df <- df[order(df$station, df$date), ]
-  rownames(df) <- NULL
-  df
+  if (drop_empty) df <- drop_empty_cols(df)
+  order_by_station_date(df)
 }

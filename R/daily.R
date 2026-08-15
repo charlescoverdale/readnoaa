@@ -8,6 +8,12 @@
 #' Requests spanning more than one year are automatically split into
 #' yearly chunks to avoid API timeouts.
 #'
+#' Station records vary enormously in how current they are. United States
+#' stations are typically complete to within a few days, while many
+#' international stations lag by months or have stopped reporting
+#' altogether. Use [noaa_coverage()] to check a station's record before
+#' relying on it.
+#'
 #' @param station Character. One or more station IDs (e.g.
 #'   `"USW00094728"` for Central Park, NYC).
 #' @param start_date Character. Start date in `"YYYY-MM-DD"` or
@@ -21,7 +27,14 @@
 #'   (default `FALSE`).
 #' @param include_location Logical. Include station latitude, longitude,
 #'   and elevation columns (default `FALSE`).
+#' @param drop_empty Logical. Drop columns that contain no data at all.
+#'   Defaults to `TRUE` when `datatypes` is `NULL`, because an unfiltered
+#'   request returns the whole GHCN-Daily element set as columns and few
+#'   stations report more than a handful of them. When you name `datatypes`
+#'   explicitly, every requested column is kept.
 #' @param cache Logical. Use cached data if available (default `TRUE`).
+#' @param refresh Logical. Ignore any cached copy and refetch (default
+#'   `FALSE`).
 #'
 #' @return A data frame with columns including:
 #' \describe{
@@ -33,6 +46,8 @@
 #' }
 #'
 #' @family weather data
+#' @seealso [noaa_coverage()] to check which elements a station reports
+#'   and how current its record is.
 #' @export
 #' @examples
 #' \donttest{
@@ -44,7 +59,9 @@
 #' }
 noaa_daily <- function(station, start_date, end_date, datatypes = NULL,
                        units = "metric", include_flags = FALSE,
-                       include_location = FALSE, cache = TRUE) {
+                       include_location = FALSE,
+                       drop_empty = is.null(datatypes),
+                       cache = TRUE, refresh = FALSE) {
   start_date <- validate_date(start_date, "start_date")
   end_date   <- validate_date(end_date, "end_date")
   validate_date_range(start_date, end_date)
@@ -62,13 +79,13 @@ noaa_daily <- function(station, start_date, end_date, datatypes = NULL,
       units = units,
       include_flags = include_flags,
       include_location = include_location,
-      cache = cache
+      cache = cache,
+      refresh = refresh
     )
   })
   cli::cli_progress_done()
 
-  df <- do.call(rbind, dfs)
-  df <- df[order(df$station, df$date), ]
-  rownames(df) <- NULL
-  df
+  df <- rbind_chunks(dfs)
+  if (drop_empty) df <- drop_empty_cols(df)
+  order_by_station_date(df)
 }

@@ -4,19 +4,42 @@
 \alias{noaa_stations}
 \title{Search for weather stations}
 \usage{
-noaa_stations(bbox = NULL, text = NULL, limit = 25L, cache = TRUE)
+noaa_stations(
+  bbox = NULL,
+  text = NULL,
+  element = NULL,
+  active_since = NULL,
+  regex = FALSE,
+  limit = 25L,
+  cache = TRUE,
+  refresh = FALSE
+)
 }
 \arguments{
 \item{bbox}{Optional numeric vector of length 4 defining a bounding box:
 \code{c(south_lat, west_lon, north_lat, east_lon)}.}
 
 \item{text}{Optional character string to search station names
-(case-insensitive).}
+(case-insensitive). Matched literally unless \code{regex = TRUE}.}
 
-\item{limit}{Integer. Maximum number of results (default 25).}
+\item{element}{Optional character vector of element codes (e.g.
+\code{"TMAX"}). Only stations reporting all of them are returned.}
+
+\item{active_since}{Optional integer year. Only stations whose record
+extends to that year or later are returned. When \code{element} is also
+given, the test applies to those elements.}
+
+\item{regex}{Logical. Treat \code{text} as a regular expression rather than a
+literal string (default \code{FALSE}).}
+
+\item{limit}{Integer. Maximum number of results (default 25). Use \code{Inf}
+for no limit.}
 
 \item{cache}{Logical. Use cached station list if available
 (default \code{TRUE}).}
+
+\item{refresh}{Logical. Ignore any cached copy and refetch (default
+\code{FALSE}).}
 }
 \value{
 A data frame with columns:
@@ -25,18 +48,30 @@ A data frame with columns:
 \item{name}{Character. Station name.}
 \item{latitude}{Numeric. Latitude in decimal degrees.}
 \item{longitude}{Numeric. Longitude in decimal degrees.}
-\item{elevation}{Numeric. Elevation in metres.}
+\item{elevation}{Numeric. Elevation in metres, or \code{NA} where GHCN-Daily
+records none.}
+\item{state}{Character. US state or Canadian province, where applicable.}
+\item{gsn_flag}{Character. \code{"GSN"} for GCOS Surface Network stations.}
+\item{hcn_crn_flag}{Character. \code{"HCN"} or \code{"CRN"} for US Historical
+Climatology Network and Climate Reference Network stations.}
+\item{wmo_id}{Character. Five-digit WMO identifier, where assigned.}
 }
 }
 \description{
 Searches the GHCN-Daily station inventory by bounding box or text
-query. The station list (~120,000 stations worldwide) is downloaded
+query. The station list (~130,000 stations worldwide) is downloaded
 once and cached locally.
+}
+\details{
+Set \code{element} or \code{active_since} to restrict results to stations that
+actually report a given variable, or that were still reporting recently.
+Both draw on the GHCN-Daily element inventory, an additional file of
+around 36 MB that is downloaded on first use and cached thereafter.
 }
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Search for stations in London area
+# Search for stations in the London area
 noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 
 # Search by name
@@ -45,7 +80,10 @@ options(op)
 }
 }
 \seealso{
+\code{\link[=noaa_coverage]{noaa_coverage()}} for the full element record of a station.
+
 Other station discovery: 
+\code{\link{noaa_coverage}()},
 \code{\link{noaa_nearby}()}
 }
 \concept{station discovery}

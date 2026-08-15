@@ -21,7 +21,10 @@ options(op)
 }
 }
 \seealso{
+\code{\link[=cache_info]{cache_info()}} to inspect the cache before clearing it.
+
 Other data access: 
+\code{\link{cache_info}()},
 \code{\link{list_datasets}()},
 \code{\link{list_datatypes}()},
 \code{\link{noaa_get}()}

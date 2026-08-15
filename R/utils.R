@@ -100,38 +100,82 @@ haversine <- function(lat1, lon1, lat2, lon2) {
 }
 
 
+#' Columns that must never be coerced to numeric
+#'
+#' Station identifiers are digit strings in several NCEI datasets (ISD and
+#' GSOD ids such as `"03772099999"` carry leading zeros), so they are held
+#' as character throughout.
+#'
+#' @noRd
+noaa_char_cols <- c(
+  "station", "name", "date", "station_name", "station_info",
+  "report_type", "source", "call_sign", "quality_control", "remarks",
+  "backupname", "backupelements", "wban", "state"
+)
+
+
+#' Normalise NCEI column names to lowercase snake_case
+#'
+#' `read.csv()` turns the hyphens in normals codes such as
+#' `MLY-PRCP-NORMAL` into dots, which then no longer resemble the code the
+#' caller passed to `datatypes`. Underscores are used instead, so the column
+#' name is the code lowercased.
+#'
+#' @param x Character vector of raw column names.
+#' @return Character vector of cleaned names.
+#' @noRd
+clean_names <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9]+", "_", x)
+  x <- gsub("_+", "_", x)
+  sub("_$", "", x)
+}
+
+
 #' Parse NOAA CSV response into a data frame
 #'
-#' Converts DATE to Date, keeps STATION/NAME as character, and coerces
-#' data columns to numeric. Renames columns to lowercase.
+#' Every column is read as character so that the API's own types are never
+#' guessed at, then numeric columns are coerced explicitly. Column names are
+#' lowercased and the date column is converted to whatever type the dataset
+#' actually warrants.
 #'
 #' @param csv_text Character. Raw CSV text from the NCEI API.
 #' @return A data frame.
 #' @noRd
 parse_noaa_csv <- function(csv_text) {
-  df <- utils::read.csv(text = csv_text, stringsAsFactors = FALSE)
+  df <- tryCatch(
+    utils::read.csv(text = csv_text, colClasses = "character",
+                    check.names = TRUE),
+    error = function(e) NULL
+  )
 
+  if (is.null(df)) return(data.frame())
+
+  names(df) <- clean_names(names(df))
+
+  # Lowercasing has to happen even for an empty result, otherwise callers
+  # that sort on `station` or `date` see NULL and fail.
   if (nrow(df) == 0L) return(df)
 
-  names(df) <- tolower(names(df))
-
-  # Convert date column - handles YYYY-MM-DD, YYYY-MM, and YYYY formats
   if ("date" %in% names(df)) {
-    df$date <- parse_noaa_date(df$date)
+    df <- convert_date_column(df)
   }
 
-  # Character columns to leave as-is
-  char_cols <- c("station", "name")
+  attr_cols <- grep("_attributes$", names(df), value = TRUE)
+  skip <- unique(c(noaa_char_cols, attr_cols, "month", "day", "hour"))
 
-  # Coerce remaining columns to numeric where appropriate
-  for (col in setdiff(names(df), c("date", char_cols))) {
-    if (is.character(df[[col]])) {
-      nums <- suppressWarnings(as.numeric(df[[col]]))
-      # Convert if at least one non-NA original value parsed to a valid number
-      non_na_orig <- !is.na(df[[col]])
-      if (any(non_na_orig) && !all(is.na(nums[non_na_orig]))) {
-        df[[col]] <- nums
-      }
+  for (col in setdiff(names(df), skip)) {
+    if (!is.character(df[[col]])) next
+    vals <- trimws(df[[col]])
+    vals[!nzchar(vals)] <- NA_character_
+    nums <- suppressWarnings(as.numeric(vals))
+    non_na_orig <- !is.na(vals)
+    # Only convert when at least one real value parses cleanly, so text
+    # columns are never silently blanked to NA.
+    if (any(non_na_orig) && !all(is.na(nums[non_na_orig]))) {
+      df[[col]] <- nums
+    } else {
+      df[[col]] <- vals
     }
   }
 
@@ -139,35 +183,157 @@ parse_noaa_csv <- function(csv_text) {
 }
 
 
-#' Parse NOAA date strings to Date
+#' Convert the date column and add any derived calendar parts
 #'
-#' Handles `YYYY-MM-DD`, `YYYY-MM`, and `YYYY` formats.
-#' Monthly dates are set to the first of the month; annual to January 1.
+#' NCEI uses several shapes in a single `DATE` field:
+#' calendar dates (`2024-01-31`), month or year stamps (`2024-01`, `2024`),
+#' ISO 8601 timestamps for hourly datasets (`2024-01-31T00:51:00`), and
+#' climatological pseudo-dates for the normals datasets (`01-31` for daily
+#' normals, `01` for monthly normals). Only the first four are real points
+#' in time; the normals pseudo-dates are kept verbatim and supplemented with
+#' integer `month`, `day`, and `hour` columns.
 #'
-#' @param x Character vector of date strings.
-#' @return A Date vector.
+#' @param df A data frame with a character `date` column.
+#' @return The data frame with `date` converted.
 #' @noRd
-parse_noaa_date <- function(x) {
-  x <- as.character(x)
-  out <- rep(as.Date(NA), length(x))
+convert_date_column <- function(df) {
+  x <- trimws(as.character(df$date))
+  x[!nzchar(x)] <- NA_character_
+  present <- x[!is.na(x)]
 
-  # Daily: YYYY-MM-DD
-  daily <- grepl("^\\d{4}-\\d{2}-\\d{2}$", x)
-  if (any(daily)) {
-    out[daily] <- as.Date(x[daily])
+  if (!length(present)) {
+    df$date <- as.Date(rep(NA, length(x)))
+    return(df)
   }
 
-  # Monthly: YYYY-MM
-  monthly <- grepl("^\\d{4}-\\d{2}$", x) & !daily
-  if (any(monthly)) {
-    out[monthly] <- as.Date(paste0(x[monthly], "-01"))
+  all_match <- function(pat) all(grepl(pat, present))
+
+  # Hourly observations: ISO 8601 timestamps. Kept as POSIXct in UTC, which
+  # is the timescale NCEI publishes these datasets on.
+  if (all_match("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?$")) {
+    df$date <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%S", tz = "UTC")
+    return(df)
   }
 
-  # Annual: YYYY
-  annual <- grepl("^\\d{4}$", x)
-  if (any(annual)) {
-    out[annual] <- as.Date(paste0(x[annual], "-01-01"))
+  if (all_match("^\\d{4}-\\d{2}-\\d{2}$")) {
+    df$date <- as.Date(x, format = "%Y-%m-%d")
+    return(df)
   }
 
+  if (all_match("^\\d{4}-\\d{2}$")) {
+    df$date <- as.Date(paste0(x, "-01"), format = "%Y-%m-%d")
+    return(df)
+  }
+
+  if (all_match("^\\d{4}$")) {
+    df$date <- as.Date(paste0(x, "-01-01"), format = "%Y-%m-%d")
+    return(df)
+  }
+
+  # Hourly normals: MM-DDTHH:MM:SS
+  if (all_match("^\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?$")) {
+    df$date <- x
+    df <- insert_after_date(df, list(
+      month = as.integer(substr(x, 1, 2)),
+      day   = as.integer(substr(x, 4, 5)),
+      hour  = as.integer(substr(x, 7, 8))
+    ))
+    return(df)
+  }
+
+  # Daily normals: MM-DD
+  if (all_match("^\\d{2}-\\d{2}$")) {
+    df$date <- x
+    df <- insert_after_date(df, list(
+      month = as.integer(substr(x, 1, 2)),
+      day   = as.integer(substr(x, 4, 5))
+    ))
+    return(df)
+  }
+
+  # Monthly normals: MM
+  if (all_match("^\\d{1,2}$")) {
+    df$date <- x
+    df <- insert_after_date(df, list(month = as.integer(x)))
+    return(df)
+  }
+
+  # Anything unrecognised is left exactly as the API sent it rather than
+  # being silently turned into NA.
+  df$date <- x
+  df
+}
+
+
+#' Insert derived columns immediately after `date`
+#' @noRd
+insert_after_date <- function(df, new_cols) {
+  pos   <- match("date", names(df))
+  left  <- df[, seq_len(pos), drop = FALSE]
+  right <- if (pos < ncol(df)) df[, seq(pos + 1L, ncol(df)), drop = FALSE] else NULL
+
+  add <- as.data.frame(new_cols, stringsAsFactors = FALSE)
+  out <- if (is.null(right)) cbind(left, add) else cbind(left, add, right)
   out
+}
+
+
+#' Row-bind fetched chunks, tolerating differing column sets
+#'
+#' Chunks are fetched a year at a time and a station's reported elements can
+#' change between years, so the column sets are unioned rather than assumed
+#' identical.
+#'
+#' @param dfs A list of data frames.
+#' @return A single data frame.
+#' @noRd
+rbind_chunks <- function(dfs) {
+  dfs <- Filter(function(d) !is.null(d) && ncol(d) > 0L, dfs)
+  if (!length(dfs)) return(data.frame())
+
+  dfs <- Filter(function(d) nrow(d) > 0L, dfs)
+  if (!length(dfs)) return(data.frame())
+  if (length(dfs) == 1L) return(dfs[[1]])
+
+  all_names <- unique(unlist(lapply(dfs, names)))
+  dfs <- lapply(dfs, function(d) {
+    missing <- setdiff(all_names, names(d))
+    for (m in missing) d[[m]] <- NA
+    d[, all_names, drop = FALSE]
+  })
+
+  do.call(rbind, dfs)
+}
+
+
+#' Order a data frame by station then date, if those columns exist
+#' @noRd
+order_by_station_date <- function(df) {
+  if (nrow(df) == 0L) return(df)
+  keys <- list()
+  if ("station" %in% names(df)) keys <- c(keys, list(df$station))
+  if ("date"    %in% names(df)) keys <- c(keys, list(df$date))
+  if (!length(keys)) return(df)
+
+  df <- df[do.call(order, keys), , drop = FALSE]
+  rownames(df) <- NULL
+  df
+}
+
+
+#' Drop columns that are entirely missing
+#'
+#' A bare `daily-summaries` request returns the full GHCN-Daily element set
+#' as columns, the large majority of which no individual station reports.
+#'
+#' @param df A data frame.
+#' @param keep Character vector of columns to retain regardless.
+#' @return The data frame without all-NA columns.
+#' @noRd
+drop_empty_cols <- function(df, keep = c("station", "name", "date",
+                                         "month", "day", "hour")) {
+  if (nrow(df) == 0L) return(df)
+  has_data <- vapply(df, function(x) any(!is.na(x)), logical(1))
+  has_data[names(df) %in% keep] <- TRUE
+  df[, has_data, drop = FALSE]
 }

@@ -2,7 +2,7 @@
 
 > Provides clean, tidy access to climate and weather data from the 'National Oceanic and Atmospheric Administration' ('NOAA') via the 'National Centers for Environmental Information' ('NCEI') Data Se...
 
-- Version: 0.1.2
+- Version: 0.2.0
 - Install: `install.packages("readnoaa")`
 - CRAN: https://CRAN.R-project.org/package=readnoaa
 - GitHub: https://github.com/charlescoverdale/readnoaa
@@ -10,6 +10,32 @@
 
 This file is a self-contained reference for LLM agents: every exported
 function with its signature, arguments, return value, and example.
+
+---
+
+## `cache_info()`
+
+**Inspect the readnoaa cache**
+
+Lists the cached responses currently on disk, with their size and age. Useful for checking whether a result is being served from a stale copy.
+
+**Usage**
+
+```r
+cache_info()
+```
+
+**Returns**
+
+A data frame with columns `file`, `size_kb`, and `age_days`, returned invisibly if the cache is empty.
+
+**Example**
+
+```r
+op <- options(readnoaa.cache_dir = tempdir())
+cache_info()
+options(op)
+```
 
 ---
 
@@ -53,7 +79,7 @@ list_datasets()
 
 **Returns**
 
-A data frame with columns: datasetCharacter. Dataset identifier for use with `noaa_get()`. descriptionCharacter. Brief description. frequencyCharacter. Temporal resolution.
+A data frame with columns: datasetCharacter. Dataset identifier for use with `noaa_get()`. descriptionCharacter. Brief description. frequencyCharacter. Temporal resolution. requiresCharacter. Arguments the API requires, or `""`.
 
 **Example**
 
@@ -67,18 +93,25 @@ list_datasets()
 
 **List available data types for a dataset**
 
-Queries the NCEI API to discover what data types (variables) are available for a given dataset and station. This makes a short data request to identify available columns.
+Reports the element codes a station actually records.
 
 **Usage**
 
 ```r
-list_datatypes(dataset, station, cache = TRUE)
+list_datatypes(
+  dataset,
+  station,
+  start_date = NULL,
+  end_date = NULL,
+  cache = TRUE
+)
 ```
 
 **Arguments**
 
 - `dataset` — Character. Dataset identifier (e.g. `"daily-summaries"`).
 - `station` — Character. A station ID to query.
+- `start_date, end_date` — Optional character dates bounding the sample window used for non-daily datasets.
 - `cache` — Logical. Use cached data if available (default `TRUE`).
 
 **Returns**
@@ -112,7 +145,9 @@ noaa_annual(
   units = "metric",
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 ```
 
@@ -125,7 +160,9 @@ noaa_annual(
 - `units` — Character. `"metric"` (default) or `"standard"`.
 - `include_flags` — Logical. Include data quality flags from NCEI (default `FALSE`).
 - `include_location` — Logical. Include station latitude, longitude, and elevation columns (default `FALSE`).
+- `drop_empty` — Logical. Drop columns that contain no data at all. Defaults to `TRUE` when `datatypes` is `NULL`.
 - `cache` — Logical. Use cached data if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
@@ -136,6 +173,40 @@ A data frame with columns including: stationCharacter. Station identifier. dateD
 ```r
 op <- options(readnoaa.cache_dir = tempdir())
 noaa_annual("USW00094728", "2020-01-01", "2024-01-01")
+options(op)
+```
+
+---
+
+## `noaa_coverage()`
+
+**Check what a station records, and for how long**
+
+Returns the first and last year of data for each element a station reports, taken from the GHCN-Daily element inventory. This is the authoritative answer to two questions the data functions cannot answer on their own: which variables a station actually measures, and how current its record is.
+
+**Usage**
+
+```r
+noaa_coverage(station, element = NULL, cache = TRUE, refresh = FALSE)
+```
+
+**Arguments**
+
+- `station` — Character. One or more station IDs.
+- `element` — Optional character vector of element codes (e.g. `c("TMAX", "PRCP")`) to restrict the result to.
+- `cache` — Logical. Use the cached inventory if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
+
+**Returns**
+
+A data frame with columns: stationCharacter. Station identifier. elementCharacter. Element code, e.g. `"TMAX"`. first_yearInteger. First year with data. last_yearInteger. Most recent year with data. yearsInteger. Length of the record in years.
+
+**Example**
+
+```r
+op <- options(readnoaa.cache_dir = tempdir())
+# What does Central Park record, and through when?
+noaa_coverage("USW00094728", element = c("TMAX", "TMIN", "PRCP"))
 options(op)
 ```
 
@@ -158,7 +229,9 @@ noaa_daily(
   units = "metric",
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 ```
 
@@ -171,7 +244,9 @@ noaa_daily(
 - `units` — Character. `"metric"` (default, Celsius/mm) or `"standard"` (Fahrenheit/inches).
 - `include_flags` — Logical. Include data quality flags from NCEI (default `FALSE`).
 - `include_location` — Logical. Include station latitude, longitude, and elevation columns (default `FALSE`).
+- `drop_empty` — Logical. Drop columns that contain no data at all. Defaults to `TRUE` when `datatypes` is `NULL`, because an unfiltered request returns the whole GHCN-Daily element set as columns and few stations report more than a handful of them. When you name `datatypes` explicitly, every requested column is kept.
 - `cache` — Logical. Use cached data if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
@@ -193,7 +268,7 @@ options(op)
 
 **Fetch any NCEI dataset**
 
-A generic fetcher for direct access to any NCEI dataset. Use `list_datasets()` to see common dataset identifiers.
+A generic fetcher for direct access to any NCEI dataset. Use `list_datasets()` to see common dataset identifiers and the arguments each one requires.
 
 **Usage**
 
@@ -208,26 +283,30 @@ noaa_get(
   units = "metric",
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 ```
 
 **Arguments**
 
 - `dataset` — Character. The dataset identifier (e.g. `"daily-summaries"`, `"global-summary-of-the-month"`).
-- `station` — Optional character vector of station IDs.
+- `station` — Optional character vector of station IDs. Note that station identifiers are dataset-specific: the daily datasets use GHCN-Daily IDs such as `"USW00094728"`, while `global-hourly` and `global-summary-of-the-day` use ISD IDs such as `"72505394728"`.
 - `start_date` — Optional start date in `"YYYY-MM-DD"` or `"YYYY-MM"` format.
 - `end_date` — Optional end date in the same format.
 - `datatypes` — Optional character vector of data type codes.
-- `bbox` — Optional numeric vector of length 4 defining a bounding box: `c(south_lat, west_lon, north_lat, east_lon)`.
-- `units` — Character. `"metric"` (default) or `"standard"`.
+- `bbox` — Optional numeric vector of length 4 defining a bounding box: `c(south_lat, west_lon, north_lat, east_lon)`. Required by `global-marine`.
+- `units` — Character. `"metric"` (default) or `"standard"`. Ignored by the normals datasets, which are published in US customary units.
 - `include_flags` — Logical. Include data quality flags from NCEI (default `FALSE`).
 - `include_location` — Logical. Include station latitude, longitude, and elevation columns (default `FALSE`).
+- `drop_empty` — Logical. Drop columns that contain no data at all. Defaults to `TRUE` when `datatypes` is `NULL`.
 - `cache` — Logical. Use cached data if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
-A data frame. Columns vary by dataset.
+A data frame. Columns vary by dataset. The `date` column is a `Date` for daily, monthly, and annual datasets, and a `POSIXct` in UTC for the hourly datasets, which publish ISO 8601 timestamps.
 
 **Example**
 
@@ -258,7 +337,9 @@ noaa_monthly(
   units = "metric",
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 ```
 
@@ -271,7 +352,9 @@ noaa_monthly(
 - `units` — Character. `"metric"` (default) or `"standard"`.
 - `include_flags` — Logical. Include data quality flags from NCEI (default `FALSE`).
 - `include_location` — Logical. Include station latitude, longitude, and elevation columns (default `FALSE`).
+- `drop_empty` — Logical. Drop columns that contain no data at all. Defaults to `TRUE` when `datatypes` is `NULL`.
 - `cache` — Logical. Use cached data if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
@@ -296,7 +379,16 @@ Searches for weather stations within a given radius of a point, sorted by distan
 **Usage**
 
 ```r
-noaa_nearby(lat, lon, radius_km = 50, limit = 25L)
+noaa_nearby(
+  lat,
+  lon,
+  radius_km = 50,
+  element = NULL,
+  active_since = NULL,
+  limit = 25L,
+  cache = TRUE,
+  refresh = FALSE
+)
 ```
 
 **Arguments**
@@ -304,7 +396,11 @@ noaa_nearby(lat, lon, radius_km = 50, limit = 25L)
 - `lat` — Numeric. Latitude of the target location.
 - `lon` — Numeric. Longitude of the target location.
 - `radius_km` — Numeric. Search radius in kilometres (default 50).
-- `limit` — Integer. Maximum number of results (default 25).
+- `element` — Optional character vector of element codes (e.g. `"TMAX"`). Only stations reporting all of them are returned.
+- `active_since` — Optional integer year. Only stations whose record extends to that year or later are returned.
+- `limit` — Integer. Maximum number of results (default 25). Use `Inf` for no limit.
+- `cache` — Logical. Use cached station list if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
@@ -316,6 +412,10 @@ A data frame with the same columns as `noaa_stations()` plus: distance_kmNumeric
 op <- options(readnoaa.cache_dir = tempdir())
 # Stations within 25 km of central London
 noaa_nearby(51.5, -0.1, radius_km = 25)
+
+# Only those still reporting maximum temperature recently
+noaa_nearby(51.5, -0.1, radius_km = 25,
+            element = "TMAX", active_since = 2024)
 options(op)
 ```
 
@@ -325,7 +425,7 @@ options(op)
 
 **Climate normals (1991-2020)**
 
-Returns 30-year climate normals from the NCEI Normals dataset. Normals represent the average climate conditions over the 1991-2020 period.
+Returns 30-year climate normals from the NCEI Normals datasets. Normals are the average conditions over the 1991-2020 reference period, and are used as the baseline against which current weather is compared.
 
 **Usage**
 
@@ -334,30 +434,42 @@ noaa_normals(
   station,
   period = "monthly",
   datatypes = NULL,
+  start_date = NULL,
+  end_date = NULL,
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 ```
 
 **Arguments**
 
 - `station` — Character. One or more station IDs.
-- `period` — Character. One of `"monthly"`, `"daily"`, or `"annual"`.
+- `period` — Character. One of `"monthly"`, `"daily"`, `"hourly"`, or `"annual"`.
 - `datatypes` — Optional character vector of data type codes.
+- `start_date, end_date` — Optional character dates bounding the window for the `"daily"` and `"hourly"` periods. Ignored for `"monthly"` and `"annual"`, which cover the whole year by construction.
 - `include_flags` — Logical. Include data quality flags from NCEI (default `FALSE`).
 - `include_location` — Logical. Include station latitude, longitude, and elevation columns (default `FALSE`).
+- `drop_empty` — Logical. Drop columns that contain no data at all. Defaults to `TRUE` when `datatypes` is `NULL`.
 - `cache` — Logical. Use cached data if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
-A data frame. Columns vary by period but typically include station, date or month, and normal values for temperature, precipitation, and other variables.
+A data frame. Columns vary by period, but typically include `station`, a climatological `date` with derived `month`/`day`/`hour` columns, and normal values for temperature, precipitation, and other variables.
 
 **Example**
 
 ```r
 op <- options(readnoaa.cache_dir = tempdir())
+# Monthly normals: twelve rows, values in Fahrenheit and inches
 noaa_normals("USW00094728", "monthly")
+
+# Daily normals for January only
+noaa_normals("USW00094728", "daily",
+             start_date = "2020-01-01", end_date = "2020-01-31")
 options(op)
 ```
 
@@ -367,30 +479,43 @@ options(op)
 
 **Search for weather stations**
 
-Searches the GHCN-Daily station inventory by bounding box or text query. The station list (~120,000 stations worldwide) is downloaded once and cached locally.
+Searches the GHCN-Daily station inventory by bounding box or text query. The station list (~130,000 stations worldwide) is downloaded once and cached locally.
 
 **Usage**
 
 ```r
-noaa_stations(bbox = NULL, text = NULL, limit = 25L, cache = TRUE)
+noaa_stations(
+  bbox = NULL,
+  text = NULL,
+  element = NULL,
+  active_since = NULL,
+  regex = FALSE,
+  limit = 25L,
+  cache = TRUE,
+  refresh = FALSE
+)
 ```
 
 **Arguments**
 
 - `bbox` — Optional numeric vector of length 4 defining a bounding box: `c(south_lat, west_lon, north_lat, east_lon)`.
-- `text` — Optional character string to search station names (case-insensitive).
-- `limit` — Integer. Maximum number of results (default 25).
+- `text` — Optional character string to search station names (case-insensitive). Matched literally unless `regex = TRUE`.
+- `element` — Optional character vector of element codes (e.g. `"TMAX"`). Only stations reporting all of them are returned.
+- `active_since` — Optional integer year. Only stations whose record extends to that year or later are returned. When `element` is also given, the test applies to those elements.
+- `regex` — Logical. Treat `text` as a regular expression rather than a literal string (default `FALSE`).
+- `limit` — Integer. Maximum number of results (default 25). Use `Inf` for no limit.
 - `cache` — Logical. Use cached station list if available (default `TRUE`).
+- `refresh` — Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 **Returns**
 
-A data frame with columns: stationCharacter. Station identifier. nameCharacter. Station name. latitudeNumeric. Latitude in decimal degrees. longitudeNumeric. Longitude in decimal degrees. elevationNumeric. Elevation in metres.
+A data frame with columns: stationCharacter. Station identifier. nameCharacter. Station name. latitudeNumeric. Latitude in decimal degrees. longitudeNumeric. Longitude in decimal degrees. elevationNumeric. Elevation in metres, or `NA` where GHCN-Daily records none. stateCharacter. US state or Canadian province, where applicable. gsn_flagCharacter. `"GSN"` for GCOS Surface Network stations. hcn_crn_flagCharacter. `"HCN"` or `"CRN"` for US Historical Climatology Network and Climate Reference Network stations. wmo_idCharacter. Five-digit WMO identifier, where assigned.
 
 **Example**
 
 ```r
 op <- options(readnoaa.cache_dir = tempdir())
-# Search for stations in London area
+# Search for stations in the London area
 noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 
 # Search by name

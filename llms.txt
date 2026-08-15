@@ -4,14 +4,16 @@
 
 Full API reference (for agents): https://raw.githubusercontent.com/charlescoverdale/readnoaa/main/llms-full.txt
 
-Version: 0.1.2. License: MIT.
+Version: 0.2.0. License: MIT.
 
 ## Functions
 
+- [`cache_info()`](https://charlescoverdale.github.io/readnoaa/reference/cache_info.html): Inspect the readnoaa cache
 - [`clear_cache()`](https://charlescoverdale.github.io/readnoaa/reference/clear_cache.html): Clear the readnoaa cache
 - [`list_datasets()`](https://charlescoverdale.github.io/readnoaa/reference/list_datasets.html): List common NCEI datasets
 - [`list_datatypes()`](https://charlescoverdale.github.io/readnoaa/reference/list_datatypes.html): List available data types for a dataset
 - [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.html): Annual weather summaries
+- [`noaa_coverage()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_coverage.html): Check what a station records, and for how long
 - [`noaa_daily()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_daily.html): Daily weather observations
 - [`noaa_get()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_get.html): Fetch any NCEI dataset
 - [`noaa_monthly()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_monthly.html): Monthly weather summaries

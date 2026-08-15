@@ -23,10 +23,11 @@ reference:
       - noaa_normals
 
   - title: "Station Discovery"
-    desc: "Find weather stations by location or name"
+    desc: "Find weather stations, and check what they record"
     contents:
       - noaa_stations
       - noaa_nearby
+      - noaa_coverage
 
   - title: "Data Access"
     desc: "Generic data access and discovery"
@@ -34,6 +35,11 @@ reference:
       - noaa_get
       - list_datasets
       - list_datatypes
+
+  - title: "Cache"
+    desc: "Inspect and clear the local cache"
+    contents:
+      - cache_info
       - clear_cache
 
   - title: "Package"

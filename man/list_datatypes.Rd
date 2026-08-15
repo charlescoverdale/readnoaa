@@ -4,12 +4,22 @@
 \alias{list_datatypes}
 \title{List available data types for a dataset}
 \usage{
-list_datatypes(dataset, station, cache = TRUE)
+list_datatypes(
+  dataset,
+  station,
+  start_date = NULL,
+  end_date = NULL,
+  cache = TRUE
+)
 }
 \arguments{
 \item{dataset}{Character. Dataset identifier (e.g. \code{"daily-summaries"}).}
 
 \item{station}{Character. A station ID to query.}
+
+\item{start_date, end_date}{Optional character dates. For the daily
+datasets these restrict the result to elements recorded during the
+window; for other datasets they bound the sample request.}
 
 \item{cache}{Logical. Use cached data if available (default \code{TRUE}).}
 }
@@ -17,19 +27,39 @@ list_datatypes(dataset, station, cache = TRUE)
 A character vector of available data type codes.
 }
 \description{
-Queries the NCEI API to discover what data types (variables) are
-available for a given dataset and station. This makes a short data
-request to identify available columns.
+Reports the element codes a station actually records.
+}
+\details{
+For the daily datasets this reads the GHCN-Daily element inventory, which
+states exactly which elements a station reports and over what years. That
+inventory file is around 36 MB, downloaded on first use and cached
+thereafter.
+
+For other datasets, where no such inventory exists, a short sample
+request is made and the columns that came back with data are reported.
+The sample window is taken from the end of the requested range, or from
+the recent past when no range is given.
+
+A station's element list spans its entire history, and stations routinely
+stop recording some variables. Supply \code{start_date} and \code{end_date} to see
+only the elements whose record overlaps the period you care about.
 }
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
+# Everything Central Park has ever recorded
 list_datatypes("daily-summaries", "USW00094728")
+
+# Only what it still records
+list_datatypes("daily-summaries", "USW00094728", start_date = "2025-01-01")
 options(op)
 }
 }
 \seealso{
+\code{\link[=noaa_coverage]{noaa_coverage()}} for the years each element spans.
+
 Other data access: 
+\code{\link{cache_info}()},
 \code{\link{clear_cache}()},
 \code{\link{list_datasets}()},
 \code{\link{noaa_get}()}

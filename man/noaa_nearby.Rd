@@ -4,7 +4,16 @@
 \alias{noaa_nearby}
 \title{Find stations near a location}
 \usage{
-noaa_nearby(lat, lon, radius_km = 50, limit = 25L)
+noaa_nearby(
+  lat,
+  lon,
+  radius_km = 50,
+  element = NULL,
+  active_since = NULL,
+  limit = 25L,
+  cache = TRUE,
+  refresh = FALSE
+)
 }
 \arguments{
 \item{lat}{Numeric. Latitude of the target location.}
@@ -13,7 +22,20 @@ noaa_nearby(lat, lon, radius_km = 50, limit = 25L)
 
 \item{radius_km}{Numeric. Search radius in kilometres (default 50).}
 
-\item{limit}{Integer. Maximum number of results (default 25).}
+\item{element}{Optional character vector of element codes (e.g.
+\code{"TMAX"}). Only stations reporting all of them are returned.}
+
+\item{active_since}{Optional integer year. Only stations whose record
+extends to that year or later are returned.}
+
+\item{limit}{Integer. Maximum number of results (default 25). Use \code{Inf}
+for no limit.}
+
+\item{cache}{Logical. Use cached station list if available
+(default \code{TRUE}).}
+
+\item{refresh}{Logical. Ignore any cached copy and refetch (default
+\code{FALSE}).}
 }
 \value{
 A data frame with the same columns as \code{\link[=noaa_stations]{noaa_stations()}} plus:
@@ -31,11 +53,16 @@ sorted by distance. Uses the GHCN-Daily station inventory.
 op <- options(readnoaa.cache_dir = tempdir())
 # Stations within 25 km of central London
 noaa_nearby(51.5, -0.1, radius_km = 25)
+
+# Only those still reporting maximum temperature recently
+noaa_nearby(51.5, -0.1, radius_km = 25,
+            element = "TMAX", active_since = 2024)
 options(op)
 }
 }
 \seealso{
 Other station discovery: 
+\code{\link{noaa_coverage}()},
 \code{\link{noaa_stations}()}
 }
 \concept{station discovery}

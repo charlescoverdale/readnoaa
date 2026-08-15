@@ -8,17 +8,26 @@ noaa_normals(
   station,
   period = "monthly",
   datatypes = NULL,
+  start_date = NULL,
+  end_date = NULL,
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 }
 \arguments{
 \item{station}{Character. One or more station IDs.}
 
-\item{period}{Character. One of \code{"monthly"}, \code{"daily"}, or \code{"annual"}.}
+\item{period}{Character. One of \code{"monthly"}, \code{"daily"}, \code{"hourly"}, or
+\code{"annual"}.}
 
 \item{datatypes}{Optional character vector of data type codes.}
+
+\item{start_date, end_date}{Optional character dates bounding the window
+for the \code{"daily"} and \code{"hourly"} periods. Ignored for \code{"monthly"} and
+\code{"annual"}, which cover the whole year by construction.}
 
 \item{include_flags}{Logical. Include data quality flags from NCEI
 (default \code{FALSE}).}
@@ -26,21 +35,65 @@ noaa_normals(
 \item{include_location}{Logical. Include station latitude, longitude,
 and elevation columns (default \code{FALSE}).}
 
+\item{drop_empty}{Logical. Drop columns that contain no data at all.
+Defaults to \code{TRUE} when \code{datatypes} is \code{NULL}.}
+
 \item{cache}{Logical. Use cached data if available (default \code{TRUE}).}
+
+\item{refresh}{Logical. Ignore any cached copy and refetch (default
+\code{FALSE}).}
 }
 \value{
-A data frame. Columns vary by period but typically include
-station, date or month, and normal values for temperature,
-precipitation, and other variables.
+A data frame. Columns vary by period, but typically include
+\code{station}, a climatological \code{date} with derived \code{month}/\code{day}/\code{hour}
+columns, and normal values for temperature, precipitation, and other
+variables.
 }
 \description{
-Returns 30-year climate normals from the NCEI Normals dataset. Normals
-represent the average climate conditions over the 1991-2020 period.
+Returns 30-year climate normals from the NCEI Normals datasets. Normals
+are the average conditions over the 1991-2020 reference period, and are
+used as the baseline against which current weather is compared.
 }
+\details{
+Four periods are available, each backed by a different NCEI dataset:
+
+\describe{
+\item{\code{"monthly"}}{\code{normals-monthly-1991-2020}. Twelve rows per station.}
+\item{\code{"daily"}}{\code{normals-daily-1991-2020}. One row per day of the year.}
+\item{\code{"hourly"}}{\code{normals-hourly-1991-2020}. One row per hour of the year.}
+\item{\code{"annual"}}{\code{normals-annualseasonal-1991-2020}. One row per station,
+covering annual and seasonal statistics.}
+}
+
+The daily and hourly datasets require a date window, which is supplied
+automatically as a full calendar year unless you narrow it with
+\code{start_date} and \code{end_date}. Because normals are climatological rather
+than tied to a particular year, only the month and day of those arguments
+are meaningful.
+
+Normals carry a climatological pseudo-date rather than a calendar date:
+\code{"01"} for a month, \code{"01-31"} for a day of the year. These are returned
+verbatim in \code{date}, with integer \code{month}, \code{day}, and \code{hour} columns added
+alongside for filtering and joining. The annual and seasonal dataset has
+no date column at all.
+}
+\section{Units}{
+
+The NCEI normals datasets are published in United States customary units
+(degrees Fahrenheit, inches) and ignore the API's \code{units} parameter, so
+unlike the observational functions there is no metric option. Convert
+after the fact if you need Celsius or millimetres.
+}
+
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
+# Monthly normals: twelve rows, values in Fahrenheit and inches
 noaa_normals("USW00094728", "monthly")
+
+# Daily normals for January only
+noaa_normals("USW00094728", "daily",
+             start_date = "2020-01-01", end_date = "2020-01-31")
 options(op)
 }
 }

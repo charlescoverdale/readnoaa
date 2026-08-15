@@ -12,17 +12,24 @@ A data frame with columns:
 \item{dataset}{Character. Dataset identifier for use with \code{\link[=noaa_get]{noaa_get()}}.}
 \item{description}{Character. Brief description.}
 \item{frequency}{Character. Temporal resolution.}
+\item{requires}{Character. Arguments the API requires, or \code{""}.}
 }
 }
 \description{
 Returns a curated table of the most commonly used NCEI datasets. No
 network call is made.
 }
+\details{
+The \code{requires} column records constraints the API enforces: some datasets
+reject requests that carry no date window, and \code{global-marine} is
+organised by area rather than by station, so it requires a bounding box.
+}
 \examples{
 list_datasets()
 }
 \seealso{
 Other data access: 
+\code{\link{cache_info}()},
 \code{\link{clear_cache}()},
 \code{\link{list_datatypes}()},
 \code{\link{noaa_get}()}

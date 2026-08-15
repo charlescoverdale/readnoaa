@@ -14,14 +14,19 @@ noaa_get(
   units = "metric",
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 }
 \arguments{
 \item{dataset}{Character. The dataset identifier (e.g.
 \code{"daily-summaries"}, \code{"global-summary-of-the-month"}).}
 
-\item{station}{Optional character vector of station IDs.}
+\item{station}{Optional character vector of station IDs. Note that
+station identifiers are dataset-specific: the daily datasets use
+GHCN-Daily IDs such as \code{"USW00094728"}, while \code{global-hourly} and
+\code{global-summary-of-the-day} use ISD IDs such as \code{"72505394728"}.}
 
 \item{start_date}{Optional start date in \code{"YYYY-MM-DD"} or
 \code{"YYYY-MM"} format.}
@@ -31,9 +36,11 @@ noaa_get(
 \item{datatypes}{Optional character vector of data type codes.}
 
 \item{bbox}{Optional numeric vector of length 4 defining a bounding box:
-\code{c(south_lat, west_lon, north_lat, east_lon)}.}
+\code{c(south_lat, west_lon, north_lat, east_lon)}. Required by
+\code{global-marine}.}
 
-\item{units}{Character. \code{"metric"} (default) or \code{"standard"}.}
+\item{units}{Character. \code{"metric"} (default) or \code{"standard"}. Ignored by
+the normals datasets, which are published in US customary units.}
 
 \item{include_flags}{Logical. Include data quality flags from NCEI
 (default \code{FALSE}).}
@@ -41,14 +48,23 @@ noaa_get(
 \item{include_location}{Logical. Include station latitude, longitude,
 and elevation columns (default \code{FALSE}).}
 
+\item{drop_empty}{Logical. Drop columns that contain no data at all.
+Defaults to \code{TRUE} when \code{datatypes} is \code{NULL}.}
+
 \item{cache}{Logical. Use cached data if available (default \code{TRUE}).}
+
+\item{refresh}{Logical. Ignore any cached copy and refetch (default
+\code{FALSE}).}
 }
 \value{
-A data frame. Columns vary by dataset.
+A data frame. Columns vary by dataset. The \code{date} column is a
+\code{Date} for daily, monthly, and annual datasets, and a \code{POSIXct} in UTC
+for the hourly datasets, which publish ISO 8601 timestamps.
 }
 \description{
 A generic fetcher for direct access to any NCEI dataset. Use
-\code{\link[=list_datasets]{list_datasets()}} to see common dataset identifiers.
+\code{\link[=list_datasets]{list_datasets()}} to see common dataset identifiers and the arguments
+each one requires.
 }
 \examples{
 \donttest{
@@ -61,6 +77,7 @@ options(op)
 }
 \seealso{
 Other data access: 
+\code{\link{cache_info}()},
 \code{\link{clear_cache}()},
 \code{\link{list_datasets}()},
 \code{\link{list_datatypes}()}
