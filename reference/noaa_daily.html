@@ -13,7 +13,7 @@ and SNWD (snow depth)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">readnoaa</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,9 @@ and SNWD (snow depth).</p>
 <span>  units <span class="op">=</span> <span class="st">"metric"</span>,</span>
 <span>  include_flags <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  include_location <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  cache <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  drop_empty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">datatypes</span><span class="op">)</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  refresh <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -98,8 +100,21 @@ and SNWD (snow depth).</p>
 and elevation columns (default <code>FALSE</code>).</p></dd>
 
 
+<dt id="arg-drop-empty">drop_empty<a class="anchor" aria-label="anchor" href="#arg-drop-empty"></a></dt>
+<dd><p>Logical. Drop columns that contain no data at all.
+Defaults to <code>TRUE</code> when <code>datatypes</code> is <code>NULL</code>, because an unfiltered
+request returns the whole GHCN-Daily element set as columns and few
+stations report more than a handful of them. When you name <code>datatypes</code>
+explicitly, every requested column is kept.</p></dd>
+
+
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
 <dd><p>Logical. Use cached data if available (default <code>TRUE</code>).</p></dd>
+
+
+<dt id="arg-refresh">refresh<a class="anchor" aria-label="anchor" href="#arg-refresh"></a></dt>
+<dd><p>Logical. Ignore any cached copy and refetch (default
+<code>FALSE</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -123,10 +138,17 @@ and elevation columns (default <code>FALSE</code>).</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Requests spanning more than one year are automatically split into
 yearly chunks to avoid API timeouts.</p>
+<p>Station records vary enormously in how current they are. United States
+stations are typically complete to within a few days, while many
+international stations lag by months or have stopped reporting
+altogether. Use <code><a href="noaa_coverage.html">noaa_coverage()</a></code> to check a station's record before
+relying on it.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other weather data:
+    <div class="dont-index"><p><code><a href="noaa_coverage.html">noaa_coverage()</a></code> to check which elements a station reports
+and how current its record is.</p>
+<p>Other weather data:
 <code><a href="noaa_annual.html">noaa_annual()</a></code>,
 <code><a href="noaa_monthly.html">noaa_monthly()</a></code>,
 <code><a href="noaa_normals.html">noaa_normals()</a></code></p></div>
@@ -140,7 +162,7 @@ yearly chunks to avoid API timeouts.</p>
 <span class="r-in"><span><span class="fu">noaa_daily</span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01-01"</span>, <span class="st">"2024-01-31"</span>,</span></span>
 <span class="r-in"><span>           datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching daily summaries</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Fetching daily summaries <span style="color: #B2B2B2;">[263ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Fetching daily summaries <span style="color: #B2B2B2;">[399ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        station                        name       date tmax tmin</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7</span>

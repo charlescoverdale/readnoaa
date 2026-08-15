@@ -9,7 +9,7 @@ network call is made."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">readnoaa</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,11 +56,21 @@ network call is made.</p>
 <dt>frequency</dt>
 <dd><p>Character. Temporal resolution.</p></dd>
 
+<dt>requires</dt>
+<dd><p>Character. Arguments the API requires, or <code>""</code>.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The <code>requires</code> column records constraints the API enforces: some datasets
+reject requests that carry no date window, and <code>global-marine</code> is
+organised by area rather than by station, so it requires a bounding box.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other data access:
+<code><a href="cache_info.html">cache_info()</a></code>,
 <code><a href="clear_cache.html">clear_cache()</a></code>,
 <code><a href="list_datatypes.html">list_datatypes()</a></code>,
 <code><a href="noaa_get.html">noaa_get()</a></code></p></div>
@@ -82,35 +92,32 @@ network call is made.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10                    global-marine</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11        local-climatological-data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12        coop-hourly-precipitation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  noaa-global-surface-temperature</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                  description</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  Daily weather observations (TMAX, TMIN, PRCP, SNOW, etc.)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                               Monthly aggregated summaries</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                Annual aggregated summaries</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                  30-year daily climate normals (1991-2020)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                30-year monthly climate normals (1991-2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        30-year annual/seasonal climate normals (1991-2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    30-year annual and seasonal climate normals (1991-2020)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7                 30-year hourly climate normals (1991-2020)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8                          Hourly weather observations (ISD)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9                Daily summary of global observations (GSOD)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10                               Marine surface observations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11        Local climatological data (hourly, daily, monthly)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                 Cooperative observer hourly precipitation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13     Global surface temperature anomalies (NOAAGlobalTemp)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               frequency</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 Daily</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               Monthly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                Annual</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Daily</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5               Monthly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                Annual</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                Hourly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                Hourly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                 Daily</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10             Variable</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Hourly/Daily/Monthly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12               Hourly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13              Monthly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               frequency requires</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 Daily    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2               Monthly    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                Annual    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Daily    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5               Monthly         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                Annual         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                Hourly    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                Hourly    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                 Daily    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10             Variable     bbox</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Hourly/Daily/Monthly    dates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12               Hourly    dates</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

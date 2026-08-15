@@ -16,7 +16,9 @@ noaa_daily(
   units = "metric",
   include_flags = FALSE,
   include_location = FALSE,
-  cache = TRUE
+  drop_empty = is.null(datatypes),
+  cache = TRUE,
+  refresh = FALSE
 )
 ```
 
@@ -54,9 +56,21 @@ noaa_daily(
   Logical. Include station latitude, longitude, and elevation columns
   (default `FALSE`).
 
+- drop_empty:
+
+  Logical. Drop columns that contain no data at all. Defaults to `TRUE`
+  when `datatypes` is `NULL`, because an unfiltered request returns the
+  whole GHCN-Daily element set as columns and few stations report more
+  than a handful of them. When you name `datatypes` explicitly, every
+  requested column is kept.
+
 - cache:
 
   Logical. Use cached data if available (default `TRUE`).
+
+- refresh:
+
+  Logical. Ignore any cached copy and refetch (default `FALSE`).
 
 ## Value
 
@@ -84,7 +98,17 @@ A data frame with columns including:
 Requests spanning more than one year are automatically split into yearly
 chunks to avoid API timeouts.
 
+Station records vary enormously in how current they are. United States
+stations are typically complete to within a few days, while many
+international stations lag by months or have stopped reporting
+altogether. Use
+[`noaa_coverage()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_coverage.md)
+to check a station's record before relying on it.
+
 ## See also
+
+[`noaa_coverage()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_coverage.md)
+to check which elements a station reports and how current its record is.
 
 Other weather data:
 [`noaa_annual()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_annual.md),
@@ -100,7 +124,7 @@ op <- options(readnoaa.cache_dir = tempdir())
 noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
            datatypes = c("TMAX", "TMIN"))
 #> ℹ Fetching daily summaries
-#> ✔ Fetching daily summaries [263ms]
+#> ✔ Fetching daily summaries [399ms]
 #> 
 #>        station                        name       date tmax tmin
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7

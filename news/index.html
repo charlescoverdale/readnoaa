@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">readnoaa</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,44 @@
       <small>Source: <a href="https://github.com/charlescoverdale/readnoaa/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="readnoaa-020">readnoaa 0.2.0<a class="anchor" aria-label="anchor" href="#readnoaa-020"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/noaa_normals.html">noaa_normals()</a></code> works for all periods. <code>period = "annual"</code> requested <code>normals-annual-1991-2020</code>, which NCEI does not recognise; the annual normals are published as <code>normals-annualseasonal-1991-2020</code>. <code>period = "daily"</code> sent no date window, which that dataset requires. Both previously failed with HTTP 400 on every call, leaving <code>"monthly"</code> as the only period that worked. <code>period = "hourly"</code> has been added.</p></li>
+<li><p>Hourly datasets no longer lose their timestamps. <code>global-hourly</code> and <code>local-climatological-data</code> publish ISO 8601 timestamps, which the date parser did not recognise and silently converted to <code>NA</code>, discarding the time axis of every hourly request. These now return a <code>POSIXct</code> column in UTC.</p></li>
+<li><p>Station identifiers are no longer corrupted. Values were type-guessed on read, so ISD and GSOD identifiers with leading zeros lost them: Heathrow’s <code>"03772099999"</code> became the number <code>3772099999</code>. All columns are now read as character and coerced explicitly.</p></li>
+<li><p>Requests for many stations no longer fail. The cache filename embedded the full station list, so a request for roughly fifteen or more stations exceeded the 255-character filename limit and aborted. Cache keys now use a readable prefix plus a digest, and stay within the limit for any request.</p></li>
+<li><p>Empty responses are no longer cached. A request whose window ran past what NCEI had published was written to the cache and served from there indefinitely, so the missing days never appeared even after NOAA published them. Responses with no observations are now never cached, and an empty result returns a zero-row data frame instead of raising an error.</p></li>
+<li><p>Missing elevations are <code>NA</code> rather than <code>-999.9</code>. The GHCN-Daily sentinel value was returned as though it were a real measurement for 4,619 stations.</p></li>
+<li><p><code>noaa_stations(text = )</code> matches literally. The search string was passed straight to <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> as a regular expression, so a name containing punctuation such as <code>"ST. LOUIS ("</code> raised an invalid-regex error, and metacharacters silently matched more than intended. Pass <code>regex = TRUE</code> for the old behaviour.</p></li>
+<li><p>API errors report what actually went wrong. A failed request reported only its status code, discarding the explanation NCEI returns in the response body, such as <code>boundingBox: A bounding box is required.</code></p></li>
+<li><p><code><a href="../reference/list_datasets.html">list_datasets()</a></code> no longer advertises <code>noaa-global-surface-temperature</code>, which the data service rejects as an unsupported dataset. A <code>requires</code> column records the datasets that need a date window or a bounding box.</p></li>
+<li><p>Column names containing hyphens now use underscores rather than dots, so a normals column matches the code that was requested: <code>MLY-TAVG-NORMAL</code> returns as <code>mly_tavg_normal</code>.</p></li>
+<li><p>Retries now cover HTTP 500, 502, and 504 alongside 429 and 503.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/noaa_coverage.html">noaa_coverage()</a></code> reports the first and last year of data for every element a station records, from the GHCN-Daily element inventory. This answers how current a station is before you request data from it, which matters because coverage varies from a few days for US stations to over a year for some international ones, and some listed stations stopped reporting years ago.</p></li>
+<li><p><code><a href="../reference/noaa_stations.html">noaa_stations()</a></code> and <code><a href="../reference/noaa_nearby.html">noaa_nearby()</a></code> accept <code>element</code> and <code>active_since</code> to return only stations that record a given variable, or that were still reporting in a given year.</p></li>
+<li><p><code><a href="../reference/cache_info.html">cache_info()</a></code> lists cached responses with their size and age.</p></li>
+<li><p>All data functions accept <code>refresh</code> to bypass the cache for a single call.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="cache-behaviour-0-2-0">Cache behaviour<a class="anchor" aria-label="anchor" href="#cache-behaviour-0-2-0"></a></h3>
+<ul><li><p>Cached responses now expire. A request whose window reaches into the last five weeks is treated as provisional and expires after one day, because NCEI publishes recent observations with a lag and revises them; older windows expire after 30 days. Previously nothing ever expired, so a result fetched during the publication lag was served indefinitely. Configurable through <code>readnoaa.cache_days_recent</code> and <code>readnoaa.cache_days</code>.</p></li>
+<li><p>Cache writes are atomic, so an interrupted download cannot leave a truncated file that is later served as valid data.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-changes-0-2-0">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-0-2-0"></a></h3>
+<ul><li><p>Requests that do not name <code>datatypes</code> now drop columns containing no data at all. An unfiltered <code>daily-summaries</code> request returned 152 columns of which around 130 were entirely empty. Pass <code>drop_empty = FALSE</code> to keep them.</p></li>
+<li><p><code><a href="../reference/list_datatypes.html">list_datatypes()</a></code> reports what a station actually records, read from the element inventory, rather than the dataset’s full column schema. It previously reported 149 codes for a station recording about 20. It also accepts <code>start_date</code> and <code>end_date</code> to show only elements recorded during a window, and no longer probes a hard-coded week in 2024.</p></li>
+<li><p><code><a href="../reference/noaa_stations.html">noaa_stations()</a></code> and <code><a href="../reference/noaa_nearby.html">noaa_nearby()</a></code> return the station metadata that was previously discarded when parsing: <code>state</code>, <code>gsn_flag</code>, <code>hcn_crn_flag</code>, and <code>wmo_id</code>.</p></li>
+<li><p>Multi-year daily requests union their column sets across chunks rather than assuming every year returns the same elements.</p></li>
+<li><p><code><a href="../reference/noaa_normals.html">noaa_normals()</a></code> documents that the NCEI normals datasets are published in US customary units and ignore the <code>units</code> parameter.</p></li>
+<li><p>README station identifiers corrected. Five of the nine listed were wrong: <code>USW00014739</code> is Boston, not Chicago O’Hare (<code>USW00094846</code>); <code>UKW00035054</code> is West Malling, not Heathrow (<code>UKM00003772</code>); <code>UKE00105915</code> is Hampstead; <code>FRE00104898</code> does not exist (Paris-Montsouris is <code>FRM00007156</code>); and Sydney Observatory Hill stopped reporting in 2020.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="readnoaa-012">readnoaa 0.1.2<a class="anchor" aria-label="anchor" href="#readnoaa-012"></a></h2>
 <ul><li>Fixed edge case in CSV numeric coercion where columns with all-NA original values could be incorrectly converted.</li>

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">readnoaa</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,19 +55,19 @@
 <h2 id="what-is-noaa">What is NOAA?<a class="anchor" aria-label="anchor" href="#what-is-noaa"></a>
 </h2>
 <p>The National Oceanic and Atmospheric Administration is a US federal agency responsible for monitoring weather, oceans, and the atmosphere. Its <a href="https://www.ncei.noaa.gov/" class="external-link">National Centers for Environmental Information (NCEI)</a> is the world’s largest archive of weather and climate data, hosting observations from over 100,000 stations across 180 countries, with some records stretching back to the 1700s.</p>
-<p>NCEI maintains the <a href="https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation" class="external-link">Data Service API</a>, which provides free, open access to this archive. Unlike many government data APIs, it requires no API key - you can start pulling data immediately. The API returns clean CSV with data current to approximately 2-3 days ago.</p>
+<p>NCEI maintains the <a href="https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation" class="external-link">Data Service API</a>, which provides free, open access to this archive. Unlike many government data APIs, it requires no API key: you can start pulling data immediately.</p>
 </div>
 <div class="section level2">
 <h2 id="types-of-data">Types of data<a class="anchor" aria-label="anchor" href="#types-of-data"></a>
 </h2>
 <p>NOAA’s archive covers a wide range of weather and climate variables. Daily observations include maximum and minimum temperature, precipitation, snowfall, snow depth, and wind speed. Monthly and annual summaries aggregate these into averages and totals. The data spans land-based weather stations, marine buoys, and airport observation sites worldwide.</p>
-<p>Beyond current observations, NOAA publishes 30-year climate normals: statistical baselines calculated from the 1991-2020 period that represent “typical” weather for a given location. These are widely used in agriculture, energy, construction, and climate research to understand how current conditions compare to long-term averages. The archive also includes hourly observations, 15-minute precipitation data, and local climatological records for more specialised use cases.</p>
+<p>Beyond current observations, NOAA publishes 30-year climate normals: statistical baselines calculated from the 1991-2020 period that represent typical weather for a given location. These are widely used in agriculture, energy, construction, and climate research to understand how current conditions compare to long-term averages. The archive also includes hourly observations, precipitation data, and local climatological records for more specialised use cases.</p>
 </div>
 <div class="section level2">
 <h2 id="why-readnoaa">Why readnoaa?<a class="anchor" aria-label="anchor" href="#why-readnoaa"></a>
 </h2>
 <p>The flagship R package for NOAA data, <a href="https://github.com/ropensci/rnoaa" class="external-link">rnoaa</a> (~3,300 downloads/month at its peak), was archived from CRAN in February 2024 when NOAA deprecated its CDO v2 API. The planned rOpenSci replacement never materialised. The only remaining CRAN package (<a href="https://cran.r-project.org/package=noaa" class="external-link">noaa</a>, 3 functions, ~180 downloads/month) still targets the broken old API.</p>
-<p><strong>readnoaa</strong> fills this gap by targeting NOAA’s current NCEI Data Service v1 API. It provides dedicated functions for the most common datasets (daily observations, monthly/annual summaries, climate normals) plus a generic fetcher for the full archive. Station discovery functions help you find stations by location or name.</p>
+<p><strong>readnoaa</strong> fills this gap by targeting NOAA’s current NCEI Data Service v1 API. It provides dedicated functions for the most common datasets (daily observations, monthly and annual summaries, climate normals) plus a generic fetcher for the full archive. Station discovery functions help you find stations by location or name, and check what they actually record.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -90,112 +90,131 @@
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_daily.html">noaa_daily</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01-01"</span>, <span class="st">"2024-01-31"</span>,</span>
 <span>                 datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       station       date                          name tmax tmin</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-01-01 NEW YORK CITY CENTRAL PARK, NY  8.9  3.3</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-01-02 NEW YORK CITY CENTRAL PARK, NY  5.0 -1.1</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-01-03 NEW YORK CITY CENTRAL PARK, NY  2.8 -2.2</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                        name       date tmax tmin</span></span>
+<span><span class="co">#&gt; 1 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7</span></span>
+<span><span class="co">#&gt; 2 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6 -1.6</span></span>
+<span><span class="co">#&gt; 3 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-03  6.1  1.1</span></span>
+<span><span class="co">#&gt; 4 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-04  7.2 -2.1</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="find-stations-near-london">Find stations near London<a class="anchor" aria-label="anchor" href="#find-stations-near-london"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stations</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_nearby.html">noaa_nearby</a></span><span class="op">(</span><span class="fl">51.5</span>, <span class="op">-</span><span class="fl">0.1</span>, radius_km <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">stations</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        station                    name latitude longitude distance_km</span></span>
-<span><span class="co">#&gt;   UKE00105915     LONDON WEATHER CENTRE   51.517    -0.117        1.4</span></span>
-<span><span class="co">#&gt;   UKW00035054     HEATHROW             51.478    -0.449       24.1</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_nearby.html">noaa_nearby</a></span><span class="op">(</span><span class="fl">51.5</span>, <span class="op">-</span><span class="fl">0.1</span>, radius_km <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station      name latitude longitude distance_km</span></span>
+<span><span class="co">#&gt; 1 UKE00105915 HAMPSTEAD  51.5608    0.1789    20.44295</span></span>
+<span><span class="co">#&gt; 2 UKM00003772  HEATHROW  51.4780   -0.4610    25.11402</span></span>
+<span><span class="co">#&gt; 3 UKE00107650  HEATHROW  51.4789    0.4489    38.07617</span></span></code></pre></div>
+<p>Not every station in the list is still reporting. Add <code>element</code> and <code>active_since</code> to keep only those that currently record the variable you need:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_nearby.html">noaa_nearby</a></span><span class="op">(</span><span class="fl">51.5</span>, <span class="op">-</span><span class="fl">0.1</span>, radius_km <span class="op">=</span> <span class="fl">40</span>,</span>
+<span>            element <span class="op">=</span> <span class="st">"TMAX"</span>, active_since <span class="op">=</span> <span class="fl">2025</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station     name distance_km</span></span>
+<span><span class="co">#&gt; 1 UKM00003772 HEATHROW    25.11402</span></span>
+<span><span class="co">#&gt; 2 UKE00107650 HEATHROW    38.07617</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="monthly-precipitation-summary">Monthly precipitation summary<a class="anchor" aria-label="anchor" href="#monthly-precipitation-summary"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_monthly.html">noaa_monthly</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01"</span>, <span class="st">"2024-12"</span>,</span>
-<span>                   datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRCP"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       station       date                          name  prcp</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-01-01 NEW YORK CITY CENTRAL PARK, NY  87.6</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-02-01 NEW YORK CITY CENTRAL PARK, NY  55.4</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_monthly.html">noaa_monthly</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01"</span>, <span class="st">"2024-12"</span>, datatypes <span class="op">=</span> <span class="st">"PRCP"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                        name       date  prcp</span></span>
+<span><span class="co">#&gt; 1 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01 134.1</span></span>
+<span><span class="co">#&gt; 2 USW00094728 NY CITY CENTRAL PARK, NY US 2024-02-01  52.1</span></span>
+<span><span class="co">#&gt; 3 USW00094728 NY CITY CENTRAL PARK, NY US 2024-03-01 230.3</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="climate-normals">Climate normals<a class="anchor" aria-label="anchor" href="#climate-normals"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">normals</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_normals.html">noaa_normals</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"monthly"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">normals</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       station                          name  month  mly_tavg_normal  mly_prcp_normal</span></span>
-<span><span class="co">#&gt;   USW00094728 NEW YORK CITY CENTRAL PARK, NY  01     1.2              86.4</span></span>
-<span><span class="co">#&gt;   USW00094728 NEW YORK CITY CENTRAL PARK, NY  02     2.3              76.5</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_normals.html">noaa_normals</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"monthly"</span>,</span>
+<span>             datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MLY-TAVG-NORMAL"</span>, <span class="st">"MLY-PRCP-NORMAL"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                         name date month mly_prcp_normal mly_tavg_normal</span></span>
+<span><span class="co">#&gt; 1 USW00094728 NEW YORK CNTRL PK TWR, NY US   01     1            92.5            33.7</span></span>
+<span><span class="co">#&gt; 2 USW00094728 NEW YORK CNTRL PK TWR, NY US   02     2            81.0            35.9</span></span>
+<span><span class="co">#&gt; 3 USW00094728 NEW YORK CNTRL PK TWR, NY US   03     3           109.0            42.8</span></span></code></pre></div>
+<p>Normals carry a climatological pseudo-date rather than a calendar date (<code>"01"</code> for a month, <code>"01-31"</code> for a day of the year), so integer <code>month</code>, <code>day</code>, and <code>hour</code> columns are added alongside for filtering and joining. Four periods are available: <code>"monthly"</code>, <code>"daily"</code>, <code>"hourly"</code>, and <code>"annual"</code>. The daily and hourly periods accept <code>start_date</code> and <code>end_date</code> to narrow the window.</p>
+<p>Note that the NCEI normals datasets are published in US customary units (Fahrenheit and inches) and ignore the <code>units</code> argument, so unlike the observational functions there is no metric option.</p>
 </div>
 <div class="section level3">
 <h3 id="multiple-stations-in-one-call">Multiple stations in one call<a class="anchor" aria-label="anchor" href="#multiple-stations-in-one-call"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compare rainfall across three US cities</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_monthly.html">noaa_monthly</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"USW00023174"</span>, <span class="st">"USW00014739"</span><span class="op">)</span>,</span>
-<span>                   <span class="st">"2024-01"</span>, <span class="st">"2024-12"</span>, datatypes <span class="op">=</span> <span class="st">"PRCP"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       station       date                               name  prcp</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-01-01 NEW YORK CITY CENTRAL PARK, NY US   87.6</span></span>
-<span><span class="co">#&gt;   USW00023174 2024-01-01 LOS ANGELES INTL AP, CA US         52.3</span></span>
-<span><span class="co">#&gt;   USW00014739 2024-01-01 CHICAGO OHARE INTL AP, IL US       44.2</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_monthly.html">noaa_monthly</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"USW00023174"</span>, <span class="st">"USW00094846"</span><span class="op">)</span>,</span>
+<span>                   <span class="st">"2024-01"</span>, <span class="st">"2024-03"</span>, datatypes <span class="op">=</span> <span class="st">"PRCP"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                                     name       date  prcp</span></span>
+<span><span class="co">#&gt; 1 USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-01-01  49.6</span></span>
+<span><span class="co">#&gt; 2 USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-02-01 254.7</span></span>
+<span><span class="co">#&gt; 3 USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-03-01  83.5</span></span>
+<span><span class="co">#&gt; 4 USW00094728              NY CITY CENTRAL PARK, NY US 2024-01-01 134.1</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="annual-temperature-trends">Annual temperature trends<a class="anchor" aria-label="anchor" href="#annual-temperature-trends"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_annual.html">noaa_annual</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2000-01-01"</span>, <span class="st">"2024-01-01"</span>,</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_annual.html">noaa_annual</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2020-01-01"</span>, <span class="st">"2024-01-01"</span>,</span>
 <span>                  datatypes <span class="op">=</span> <span class="st">"TAVG"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       station       date                          name  tavg</span></span>
-<span><span class="co">#&gt;   USW00094728 2000-01-01 NEW YORK CITY CENTRAL PARK, NY  13.1</span></span>
-<span><span class="co">#&gt;   USW00094728 2001-01-01 NEW YORK CITY CENTRAL PARK, NY  13.4</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                        name       date tavg</span></span>
+<span><span class="co">#&gt; 1 USW00094728 NY CITY CENTRAL PARK, NY US 2020-01-01 14.1</span></span>
+<span><span class="co">#&gt; 2 USW00094728 NY CITY CENTRAL PARK, NY US 2021-01-01 13.8</span></span>
+<span><span class="co">#&gt; 3 USW00094728 NY CITY CENTRAL PARK, NY US 2022-01-01 13.5</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="hourly-data-with-the-generic-fetcher">Hourly data with the generic fetcher<a class="anchor" aria-label="anchor" href="#hourly-data-with-the-generic-fetcher"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># noaa_get() can access any NCEI dataset, including those</span></span>
-<span><span class="co"># without a dedicated function</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_get.html">noaa_get</a></span><span class="op">(</span><span class="st">"global-hourly"</span>, station <span class="op">=</span> <span class="st">"USW00094728"</span>,</span>
-<span>               start_date <span class="op">=</span> <span class="st">"2024-07-01"</span>, end_date <span class="op">=</span> <span class="st">"2024-07-01"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       station       date                          name  ...</span></span>
-<span><span class="co">#&gt;   USW00094728 2024-07-01 NEW YORK CITY CENTRAL PARK, NY ...</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<p><code><a href="reference/noaa_get.html">noaa_get()</a></code> reaches any NCEI dataset, including those without a dedicated function. Note that the hourly datasets use ISD station identifiers rather than the GHCN-Daily identifiers used elsewhere, and their <code>date</code> column is a <code>POSIXct</code> timestamp in UTC.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_get.html">noaa_get</a></span><span class="op">(</span><span class="st">"global-hourly"</span>, station <span class="op">=</span> <span class="st">"72505394728"</span>,</span>
+<span>               start_date <span class="op">=</span> <span class="st">"2024-07-01"</span>, end_date <span class="op">=</span> <span class="st">"2024-07-01"</span>,</span>
+<span>               datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMP"</span>, <span class="st">"WND"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                        name                date     tmp            wnd</span></span>
+<span><span class="co">#&gt; 1 72505394728 NY CITY CENTRAL PARK, NY US 2024-07-01 00:04:00 +0228,5 999,9,C,0000,5</span></span>
+<span><span class="co">#&gt; 2 72505394728 NY CITY CENTRAL PARK, NY US 2024-07-01 00:41:00 +0228,5 999,9,C,0000,5</span></span>
+<span><span class="co">#&gt; 3 72505394728 NY CITY CENTRAL PARK, NY US 2024-07-01 00:49:00 +0230,5 999,9,V,0015,5</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="finding-stations">Finding stations<a class="anchor" aria-label="anchor" href="#finding-stations"></a>
 </h2>
-<p>Every NOAA data request needs a station ID. There are two ways to find stations:</p>
+<p>Every NOAA data request needs a station ID. There are three ways to work with them.</p>
 <p><strong>1. Search by location</strong> using <code><a href="reference/noaa_nearby.html">noaa_nearby()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Stations within 50 km of Sydney, Australia</span></span>
-<span><span class="fu"><a href="reference/noaa_nearby.html">noaa_nearby</a></span><span class="op">(</span><span class="op">-</span><span class="fl">33.87</span>, <span class="fl">151.21</span>, radius_km <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        station                    name latitude longitude distance_km</span></span>
-<span><span class="co">#&gt;   ASN00066062 SYDNEY OBSERVATORY HILL   -33.86    151.21         1.1</span></span>
-<span><span class="co">#&gt;   ASN00066006 SYDNEY AIRPORT AMO       -33.95    151.17         9.8</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
-<p><strong>2. Search by name or bounding box</strong> using <code><a href="reference/noaa_stations.html">noaa_stations()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Search by name</span></span>
-<span><span class="fu"><a href="reference/noaa_stations.html">noaa_stations</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Heathrow"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        station              name latitude longitude elevation</span></span>
-<span><span class="co">#&gt;   UKW00035054 HEATHROW            51.478    -0.449      25.3</span></span>
-<span><span class="co">#&gt;   ...</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_nearby.html">noaa_nearby</a></span><span class="op">(</span><span class="op">-</span><span class="fl">33.87</span>, <span class="fl">151.21</span>, radius_km <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>            element <span class="op">=</span> <span class="st">"TMAX"</span>, active_since <span class="op">=</span> <span class="fl">2025</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                           name distance_km</span></span>
+<span><span class="co">#&gt; 1 ASN00066196 SYDNEY HARBOUR (WEDDING CAKE W    5.859814</span></span>
+<span><span class="co">#&gt; 2 ASN00066037             SYDNEY AIRPORT AMO    9.162697</span></span>
+<span><span class="co">#&gt; 3 ASN00066194      CANTERBURY RACECOURSE AWS    9.760497</span></span>
+<span><span class="co">#&gt; 4 ASN00066124 PARRAMATTA NORTH (MASONS DRIVE   19.748268</span></span></code></pre></div>
+<p><strong>2. Search by name or bounding box</strong> using <code><a href="reference/noaa_stations.html">noaa_stations()</a></code>:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_stations.html">noaa_stations</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Heathrow"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station     name latitude longitude elevation wmo_id</span></span>
+<span><span class="co">#&gt; 1 UKE00107650 HEATHROW  51.4789    0.4489      25.0   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 UKM00003772 HEATHROW  51.4780   -0.4610      25.3  03772</span></span>
 <span></span>
 <span><span class="co"># Search by bounding box (south, west, north, east)</span></span>
-<span><span class="fu"><a href="reference/noaa_stations.html">noaa_stations</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="op">-</span><span class="fl">120</span>, <span class="fl">40</span>, <span class="op">-</span><span class="fl">115</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        station                    name latitude longitude elevation</span></span>
-<span><span class="co">#&gt;   USC00040232   BAKERSFIELD MEADOWS FLD   35.433  -119.050     150.0</span></span>
-<span><span class="co">#&gt;   ...</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/noaa_stations.html">noaa_stations</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="op">-</span><span class="fl">120</span>, <span class="fl">40</span>, <span class="op">-</span><span class="fl">115</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Text is matched literally, so punctuation in a station name is safe. Pass <code>regex = TRUE</code> if you want a regular expression instead.</p>
+<p><strong>3. Check what a station records</strong> using <code><a href="reference/noaa_coverage.html">noaa_coverage()</a></code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_coverage.html">noaa_coverage</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, element <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span>, <span class="st">"PRCP"</span>, <span class="st">"SNOW"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station element first_year last_year years</span></span>
+<span><span class="co">#&gt; 1 USW00094728    PRCP       1869      2026   158</span></span>
+<span><span class="co">#&gt; 2 USW00094728    SNOW       1869      2026   158</span></span>
+<span><span class="co">#&gt; 3 USW00094728    TMAX       1869      2026   158</span></span>
+<span><span class="co">#&gt; 4 USW00094728    TMIN       1869      2026   158</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="how-current-is-the-data">How current is the data?<a class="anchor" aria-label="anchor" href="#how-current-is-the-data"></a>
+</h3>
+<p>This is the question worth asking before any analysis. NCEI publishes US station data with a lag of only a few days, but coverage elsewhere varies enormously: some international stations lag by months, and others remain in the station list years after they stopped reporting. Sydney Observatory Hill (<code>ASN00066062</code>), for example, is still listed but its record ends in 2020.</p>
+<p><code><a href="reference/noaa_coverage.html">noaa_coverage()</a></code> reads NOAA’s own element inventory and gives you the first and last year for every variable a station records, so you can check before requesting a window the station never covered.</p>
+</div>
 <div class="section level3">
 <h3 id="common-station-ids">Common station IDs<a class="anchor" aria-label="anchor" href="#common-station-ids"></a>
 </h3>
@@ -214,20 +233,20 @@
 <td>Los Angeles International Airport</td>
 </tr>
 <tr>
-<td><code>USW00014739</code></td>
+<td><code>USW00094846</code></td>
 <td>Chicago O’Hare</td>
 </tr>
 <tr>
-<td><code>UKE00105915</code></td>
-<td>London Weather Centre</td>
+<td><code>USW00014739</code></td>
+<td>Boston Logan</td>
 </tr>
 <tr>
-<td><code>UKW00035054</code></td>
+<td><code>UKM00003772</code></td>
 <td>London Heathrow</td>
 </tr>
 <tr>
-<td><code>ASN00066062</code></td>
-<td>Sydney Observatory Hill</td>
+<td><code>ASN00066037</code></td>
+<td>Sydney Airport</td>
 </tr>
 <tr>
 <td><code>JA000047662</code></td>
@@ -238,7 +257,7 @@
 <td>Berlin-Tempelhof</td>
 </tr>
 <tr>
-<td><code>FRE00104898</code></td>
+<td><code>FRM00007156</code></td>
 <td>Paris-Montsouris</td>
 </tr>
 </tbody>
@@ -311,26 +330,37 @@
 <tr>
 <td>Normal temperature</td>
 <td><code>MLY-TAVG-NORMAL</code></td>
-<td>°C</td>
+<td>°F</td>
 <td><code><a href="reference/noaa_normals.html">noaa_normals()</a></code></td>
 </tr>
 <tr>
 <td>Normal precipitation</td>
 <td><code>MLY-PRCP-NORMAL</code></td>
-<td>mm</td>
+<td>inches</td>
 <td><code><a href="reference/noaa_normals.html">noaa_normals()</a></code></td>
 </tr>
 </tbody>
 </table>
-<p>Use <code><a href="reference/list_datatypes.html">list_datatypes()</a></code> to discover all available variables for a given dataset and station.</p>
+<p><code><a href="reference/list_datatypes.html">list_datatypes()</a></code> reports what a particular station records, drawn from NOAA’s element inventory rather than the dataset schema. Supply a date window to see only what it still records:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/list_datatypes.html">list_datatypes</a></span><span class="op">(</span><span class="st">"daily-summaries"</span>, <span class="st">"USW00094728"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 59 codes, covering the station's full record back to 1869</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/list_datatypes.html">list_datatypes</a></span><span class="op">(</span><span class="st">"daily-summaries"</span>, <span class="st">"USW00094728"</span>, start_date <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "AWND" "PGTM" "PRCP" "SNOW" "SNWD" "TMAX" "TMIN" "WDF2" "WDF5" "WSF2"</span></span>
+<span><span class="co">#&gt; [11] "WSF5" "WT01" "WT02" "WT03" "WT04" "WT06" "WT08" "WT09"</span></span></code></pre></div>
+<p>By default, a request that does not name <code>datatypes</code> drops columns that hold no data at all, because an unfiltered <code>daily-summaries</code> request returns the whole GHCN-Daily element set as columns and few stations report more than a handful. Pass <code>drop_empty = FALSE</code> to keep them.</p>
 </div>
 <div class="section level2">
 <h2 id="data-quality-flags">Data quality flags<a class="anchor" aria-label="anchor" href="#data-quality-flags"></a>
 </h2>
 <p>NCEI applies automated quality control checks to all observations, flagging approximately 0.3% of values. You can include these flags by setting <code>include_flags = TRUE</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/noaa_daily.html">noaa_daily</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01-01"</span>, <span class="st">"2024-01-31"</span>,</span>
-<span>                 datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span><span class="op">)</span>, include_flags <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/noaa_daily.html">noaa_daily</a></span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01-01"</span>, <span class="st">"2024-01-05"</span>,</span>
+<span>           datatypes <span class="op">=</span> <span class="st">"TMAX"</span>, include_flags <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       station                        name       date tmax tmax_attributes</span></span>
+<span><span class="co">#&gt; 1 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3             ,,W</span></span>
+<span><span class="co">#&gt; 2 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6             ,,W</span></span></code></pre></div>
 <p>This adds attribute columns alongside each data column containing measurement and quality flag codes. Flags are useful for filtering suspect observations in research workflows.</p>
 <p>To include station coordinates (latitude, longitude, elevation) with each observation, use <code>include_location = TRUE</code>.</p>
 </div>
@@ -338,6 +368,10 @@
 <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
 </h2>
 <table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
 <thead><tr>
 <th>Function</th>
 <th>Description</th>
@@ -365,11 +399,15 @@
 </tr>
 <tr>
 <td><code><a href="reference/noaa_stations.html">noaa_stations()</a></code></td>
-<td>Search for stations by bbox or text</td>
+<td>Search for stations by bounding box or text</td>
 </tr>
 <tr>
 <td><code><a href="reference/noaa_nearby.html">noaa_nearby()</a></code></td>
 <td>Find stations near a point</td>
+</tr>
+<tr>
+<td><code><a href="reference/noaa_coverage.html">noaa_coverage()</a></code></td>
+<td>Which elements a station records, and for which years</td>
 </tr>
 <tr>
 <td><code><a href="reference/list_datasets.html">list_datasets()</a></code></td>
@@ -377,14 +415,32 @@
 </tr>
 <tr>
 <td><code><a href="reference/list_datatypes.html">list_datatypes()</a></code></td>
-<td>Available data types for a dataset</td>
+<td>Data types a station records</td>
+</tr>
+<tr>
+<td><code><a href="reference/cache_info.html">cache_info()</a></code></td>
+<td>Inspect the local cache</td>
 </tr>
 <tr>
 <td><code><a href="reference/clear_cache.html">clear_cache()</a></code></td>
-<td>Clear local cache</td>
+<td>Clear the local cache</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level2">
+<h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
+</h2>
+<p>Data is cached locally in <code>tools::R_user_dir("readnoaa", "cache")</code> on first download, and the location can be changed with <code>options(readnoaa.cache_dir = ...)</code>.</p>
+<p>Cached responses expire, which matters because NCEI publishes recent observations with a lag and continues to revise them. A request whose window reaches into the last five weeks is treated as provisional and expires after a day; older windows are treated as settled and expire after 30 days. Both thresholds are configurable through <code>readnoaa.cache_days_recent</code> and <code>readnoaa.cache_days</code>.</p>
+<p>Any single call can bypass the cache with <code>refresh = TRUE</code>, or skip it entirely with <code>cache = FALSE</code>. <code><a href="reference/cache_info.html">cache_info()</a></code> lists what is currently stored along with its age, and <code><a href="reference/clear_cache.html">clear_cache()</a></code> empties it.</p>
+<p>Responses that contain no observations are never cached, so a request made while NCEI is still publishing a window will not freeze that gap in place.</p>
+</div>
+<div class="section level2">
+<h2 id="data-sources">Data sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
+</h2>
+<p>Daily observations come from the <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily" class="external-link">Global Historical Climatology Network - Daily (GHCN-Daily)</a>, which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month and Year datasets. Climate normals follow the <a href="https://library.wmo.int/idurl/4/55797" class="external-link">WMO guidelines</a> for calculating 30-year averages.</p>
+<p>Station discovery uses the GHCN-Daily station list, and <code><a href="reference/noaa_coverage.html">noaa_coverage()</a></code> uses the GHCN-Daily element inventory. The inventory is around 36 MB, so it is downloaded only when a coverage-aware function needs it, and cached thereafter.</p>
 </div>
 <div class="section level2">
 <h2 id="related-packages">Related packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
@@ -415,21 +471,11 @@
 </table>
 </div>
 <div class="section level2">
-<h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
-</h2>
-<p>Data is cached locally in <code>tools::R_user_dir("readnoaa", "cache")</code> on first download. Subsequent calls with the same parameters return instantly from the cache.</p>
-<p>To force a fresh download, pass <code>cache = FALSE</code>. To clear the entire cache, call <code><a href="reference/clear_cache.html">clear_cache()</a></code>.</p>
-</div>
-<div class="section level2">
-<h2 id="data-sources">Data sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
-</h2>
-<p>Daily observations come from the <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily" class="external-link">Global Historical Climatology Network - Daily (GHCN-Daily)</a>, which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month/Year datasets. Climate normals follow the <a href="https://library.wmo.int/idurl/4/55797" class="external-link">WMO guidelines</a> for calculating 30-year averages.</p>
-</div>
-<div class="section level2">
 <h2 id="licence-and-limitations">Licence and limitations<a class="anchor" aria-label="anchor" href="#licence-and-limitations"></a>
 </h2>
 <p>NOAA data is produced by the US federal government and is in the public domain. There are no restrictions on its use, redistribution, or modification.</p>
-<p>The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on rate-limit errors. Daily data requests spanning more than one year are automatically split into yearly chunks to avoid API timeouts. Data is typically available up to 2-3 days behind real time, and station coverage varies — some stations have gaps or limited variable availability. This package is not affiliated with or endorsed by NOAA.</p>
+<p>The NCEI Data Service API is free and requires no API key, but it does enforce rate limits. This package automatically throttles requests and retries on transient errors. Daily data requests spanning more than one year are automatically split into yearly chunks to avoid API timeouts.</p>
+<p>Station coverage varies: some stations have gaps, some record only a few variables, and some stopped reporting years ago while remaining in the station list. Use <code><a href="reference/noaa_coverage.html">noaa_coverage()</a></code> to check before relying on a station. This package is not affiliated with or endorsed by NOAA.</p>
 </div>
 <div class="section level2">
 <h2 id="issues">Issues<a class="anchor" aria-label="anchor" href="#issues"></a>
