@@ -87,7 +87,7 @@ Other weather data:
 op <- options(readnoaa.cache_dir = tempdir())
 noaa_monthly("USW00094728", "2024-01", "2024-12")
 #> ℹ Fetching monthly summaries
-#> ✔ Fetching monthly summaries [95ms]
+#> ✔ Fetching monthly summaries [147ms]
 #> 
 #>        station                        name       date adpt   aslp   astp awbt
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01 -4.2 1016.8 1011.7  0.0
@@ -114,7 +114,7 @@ noaa_monthly("USW00094728", "2024-01", "2024-12")
 #> 9   2.0 720.4  69.3    6   NA    4    0    0    0    0    0    0   24    0    8
 #> 10  1.7 735.7  15.3    1   NA    0    0    0    0    0    0    0   13    0    1
 #> 11  2.4 741.3   5.6    7   NA    5    1    0    0    0    1    0    4    0    7
-#> 12  2.5 741.3   0.0   17   NA   11    0    7    2    0   18    2    0    0    5
+#> 12  2.5 741.3   0.0   17   NA   11    0    7    2    0   18    2    0    0   14
 #>    dyhf     dynt     dysd     dysn dyts     dyxp     dyxt  emnt emsd emsn emxp
 #> 1    NA 20240117 20240123 20240116   NA 20240109 20240113  -8.2   30   33 43.9
 #> 2     1 20240225 20240217 20240213   NA 20240213 20240228  -4.9   50   81 19.6
@@ -127,7 +127,7 @@ noaa_monthly("USW00094728", "2024-01", "2024-12")
 #> 9    NA 20240909 20240930 20240930   NA 20240929 20240919  12.8    0    0 19.8
 #> 10   NA 20241017 20241031 20241031   NA 20241029 20241031   6.1    0    0  0.3
 #> 11   NA 20241130 20241130 20241130   NA 20241121 20241106  -1.0    0    0 39.9
-#> 12   NA 20241223 20241221 20241221   NA 20241216 20241229 -10.5   50   46 23.1
+#> 12    2 20241223 20241221 20241221    1 20241216 20241229 -10.5   50   46 23.1
 #>    emxt evap   hdsd hn01 hn02 hn03 hn04 hn05 hn06 hn07 hn08 hn09 hn10 hn11 hn12
 #> 1  15.6   NA 1262.2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 2  16.7   NA 1663.5   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
@@ -193,7 +193,7 @@ noaa_monthly("USW00094728", "2024-01", "2024-12")
 #> 10   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 11   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 12   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
-#>    mn12 mn13 mn14 mn15 mnpn mx01 mx02 mx03 mx04 mx05 mx06 mx07 mx08 mx09 mx10
+#>    mn12 mn13 mn14 mn15 mnpn mnsp mx01 mx02 mx03 mx04 mx05 mx06 mx07 mx08 mx09
 #> 1    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 2    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 3    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
@@ -206,32 +206,45 @@ noaa_monthly("USW00094728", "2024-01", "2024-12")
 #> 10   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 11   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
 #> 12   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
-#>    mx11 mx12 mx13 mx14 mx15 mxpn  prcp psun rhav rhmn rhmx snow tavg time tmax
-#> 1    NA   NA   NA   NA   NA   NA 134.1   NA   62   49   78   58  2.8   NA  5.5
-#> 2    NA   NA   NA   NA   NA   NA  52.1   NA   55   40   72  132  4.5   NA  7.9
-#> 3    NA   NA   NA   NA   NA   NA 230.3   NA   55   38   73    0  9.0   NA 13.2
-#> 4    NA   NA   NA   NA   NA   NA  88.3   NA   56   38   74    0 13.1   NA 17.7
-#> 5    NA   NA   NA   NA   NA   NA 104.4   NA   68   50   88    0 18.3   NA 22.5
-#> 6    NA   NA   NA   NA   NA   NA  43.4   NA   62   44   82    0 23.9   NA 28.3
-#> 7    NA   NA   NA   NA   NA   NA 106.7   NA   64   47   82    0 26.5   NA 30.7
-#> 8    NA   NA   NA   NA   NA   NA 178.2   NA   67   49   83    0 23.9   NA 28.1
-#> 9    NA   NA   NA   NA   NA   NA  40.1   NA   65   46   81    0 20.4   NA 24.3
-#> 10   NA   NA   NA   NA   NA   NA   0.3   NA   53   36   72    0 16.1   NA 20.4
-#> 11   NA   NA   NA   NA   NA   NA  85.0   NA   52   36   68    0 10.8   NA 14.6
-#> 12   NA   NA   NA   NA   NA   NA 115.1   NA   59   44   74   71  3.5   NA  6.4
-#>    tmin tsun wdf1 wdf2 wdf5 wdfg wdfm wdmv wsf1 wsf2 wsf5 wsfg wsfm
-#> 1   0.1   NA   NA   60   50   NA   NA   NA   NA 11.6 19.7   NA   NA
-#> 2   1.1   NA   NA  280  290   NA   NA   NA   NA 12.5 21.9   NA   NA
-#> 3   4.8   NA   NA  310  290   NA   NA   NA   NA 11.6 23.7   NA   NA
-#> 4   8.6   NA   NA   60   40   NA   NA   NA   NA 14.8 26.4   NA   NA
-#> 5  14.1   NA   NA   60   70   NA   NA   NA   NA  8.1 14.8   NA   NA
-#> 6  19.5   NA   NA  290  290   NA   NA   NA   NA  9.4 20.6   NA   NA
-#> 7  22.3   NA   NA  300  200   NA   NA   NA   NA  6.7 13.0   NA   NA
-#> 8  19.8   NA   NA   60  200   NA   NA   NA   NA  7.2 14.3   NA   NA
-#> 9  16.6   NA   NA   60   60   NA   NA   NA   NA  7.6 11.6   NA   NA
-#> 10 11.7   NA   NA  280  280   NA   NA   NA   NA  8.1 15.7   NA   NA
-#> 11  7.0   NA   NA  290  280   NA   NA   NA   NA  9.4 17.4   NA   NA
-#> 12  0.6   NA   NA  240  280   NA   NA   NA   NA 10.3 19.7   NA   NA
+#>    mx10 mx11 mx12 mx13 mx14 mx15 mxpn mxsp p005 p010 p015 p020 p030 p045 p060
+#> 1    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 2    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 3    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 4    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 5    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 6    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 7    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 8    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 9    NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 10   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 11   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#> 12   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+#>    p080 p100 p120 p150 p180  prcp psun rhav rhmn rhmx snow tavg time tmax tmin
+#> 1    NA   NA   NA   NA   NA 134.1   NA   62   49   78   58  2.8   NA  5.5  0.1
+#> 2    NA   NA   NA   NA   NA  52.1   NA   55   40   72  132  4.5   NA  7.9  1.1
+#> 3    NA   NA   NA   NA   NA 230.3   NA   55   38   73    0  9.0   NA 13.2  4.8
+#> 4    NA   NA   NA   NA   NA  88.3   NA   56   38   74    0 13.1   NA 17.7  8.6
+#> 5    NA   NA   NA   NA   NA 104.4   NA   68   50   88    0 18.3   NA 22.5 14.1
+#> 6    NA   NA   NA   NA   NA  43.4   NA   62   44   82    0 23.9   NA 28.3 19.5
+#> 7    NA   NA   NA   NA   NA 106.7   NA   64   47   82    0 26.5   NA 30.7 22.3
+#> 8    NA   NA   NA   NA   NA 178.2   NA   67   49   83    0 23.9   NA 28.1 19.8
+#> 9    NA   NA   NA   NA   NA  40.1   NA   65   46   81    0 20.4   NA 24.3 16.6
+#> 10   NA   NA   NA   NA   NA   0.3   NA   53   36   72    0 16.1   NA 20.4 11.7
+#> 11   NA   NA   NA   NA   NA  85.0   NA   52   36   68    0 10.8   NA 14.6  7.0
+#> 12   NA   NA   NA   NA   NA 115.1   NA   59   44   74   71  3.5   NA  6.4  0.6
+#>    tsun wdf1 wdf2 wdf5 wdfg wdfm wdmv wsf1 wsf2 wsf5 wsfg wsfm
+#> 1    NA   NA   60   50   NA   NA   NA   NA 11.6 19.7   NA   NA
+#> 2    NA   NA  280  290   NA   NA   NA   NA 12.5 21.9   NA   NA
+#> 3    NA   NA  310  290   NA   NA   NA   NA 11.6 23.7   NA   NA
+#> 4    NA   NA   60   40   NA   NA   NA   NA 14.8 26.4   NA   NA
+#> 5    NA   NA   60   70   NA   NA   NA   NA  8.1 14.8   NA   NA
+#> 6    NA   NA  290  290   NA   NA   NA   NA  9.4 20.6   NA   NA
+#> 7    NA   NA  300  200   NA   NA   NA   NA  6.7 13.0   NA   NA
+#> 8    NA   NA   60  200   NA   NA   NA   NA  7.2 14.3   NA   NA
+#> 9    NA   NA   60   60   NA   NA   NA   NA  7.6 11.6   NA   NA
+#> 10   NA   NA  280  280   NA   NA   NA   NA  8.1 15.7   NA   NA
+#> 11   NA   NA  290  280   NA   NA   NA   NA  9.4 17.4   NA   NA
+#> 12   NA   NA  240  280   NA   NA   NA   NA 10.3 19.7   NA   NA
 options(op)
 # }
 ```

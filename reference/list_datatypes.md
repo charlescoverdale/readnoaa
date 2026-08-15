@@ -42,7 +42,7 @@ Other data access:
 op <- options(readnoaa.cache_dir = tempdir())
 list_datatypes("daily-summaries", "USW00094728")
 #> ℹ Discovering data types for daily-summaries
-#> ✔ Discovering data types for daily-summaries [429ms]
+#> ✔ Discovering data types for daily-summaries [592ms]
 #> 
 #>   [1] "ACMC"         "ACMH"         "ACSC"         "ACSH"         "ADPT"        
 #>   [6] "ASLP"         "ASTP"         "AWBT"         "AWDR"         "AWND"        
