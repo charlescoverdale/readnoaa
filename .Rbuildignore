@@ -6,3 +6,5 @@
 ^\.gitattributes$
 ^CRAN-SUBMISSION$
 ^_pkgdown\.yml$
+^llms.*\.txt$
+^\.github$
