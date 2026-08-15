@@ -140,19 +140,40 @@ yearly chunks to avoid API timeouts.</p>
 <span class="r-in"><span><span class="fu">noaa_daily</span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2024-01-01"</span>, <span class="st">"2024-01-31"</span>,</span></span>
 <span class="r-in"><span>           datatypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching daily summaries</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■                          </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■                       </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching daily summaries</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■                          </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching daily summaries</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in noaa_fetch(dataset = "daily-summaries", stations = station, start_date = ch[1],     end_date = ch[2], datatypes = datatypes, units = units, include_flags = include_flags,     include_location = include_location, cache = cache):</span> NCEI returned an error page instead of data.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Check that `dataset` (<span style="color: #0000BB;">"daily-summaries"</span>) and station IDs are valid.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Fetching daily summaries <span style="color: #B2B2B2;">[3m 11.4s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Fetching daily summaries <span style="color: #B2B2B2;">[263ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        station                        name       date tmax tmin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6 -1.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-03  6.1  1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-04  7.2 -2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-05  2.8 -3.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-06  3.3 -0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-07  3.3  1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-08  7.2  2.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-09 13.9  2.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-10 13.9  6.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-11  8.3  5.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-12 10.0  4.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-13 15.6  1.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-14  6.7 -3.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-15 -1.6 -4.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-16  0.0 -5.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-17 -4.3 -8.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-18  1.1 -5.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-19  0.0 -3.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-20 -3.2 -7.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-21 -0.5 -6.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-22  3.3 -3.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-23  4.4  1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-24  8.9  3.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-25 15.0  7.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-26  7.8  5.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-27  9.4  6.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-28  6.7  2.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-29  4.4  2.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-30  3.3  1.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-31  4.4  1.1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

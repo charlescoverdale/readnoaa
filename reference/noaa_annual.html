@@ -123,19 +123,74 @@ and elevation columns (default <code>FALSE</code>).</p></dd>
 <span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>readnoaa.cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">noaa_annual</span><span class="op">(</span><span class="st">"USW00094728"</span>, <span class="st">"2020-01-01"</span>, <span class="st">"2024-01-01"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching annual summaries</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■                          </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching annual summaries</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■                          </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting 5s for retry backoff <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fetching annual summaries</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in noaa_fetch(dataset = "global-summary-of-the-year", stations = station,     start_date = start_date, end_date = end_date, datatypes = datatypes,     units = units, include_flags = include_flags, include_location = include_location,     cache = cache):</span> NCEI returned an error page instead of data.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Check that `dataset` (<span style="color: #0000BB;">"global-summary-of-the-year"</span>) and station IDs are</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>   valid.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Fetching annual summaries <span style="color: #B2B2B2;">[1m 13.4s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Fetching annual summaries <span style="color: #B2B2B2;">[58ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       station                        name       date awnd  cdsd  cldd dp01 dp05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 USW00094728 NY CITY CENTRAL PARK, NY US 2020-01-01   NA 725.4 725.4  127   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 USW00094728 NY CITY CENTRAL PARK, NY US 2021-01-01   NA 716.6 716.6  140   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 USW00094728 NY CITY CENTRAL PARK, NY US 2022-01-01  2.4 749.6 749.6  122   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 USW00094728 NY CITY CENTRAL PARK, NY US 2023-01-01  2.1 671.6 671.6  123   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  2.2 741.3 741.3  125   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dp10 dp1x dsnd dsnw dt00 dt32 dx32 dx70 dx90 dyfg dyhf dyts  emnt emsd emsn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   83   10    9    3    0   41    6  147   20  153    8   27  -9.9  230  165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   85   12   24    6    0   58    8  158   17  145   13   30  -9.9  360  376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   85    9   11    4    0   74   18  157   25  129   15   25 -13.8  180  185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   84   15    2    0    0   28    1  152   12  143    9   34 -16.0   50   23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   78   11   18    5    0   50    8  164   21  130   15   24 -10.5   50   81</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    emxp emxt evap fzf0 fzf1  fzf2  fzf3  fzf4 fzf5 fzf6 fzf7  fzf8  fzf9   hdsd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  64.5 35.6   NA  0.0 -4.3  -6.6    NA    NA -3.8 -3.8 -6.6  -9.9  -9.9 2407.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 181.1 36.7   NA  0.0 -3.8    NA    NA    NA  0.0 -4.3 -4.9  -8.2  -9.9 2379.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  47.0 36.1   NA -0.5 -2.7 -13.2 -13.2 -13.2 -1.6 -4.3 -4.9  -8.8 -11.0 2380.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 139.2 33.9   NA -1.0 -2.7    NA    NA    NA -0.5 -4.9 -4.9 -16.0 -16.0 2165.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  93.0 35.0   NA -1.0 -2.7  -7.1  -7.1 -10.5 -0.5 -4.9 -4.9  -7.7    NA 2168.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   hn01 hn02 hn03 hn04 hn05 hn06 hn07 hn08 hn09 hn10 hn11 hn12 hn13 hn14 hn15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     htdd hx01 hx02 hx03 hx04 hx05 hx06 hx07 hx08 hx09 hx10 hx11 hx12 hx13 hx14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2407.0   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2379.0   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2380.9   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2165.2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2168.1   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   hx15 ln01 ln02 ln03 ln04 ln05 ln06 ln07 ln08 ln09 ln10 ln11 ln12 ln13 ln14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ln15 lx01 lx02 lx03 lx04 lx05 lx06 lx07 lx08 lx09 lx10 lx11 lx12 lx13 lx14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   lx15 mn01 mn02 mn03 mn04 mn05 mn06 mn07 mn08 mn09 mn10 mn11 mn12 mn13 mn14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mn15 mnpn mx01 mx02 mx03 mx04 mx05 mx06 mx07 mx08 mx09 mx10 mx11 mx12 mx13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mx14 mx15 mxpn   prcp psun snow tavg time tmax tmin tsun wdf1 wdf2 wdf5 wdfg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA 1152.8   NA  325 14.1   NA 17.9 10.2   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA 1518.2   NA  718 13.8   NA 17.6 10.0   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA 1175.8   NA  448 13.5   NA 17.6  9.4   NA   NA  240  270   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA 1506.6   NA   59 14.4   NA 18.2 10.5   NA   NA  310  210   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA 1178.0   NA  261 14.4   NA 18.3 10.5   NA   NA   60   40   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   wdfm wdmv wsf1 wsf2 wsf5 wsfg wsfm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA   NA   NA 13.0 21.9   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA   NA   NA 13.0 30.4   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA   NA   NA 14.8 26.4   NA   NA</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

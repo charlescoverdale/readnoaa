@@ -26,10 +26,11 @@ stations across 180 countries, with some records stretching back to the
 1700s.
 
 NCEI maintains the [Data Service
-API](https://www.ncei.noaa.gov/access/services/data/v1), which provides
-free, open access to this archive. Unlike many government data APIs, it
-requires no API key - you can start pulling data immediately. The API
-returns clean CSV with data current to approximately 2-3 days ago.
+API](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation),
+which provides free, open access to this archive. Unlike many government
+data APIs, it requires no API key - you can start pulling data
+immediately. The API returns clean CSV with data current to
+approximately 2-3 days ago.
 
 ## Types of data
 

@@ -100,19 +100,40 @@ op <- options(readnoaa.cache_dir = tempdir())
 noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
            datatypes = c("TMAX", "TMIN"))
 #> ℹ Fetching daily summaries
-#> Waiting 5s for retry backoff ■■■■■■                          
-#> Waiting 5s for retry backoff ■■■■■■■■■                       
-#> Waiting 5s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■    
-#> Waiting 5s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-#> ℹ Fetching daily summaries
-#> Waiting 5s for retry backoff ■■■■■■                          
-#> Waiting 5s for retry backoff ■■■■■■■■■■■■■■■                 
-#> Waiting 5s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-#> ℹ Fetching daily summaries
-#> Error in noaa_fetch(dataset = "daily-summaries", stations = station, start_date = ch[1],     end_date = ch[2], datatypes = datatypes, units = units, include_flags = include_flags,     include_location = include_location, cache = cache): NCEI returned an error page instead of data.
-#> ℹ Check that `dataset` ("daily-summaries") and station IDs are valid.
-#> ✖ Fetching daily summaries [3m 11.4s]
+#> ✔ Fetching daily summaries [263ms]
 #> 
+#>        station                        name       date tmax tmin
+#> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7
+#> 2  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6 -1.6
+#> 3  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-03  6.1  1.1
+#> 4  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-04  7.2 -2.1
+#> 5  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-05  2.8 -3.2
+#> 6  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-06  3.3 -0.5
+#> 7  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-07  3.3  1.1
+#> 8  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-08  7.2  2.2
+#> 9  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-09 13.9  2.2
+#> 10 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-10 13.9  6.7
+#> 11 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-11  8.3  5.0
+#> 12 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-12 10.0  4.4
+#> 13 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-13 15.6  1.7
+#> 14 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-14  6.7 -3.2
+#> 15 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-15 -1.6 -4.9
+#> 16 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-16  0.0 -5.5
+#> 17 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-17 -4.3 -8.2
+#> 18 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-18  1.1 -5.5
+#> 19 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-19  0.0 -3.2
+#> 20 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-20 -3.2 -7.7
+#> 21 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-21 -0.5 -6.6
+#> 22 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-22  3.3 -3.8
+#> 23 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-23  4.4  1.1
+#> 24 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-24  8.9  3.3
+#> 25 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-25 15.0  7.8
+#> 26 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-26  7.8  5.6
+#> 27 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-27  9.4  6.1
+#> 28 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-28  6.7  2.8
+#> 29 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-29  4.4  2.2
+#> 30 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-30  3.3  1.7
+#> 31 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-31  4.4  1.1
 options(op)
 # }
 ```
