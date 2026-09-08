@@ -117,8 +117,10 @@ cached locally thereafter.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>readnoaa.cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># What does Central Park record, and through when?</span></span></span>
-<span class="r-in"><span><span class="fu">noaa_coverage</span><span class="op">(</span><span class="st">"USW00094728"</span>, element <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span>, <span class="st">"PRCP"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># What does Central Park record, and through when?</span></span></span>
+<span class="r-in"><span>  <span class="fu">noaa_coverage</span><span class="op">(</span><span class="st">"USW00094728"</span>, element <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TMAX"</span>, <span class="st">"TMIN"</span>, <span class="st">"PRCP"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       station element first_year last_year years</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 USW00094728    PRCP       1869      2026   158</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 USW00094728    TMAX       1869      2026   158</span>

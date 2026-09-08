@@ -122,22 +122,18 @@ Other station discovery:
 ``` r
 # \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Search for stations in the London area
-noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
-#> ℹ Searching for stations
-#> ✔ Searching for stations [170ms]
-#> 
-#>       station latitude longitude elevation state      name gsn_flag
-#> 1 UKE00105915  51.5608    0.1789     137.0  <NA> HAMPSTEAD     <NA>
-#> 2 UKM00003772  51.4780   -0.4610      25.3  <NA>  HEATHROW     <NA>
-#>   hcn_crn_flag wmo_id
-#> 1         <NA>   <NA>
-#> 2         <NA>  03772
+try({
+  # Search for stations in the London area
+  noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 
-# Search by name
-noaa_stations(text = "Heathrow")
+  # Search by name
+  noaa_stations(text = "Heathrow")
+})
 #> ℹ Searching for stations
-#> ✔ Searching for stations [210ms]
+#> ✔ Searching for stations [177ms]
+#> 
+#> ℹ Searching for stations
+#> ✔ Searching for stations [228ms]
 #> 
 #>       station latitude longitude elevation state     name gsn_flag hcn_crn_flag
 #> 1 UKE00107650  51.4789    0.4489      25.0  <NA> HEATHROW     <NA>         <NA>

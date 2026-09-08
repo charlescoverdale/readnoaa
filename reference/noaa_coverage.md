@@ -77,8 +77,10 @@ Other station discovery:
 ``` r
 # \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# What does Central Park record, and through when?
-noaa_coverage("USW00094728", element = c("TMAX", "TMIN", "PRCP"))
+try({
+  # What does Central Park record, and through when?
+  noaa_coverage("USW00094728", element = c("TMAX", "TMIN", "PRCP"))
+})
 #>       station element first_year last_year years
 #> 1 USW00094728    PRCP       1869      2026   158
 #> 2 USW00094728    TMAX       1869      2026   158

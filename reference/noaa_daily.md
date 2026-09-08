@@ -120,11 +120,13 @@ Other weather data:
 ``` r
 # \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Daily temperatures for Central Park, NYC
-noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
-           datatypes = c("TMAX", "TMIN"))
+try({
+  # Daily temperatures for Central Park, NYC
+  noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
+  datatypes = c("TMAX", "TMIN"))
+})
 #> ℹ Fetching daily summaries
-#> ✔ Fetching daily summaries [399ms]
+#> ✔ Fetching daily summaries [307ms]
 #> 
 #>        station                        name       date tmax tmin
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7

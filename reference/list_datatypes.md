@@ -71,18 +71,14 @@ Other data access:
 ``` r
 # \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Everything Central Park has ever recorded
-list_datatypes("daily-summaries", "USW00094728")
-#> ℹ Downloading the GHCN-Daily element inventory (~36 MB, cached after first use).
-#>  [1] "ACMH" "ACSH" "ADPT" "ASLP" "ASTP" "AWBT" "AWND" "DAEV" "DASF" "DAWM"
-#> [11] "EVAP" "FMTM" "MDEV" "MDSF" "MDWM" "PGTM" "PRCP" "PSUN" "RHAV" "RHMN"
-#> [21] "RHMX" "SNOW" "SNWD" "TAVG" "TMAX" "TMIN" "TOBS" "TSUN" "WDF1" "WDF2"
-#> [31] "WDF5" "WDFG" "WDFM" "WDMV" "WESD" "WSF1" "WSF2" "WSF5" "WSFG" "WSFM"
-#> [41] "WT01" "WT02" "WT03" "WT04" "WT05" "WT06" "WT07" "WT08" "WT09" "WT11"
-#> [51] "WT13" "WT14" "WT15" "WT16" "WT17" "WT18" "WT19" "WT21" "WT22"
+try({
+  # Everything Central Park has ever recorded
+  list_datatypes("daily-summaries", "USW00094728")
 
-# Only what it still records
-list_datatypes("daily-summaries", "USW00094728", start_date = "2025-01-01")
+  # Only what it still records
+  list_datatypes("daily-summaries", "USW00094728", start_date = "2025-01-01")
+})
+#> ℹ Downloading the GHCN-Daily element inventory (~36 MB, cached after first use).
 #>  [1] "AWND" "PGTM" "PRCP" "SNOW" "SNWD" "TMAX" "TMIN" "WDF2" "WDF5" "WSF2"
 #> [11] "WSF5" "WT01" "WT02" "WT03" "WT04" "WT06" "WT08" "WT09"
 options(op)

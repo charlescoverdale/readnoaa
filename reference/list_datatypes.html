@@ -102,18 +102,14 @@ only the elements whose record overlaps the period you care about.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>readnoaa.cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Everything Central Park has ever recorded</span></span></span>
-<span class="r-in"><span><span class="fu">list_datatypes</span><span class="op">(</span><span class="st">"daily-summaries"</span>, <span class="st">"USW00094728"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Downloading the GHCN-Daily element inventory (~36 MB, cached after first use).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "ACMH" "ACSH" "ADPT" "ASLP" "ASTP" "AWBT" "AWND" "DAEV" "DASF" "DAWM"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "EVAP" "FMTM" "MDEV" "MDSF" "MDWM" "PGTM" "PRCP" "PSUN" "RHAV" "RHMN"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "RHMX" "SNOW" "SNWD" "TAVG" "TMAX" "TMIN" "TOBS" "TSUN" "WDF1" "WDF2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "WDF5" "WDFG" "WDFM" "WDMV" "WESD" "WSF1" "WSF2" "WSF5" "WSFG" "WSFM"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41] "WT01" "WT02" "WT03" "WT04" "WT05" "WT06" "WT07" "WT08" "WT09" "WT11"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51] "WT13" "WT14" "WT15" "WT16" "WT17" "WT18" "WT19" "WT21" "WT22"</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Everything Central Park has ever recorded</span></span></span>
+<span class="r-in"><span>  <span class="fu">list_datatypes</span><span class="op">(</span><span class="st">"daily-summaries"</span>, <span class="st">"USW00094728"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Only what it still records</span></span></span>
-<span class="r-in"><span><span class="fu">list_datatypes</span><span class="op">(</span><span class="st">"daily-summaries"</span>, <span class="st">"USW00094728"</span>, start_date <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># Only what it still records</span></span></span>
+<span class="r-in"><span>  <span class="fu">list_datatypes</span><span class="op">(</span><span class="st">"daily-summaries"</span>, <span class="st">"USW00094728"</span>, start_date <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Downloading the GHCN-Daily element inventory (~36 MB, cached after first use).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "AWND" "PGTM" "PRCP" "SNOW" "SNWD" "TMAX" "TMIN" "WDF2" "WDF5" "WSF2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "WSF5" "WT01" "WT02" "WT03" "WT04" "WT06" "WT08" "WT09"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>

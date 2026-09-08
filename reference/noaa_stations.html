@@ -154,22 +154,18 @@ around 36 MB that is downloaded on first use and cached thereafter.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>readnoaa.cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Search for stations in the London area</span></span></span>
-<span class="r-in"><span><span class="fu">noaa_stations</span><span class="op">(</span>bbox <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">51.3</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">51.7</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Searching for stations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Searching for stations <span style="color: #B2B2B2;">[170ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       station latitude longitude elevation state      name gsn_flag</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 UKE00105915  51.5608    0.1789     137.0  &lt;NA&gt; HAMPSTEAD     &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 UKM00003772  51.4780   -0.4610      25.3  &lt;NA&gt;  HEATHROW     &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   hcn_crn_flag wmo_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         &lt;NA&gt;  03772</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Search for stations in the London area</span></span></span>
+<span class="r-in"><span>  <span class="fu">noaa_stations</span><span class="op">(</span>bbox <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">51.3</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">51.7</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Search by name</span></span></span>
-<span class="r-in"><span><span class="fu">noaa_stations</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Heathrow"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># Search by name</span></span></span>
+<span class="r-in"><span>  <span class="fu">noaa_stations</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Heathrow"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Searching for stations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Searching for stations <span style="color: #B2B2B2;">[210ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Searching for stations <span style="color: #B2B2B2;">[177ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Searching for stations</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Searching for stations <span style="color: #B2B2B2;">[228ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       station latitude longitude elevation state     name gsn_flag hcn_crn_flag</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 UKE00107650  51.4789    0.4489      25.0  &lt;NA&gt; HEATHROW     &lt;NA&gt;         &lt;NA&gt;</span>

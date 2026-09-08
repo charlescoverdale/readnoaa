@@ -101,11 +101,13 @@ Other data access:
 ``` r
 # \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Fetch daily data using the generic function
-noaa_get("daily-summaries", station = "USW00094728",
-         start_date = "2024-01-01", end_date = "2024-01-31")
+try({
+  # Fetch daily data using the generic function
+  noaa_get("daily-summaries", station = "USW00094728",
+  start_date = "2024-01-01", end_date = "2024-01-31")
+})
 #> ℹ Fetching daily-summaries data
-#> ✔ Fetching daily-summaries data [618ms]
+#> ✔ Fetching daily-summaries data [562ms]
 #> 
 #>        station                        name       date  adpt   aslp   astp awbt
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  -1.1 1016.6 1011.5  2.8

@@ -35,6 +35,11 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="readnoaa-020">readnoaa 0.2.0<a class="anchor" aria-label="anchor" href="#readnoaa-020"></a></h2>
 <div class="section level3">
+<h3 id="examples-now-fail-gracefully-when-the-ncei-api-is-unreachable-0-2-0">Examples now fail gracefully when the NCEI API is unreachable<a class="anchor" aria-label="anchor" href="#examples-now-fail-gracefully-when-the-ncei-api-is-unreachable-0-2-0"></a></h3>
+<p>Every <code>\donttest{}</code> example that reaches the NCEI API is wrapped in <code><a href="https://rdrr.io/r/base/try.html" class="external-link">try()</a></code>. 9 blocks were affected. CRAN runs these in its additional-issues donttest check, on build machines the upstream host routinely refuses or rate-limits, and an example that could not reach it was an ERROR rather than a printed condition. The <code>options(op)</code> cache restore stays outside the <code><a href="https://rdrr.io/r/base/try.html" class="external-link">try()</a></code> so it runs either way.</p>
+<p>This is the CRAN Repository Policy requirement that a package using an internet resource fail gracefully when the resource is unavailable. It is the rule obr was archived under on 2026-08-22.</p>
+</div>
+<div class="section level3">
 <h3 id="bug-fixes-0-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-0"></a></h3>
 <ul><li><p><code><a href="../reference/noaa_normals.html">noaa_normals()</a></code> works for all periods. <code>period = "annual"</code> requested <code>normals-annual-1991-2020</code>, which NCEI does not recognise; the annual normals are published as <code>normals-annualseasonal-1991-2020</code>. <code>period = "daily"</code> sent no date window, which that dataset requires. Both previously failed with HTTP 400 on every call, leaving <code>"monthly"</code> as the only period that worked. <code>period = "hourly"</code> has been added.</p></li>
 <li><p>Hourly datasets no longer lose their timestamps. <code>global-hourly</code> and <code>local-climatological-data</code> publish ISO 8601 timestamps, which the date parser did not recognise and silently converted to <code>NA</code>, discarding the time axis of every hourly request. These now return a <code>POSIXct</code> column in UTC.</p></li>

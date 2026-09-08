@@ -76,21 +76,19 @@ Other station discovery:
 ``` r
 # \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Stations within 25 km of central London
-noaa_nearby(51.5, -0.1, radius_km = 25)
-#> ℹ Searching for nearby stations
-#> ✔ Searching for nearby stations [2.4s]
-#> 
-#>       station latitude longitude elevation state      name gsn_flag
-#> 1 UKE00105915  51.5608    0.1789       137  <NA> HAMPSTEAD     <NA>
-#>   hcn_crn_flag wmo_id distance_km
-#> 1         <NA>   <NA>    20.44295
+try({
+  # Stations within 25 km of central London
+  noaa_nearby(51.5, -0.1, radius_km = 25)
 
-# Only those still reporting maximum temperature recently
-noaa_nearby(51.5, -0.1, radius_km = 25,
-            element = "TMAX", active_since = 2024)
+  # Only those still reporting maximum temperature recently
+  noaa_nearby(51.5, -0.1, radius_km = 25,
+  element = "TMAX", active_since = 2024)
+})
 #> ℹ Searching for nearby stations
-#> ✔ Searching for nearby stations [242ms]
+#> ✔ Searching for nearby stations [1.4s]
+#> 
+#> ℹ Searching for nearby stations
+#> ✔ Searching for nearby stations [266ms]
 #> 
 #>  [1] station      latitude     longitude    elevation    state       
 #>  [6] name         gsn_flag     hcn_crn_flag wmo_id       distance_km 
