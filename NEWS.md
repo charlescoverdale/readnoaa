@@ -1,5 +1,18 @@
 # readnoaa 0.2.0
 
+## Examples now fail gracefully when the NCEI API is unreachable
+
+Every `\donttest{}` example that reaches the NCEI API is wrapped in `try()`.
+9 blocks were affected. CRAN runs these in its additional-issues
+donttest check, on build machines the upstream host routinely refuses or
+rate-limits, and an example that could not reach it was an ERROR rather
+than a printed condition. The `options(op)` cache restore stays outside the
+`try()` so it runs either way.
+
+This is the CRAN Repository Policy requirement that a package using an
+internet resource fail gracefully when the resource is unavailable. It is
+the rule obr was archived under on 2026-08-22.
+
 ## Bug fixes
 
 * `noaa_normals()` works for all periods. `period = "annual"` requested

@@ -59,7 +59,9 @@ dataset.
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-noaa_monthly("USW00094728", "2024-01", "2024-12")
+try({
+  noaa_monthly("USW00094728", "2024-01", "2024-12")
+})
 options(op)
 }
 }

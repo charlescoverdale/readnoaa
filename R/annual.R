@@ -32,7 +32,9 @@
 #' @examples
 #' \donttest{
 #' op <- options(readnoaa.cache_dir = tempdir())
-#' noaa_annual("USW00094728", "2020-01-01", "2024-01-01")
+#' try({
+#'   noaa_annual("USW00094728", "2020-01-01", "2024-01-01")
+#' })
 #' options(op)
 #' }
 noaa_annual <- function(station, start_date, end_date, datatypes = NULL,

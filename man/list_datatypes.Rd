@@ -47,11 +47,13 @@ only the elements whose record overlaps the period you care about.
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Everything Central Park has ever recorded
-list_datatypes("daily-summaries", "USW00094728")
+try({
+  # Everything Central Park has ever recorded
+  list_datatypes("daily-summaries", "USW00094728")
 
-# Only what it still records
-list_datatypes("daily-summaries", "USW00094728", start_date = "2025-01-01")
+  # Only what it still records
+  list_datatypes("daily-summaries", "USW00094728", start_date = "2025-01-01")
+})
 options(op)
 }
 }

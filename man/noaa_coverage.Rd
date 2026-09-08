@@ -48,8 +48,10 @@ cached locally thereafter.
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# What does Central Park record, and through when?
-noaa_coverage("USW00094728", element = c("TMAX", "TMIN", "PRCP"))
+try({
+  # What does Central Park record, and through when?
+  noaa_coverage("USW00094728", element = c("TMAX", "TMIN", "PRCP"))
+})
 options(op)
 }
 }

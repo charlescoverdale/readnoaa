@@ -71,11 +71,13 @@ around 36 MB that is downloaded on first use and cached thereafter.
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Search for stations in the London area
-noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
+try({
+  # Search for stations in the London area
+  noaa_stations(bbox = c(51.3, -0.5, 51.7, 0.3))
 
-# Search by name
-noaa_stations(text = "Heathrow")
+  # Search by name
+  noaa_stations(text = "Heathrow")
+})
 options(op)
 }
 }

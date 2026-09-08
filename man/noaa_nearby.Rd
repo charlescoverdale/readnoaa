@@ -51,12 +51,14 @@ sorted by distance. Uses the GHCN-Daily station inventory.
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Stations within 25 km of central London
-noaa_nearby(51.5, -0.1, radius_km = 25)
+try({
+  # Stations within 25 km of central London
+  noaa_nearby(51.5, -0.1, radius_km = 25)
 
-# Only those still reporting maximum temperature recently
-noaa_nearby(51.5, -0.1, radius_km = 25,
-            element = "TMAX", active_since = 2024)
+  # Only those still reporting maximum temperature recently
+  noaa_nearby(51.5, -0.1, radius_km = 25,
+  element = "TMAX", active_since = 2024)
+})
 options(op)
 }
 }

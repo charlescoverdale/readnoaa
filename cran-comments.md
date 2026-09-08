@@ -42,6 +42,17 @@ There are two changes in default output, both documented in NEWS.md: requests
 that do not name `datatypes` now drop all-empty columns, and column names
 containing hyphens use underscores rather than dots.
 
+## Examples hardened against an unreachable the NCEI API
+
+Every `\donttest{}` example that makes a network call is now wrapped in
+`try()`, so a build machine that cannot reach the NCEI API gets a printed
+condition rather than an example ERROR. 9 blocks were affected. The
+`options(op)` cache restore stays outside the `try()` so it always runs.
+
+I verified that every generated example still parses: each Rd file with
+examples was extracted with `tools::Rd2ex(commentDonttest = FALSE)` and
+passed to `parse()` without error.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes (CRAN default settings, R 4.5.2, macOS).

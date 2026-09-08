@@ -59,12 +59,14 @@
 #' @examples
 #' \donttest{
 #' op <- options(readnoaa.cache_dir = tempdir())
-#' # Monthly normals: twelve rows, values in Fahrenheit and inches
-#' noaa_normals("USW00094728", "monthly")
+#' try({
+#'   # Monthly normals: twelve rows, values in Fahrenheit and inches
+#'   noaa_normals("USW00094728", "monthly")
 #'
-#' # Daily normals for January only
-#' noaa_normals("USW00094728", "daily",
-#'              start_date = "2020-01-01", end_date = "2020-01-31")
+#'   # Daily normals for January only
+#'   noaa_normals("USW00094728", "daily",
+#'   start_date = "2020-01-01", end_date = "2020-01-31")
+#' })
 #' options(op)
 #' }
 noaa_normals <- function(station, period = "monthly", datatypes = NULL,

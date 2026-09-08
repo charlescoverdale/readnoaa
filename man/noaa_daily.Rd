@@ -78,9 +78,11 @@ relying on it.
 \examples{
 \donttest{
 op <- options(readnoaa.cache_dir = tempdir())
-# Daily temperatures for Central Park, NYC
-noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
-           datatypes = c("TMAX", "TMIN"))
+try({
+  # Daily temperatures for Central Park, NYC
+  noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
+  datatypes = c("TMAX", "TMIN"))
+})
 options(op)
 }
 }
