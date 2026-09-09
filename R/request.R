@@ -130,12 +130,24 @@ write_cache <- function(csv_text, cache_file) {
   dir.create(dirname(cache_file), recursive = TRUE, showWarnings = FALSE)
   tmp <- paste0(cache_file, ".tmp", Sys.getpid())
 
+  # The connection must be closed before the rename, not on function exit.
+  # on.exit() registers against write_cache()'s frame rather than the
+  # tryCatch block, so the handle was still open when file.rename() ran.
+  # Unix renames an open file happily; Windows refuses, so the rename
+  # returned FALSE and the cache write silently failed on that platform
+  # alone.
+  con <- NULL
   ok <- tryCatch({
     con <- file(tmp, open = "wb")
-    on.exit(close(con), add = TRUE)
     writeBin(charToRaw(csv_text), con)
+    close(con)
+    con <- NULL
     TRUE
   }, error = function(e) FALSE, warning = function(w) FALSE)
+
+  # Close a handle left open by a failed write, so the unlink below can
+  # remove the temporary file on Windows too.
+  if (!is.null(con)) try(close(con), silent = TRUE)
 
   if (!ok) {
     unlink(tmp)

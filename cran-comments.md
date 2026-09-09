@@ -1,57 +1,25 @@
-# CRAN submission comments — readnoaa 0.2.0
+# CRAN submission comments: readnoaa 0.2.1
 
-## Reason for this submission
+## This is a resubmission
 
-This is a bug-fix and feature release for readnoaa 0.1.1, currently on CRAN.
-Version 0.1.2 was prepared but never submitted, and its change is folded in
-here.
+0.2.0 was rejected by the incoming checks on 2026-09-08 for three problems,
+all fixed here.
 
-The release repairs several code paths that failed against the live NCEI
-API, and adds a function for checking station coverage.
+**A Windows-only test ERROR.** `write_cache()` closed its connection with
+`on.exit()`, which registers against the enclosing function's frame rather
+than the `tryCatch` block, so the handle was still open when `file.rename()`
+ran. Unix renames an open file without complaint; Windows refuses, so every
+cache write returned `FALSE` there. The connection is now closed before the
+rename. This was invisible on macOS and only your Windows builder caught it,
+which I am grateful for.
 
-Fixes:
+**A DESCRIPTION URL that answers HTTP 400.** It cited the bare NCEI Data
+Service endpoint, which rejects a request carrying no query parameters. It
+now points at the NCEI API user documentation. The endpoint the package
+actually calls is unchanged.
 
-* `noaa_normals()` failed with HTTP 400 for `period = "annual"` (wrong
-  dataset identifier) and `period = "daily"` (the dataset requires a date
-  window that was never sent). Only `"monthly"` worked. A `"hourly"` period
-  has been added.
-* The hourly datasets publish ISO 8601 timestamps, which the date parser did
-  not recognise and silently converted to `NA`.
-* Station identifiers were type-guessed on read, so ISD and GSOD identifiers
-  lost their leading zeros.
-* Cache filenames embedded the full station list, so requests naming roughly
-  fifteen or more stations exceeded the filename length limit and aborted.
-* Responses containing no observations were cached and served indefinitely.
-  Cached responses now expire, and cache writes are atomic.
-* The GHCN-Daily missing-elevation sentinel (`-999.9`) was returned as a
-  real measurement.
-* `noaa_stations(text = )` passed the search string to `grepl()` as a regular
-  expression, so names containing punctuation raised an error.
-* API errors reported only a status code, discarding the explanation NCEI
-  returns in the response body.
-
-New:
-
-* `noaa_coverage()` reports the first and last year of data for each element
-  a station records, from the GHCN-Daily element inventory.
-* `cache_info()` lists cached responses with their size and age.
-* `noaa_stations()` and `noaa_nearby()` gain `element` and `active_since`
-  filters; all data functions gain `refresh`.
-
-There are two changes in default output, both documented in NEWS.md: requests
-that do not name `datatypes` now drop all-empty columns, and column names
-containing hyphens use underscores rather than dots.
-
-## Examples hardened against an unreachable the NCEI API
-
-Every `\donttest{}` example that makes a network call is now wrapped in
-`try()`, so a build machine that cannot reach the NCEI API gets a printed
-condition rather than an example ERROR. 9 blocks were affected. The
-`options(op)` cache restore stays outside the `try()` so it always runs.
-
-I verified that every generated example still parses: each Rd file with
-examples was extracted with `tools::Rd2ex(commentDonttest = FALSE)` and
-passed to `parse()` without error.
+**A dead README link.** `library.wmo.int` is unreachable and returned an
+HTTP/2 protocol error. Replaced with a plain citation to WMO-No. 1203.
 
 ## R CMD check results
 

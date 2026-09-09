@@ -268,7 +268,7 @@ Responses that contain no observations are never cached, so a request made while
 
 ## Data sources
 
-Daily observations come from the [Global Historical Climatology Network - Daily (GHCN-Daily)](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily), which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month and Year datasets. Climate normals follow the [WMO guidelines](https://library.wmo.int/idurl/4/55797) for calculating 30-year averages.
+Daily observations come from the [Global Historical Climatology Network - Daily (GHCN-Daily)](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily), which integrates data from over 100,000 stations across 180 countries. Monthly and annual summaries are derived from the Global Summary of the Month and Year datasets. Climate normals follow the WMO guidelines (WMO-No. 1203, *Guidelines on the Calculation of Climate Normals*) for calculating 30-year averages.
 
 Station discovery uses the GHCN-Daily station list, and `noaa_coverage()` uses the GHCN-Daily element inventory. The inventory is around 36 MB, so it is downloaded only when a coverage-aware function needs it, and cached thereafter.
 
