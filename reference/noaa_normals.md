@@ -130,10 +130,10 @@ try({
   start_date = "2020-01-01", end_date = "2020-01-31")
 })
 #> ℹ Fetching monthly climate normals
-#> ✔ Fetching monthly climate normals [495ms]
+#> ✔ Fetching monthly climate normals [154ms]
 #> 
 #> ℹ Fetching daily climate normals
-#> ✔ Fetching daily climate normals [888ms]
+#> ✔ Fetching daily climate normals [169ms]
 #> 
 #>        station                         name  date month day dly_cldd_base40
 #> 1  USW00094728 NEW YORK CNTRL PK TWR, NY US 01-01     1   1             1.0

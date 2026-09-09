@@ -126,7 +126,7 @@ try({
   datatypes = c("TMAX", "TMIN"))
 })
 #> ℹ Fetching daily summaries
-#> ✔ Fetching daily summaries [307ms]
+#> ✔ Fetching daily summaries [403ms]
 #> 
 #>        station                        name       date tmax tmin
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7

@@ -1,5 +1,29 @@
 # Changelog
 
+## readnoaa 0.2.1
+
+Resubmission of 0.2.0, which CRAN’s incoming checks rejected on
+2026-09-08. Three problems, all now fixed.
+
+- `write_cache()` failed on Windows. The connection to the temporary
+  file was closed by [`on.exit()`](https://rdrr.io/r/base/on.exit.html),
+  which registers against the enclosing function’s frame rather than the
+  `tryCatch` block, so the handle was still open when
+  [`file.rename()`](https://rdrr.io/r/base/files.html) ran. Unix renames
+  an open file without complaint; Windows refuses, so every cache write
+  silently returned `FALSE` on that platform. The connection is now
+  closed before the rename. This was invisible locally and only surfaced
+  on CRAN’s Windows builder.
+
+- The `DESCRIPTION` cited the bare NCEI Data Service endpoint, which
+  answers HTTP 400 to a request with no query parameters and so reads as
+  a broken link. It now points at the NCEI API user documentation. The
+  endpoint the package actually calls is unchanged.
+
+- The README linked WMO guidance on `library.wmo.int`, a host that is
+  currently unreachable and returned an HTTP/2 protocol error. Replaced
+  with a plain citation to WMO-No. 1203, which cannot rot.
+
 ## readnoaa 0.2.0
 
 ### Examples now fail gracefully when the NCEI API is unreachable

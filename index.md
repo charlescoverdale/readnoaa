@@ -381,9 +381,9 @@ Network - Daily
 (GHCN-Daily)](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily),
 which integrates data from over 100,000 stations across 180 countries.
 Monthly and annual summaries are derived from the Global Summary of the
-Month and Year datasets. Climate normals follow the [WMO
-guidelines](https://library.wmo.int/idurl/4/55797) for calculating
-30-year averages.
+Month and Year datasets. Climate normals follow the WMO guidelines
+(WMO-No. 1203, *Guidelines on the Calculation of Climate Normals*) for
+calculating 30-year averages.
 
 Station discovery uses the GHCN-Daily station list, and
 [`noaa_coverage()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_coverage.md)

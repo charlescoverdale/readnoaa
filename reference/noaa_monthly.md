@@ -100,7 +100,7 @@ try({
   noaa_monthly("USW00094728", "2024-01", "2024-12")
 })
 #> ℹ Fetching monthly summaries
-#> ✔ Fetching monthly summaries [164ms]
+#> ✔ Fetching monthly summaries [139ms]
 #> 
 #>        station                        name       date adpt   aslp   astp awbt
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01 -4.2 1016.8 1011.7  0.0

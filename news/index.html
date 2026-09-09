@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">readnoaa</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,13 @@
       <small>Source: <a href="https://github.com/charlescoverdale/readnoaa/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="readnoaa-021">readnoaa 0.2.1<a class="anchor" aria-label="anchor" href="#readnoaa-021"></a></h2>
+<p>Resubmission of 0.2.0, which CRAN’s incoming checks rejected on 2026-09-08. Three problems, all now fixed.</p>
+<ul><li><p><code>write_cache()</code> failed on Windows. The connection to the temporary file was closed by <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code>, which registers against the enclosing function’s frame rather than the <code>tryCatch</code> block, so the handle was still open when <code><a href="https://rdrr.io/r/base/files.html" class="external-link">file.rename()</a></code> ran. Unix renames an open file without complaint; Windows refuses, so every cache write silently returned <code>FALSE</code> on that platform. The connection is now closed before the rename. This was invisible locally and only surfaced on CRAN’s Windows builder.</p></li>
+<li><p>The <code>DESCRIPTION</code> cited the bare NCEI Data Service endpoint, which answers HTTP 400 to a request with no query parameters and so reads as a broken link. It now points at the NCEI API user documentation. The endpoint the package actually calls is unchanged.</p></li>
+<li><p>The README linked WMO guidance on <code>library.wmo.int</code>, a host that is currently unreachable and returned an HTTP/2 protocol error. Replaced with a plain citation to WMO-No. 1203, which cannot rot.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="readnoaa-020">readnoaa 0.2.0<a class="anchor" aria-label="anchor" href="#readnoaa-020"></a></h2>
 <div class="section level3">
