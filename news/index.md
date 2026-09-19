@@ -2,6 +2,8 @@
 
 ## readnoaa 0.2.1
 
+CRAN release: 2026-09-09
+
 Resubmission of 0.2.0, which CRAN’s incoming checks rejected on
 2026-09-08. Three problems, all now fixed.
 
