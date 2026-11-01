@@ -1,5 +1,36 @@
 # Changelog
 
+## readnoaa 0.2.2
+
+### Normals mixed units, and some values were wrong
+
+The NCEI normals are published in US customary units, and the help page
+said
+[`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md)
+returned inches and degrees Fahrenheit. But the request asked for metric
+units, and the normals endpoint applies those inconsistently: it
+converts precipitation, snowfall, and monthly maximum and minimum
+temperature, but not monthly average temperature, and it converts
+temperature ranges as if they were temperatures. For Central Park in
+January it returned precipitation of 92.5 (millimetres) beside an
+average temperature of 33.7 (Fahrenheit), a maximum of 4.2 (Celsius),
+and a diurnal temperature range of -11.4, where the published value is
+11.5 F (6.4 C). Nothing in the output said the units differed.
+
+[`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md),
+and
+[`noaa_get()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_get.md)
+for any `normals-` dataset, now request standard units, so every column
+is in the units the help page documents: 3.64 inches, 33.7 F, 39.5 F and
+11.5 F. Precipitation, snowfall and most temperature normals therefore
+change from 0.2.1. The observational datasets convert consistently and
+still default to metric.
+
+### Citation
+
+`citation("readnoaa")` reported version 0.1.0 whatever version was
+installed. It now reads the installed version.
+
 ## readnoaa 0.2.1
 
 CRAN release: 2026-09-09

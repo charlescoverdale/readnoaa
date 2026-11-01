@@ -27,3 +27,7 @@ Useful links:
 
 **Maintainer**: Charles Coverdale <charlesfcoverdale@gmail.com>
 \[copyright holder\]
+
+Authors:
+
+- Charles Coverdale <charlesfcoverdale@gmail.com> \[copyright holder\]

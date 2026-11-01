@@ -87,22 +87,23 @@ library(readnoaa)
 df <- noaa_daily("USW00094728", "2024-01-01", "2024-01-31",
                  datatypes = c("TMAX", "TMIN"))
 head(df, 4)
-#>       station                        name       date tmax tmin
-#> 1 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7
-#> 2 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6 -1.6
-#> 3 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-03  6.1  1.1
-#> 4 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-04  7.2 -2.1
+#>      station                        name       date tmax tmin
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3  1.7
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6 -1.6
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-03  6.1  1.1
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-04  7.2 -2.1
 ```
 
 ### Find stations near London
 
 ``` r
 
-noaa_nearby(51.5, -0.1, radius_km = 40)
-#>       station      name latitude longitude distance_km
-#> 1 UKE00105915 HAMPSTEAD  51.5608    0.1789    20.44295
-#> 2 UKM00003772  HEATHROW  51.4780   -0.4610    25.11402
-#> 3 UKE00107650  HEATHROW  51.4789    0.4489    38.07617
+near <- noaa_nearby(51.5, -0.1, radius_km = 40)
+near[, c("station", "name", "latitude", "longitude", "distance_km")]
+#>      station      name latitude longitude distance_km
+#>  UKE00105915 HAMPSTEAD  51.5608    0.1789    20.44295
+#>  UKM00003772  HEATHROW  51.4780   -0.4610    25.11402
+#>  UKE00107650  HEATHROW  51.4789    0.4489    38.07617
 ```
 
 Not every station in the list is still reporting. Add `element` and
@@ -111,12 +112,20 @@ need:
 
 ``` r
 
-noaa_nearby(51.5, -0.1, radius_km = 40,
-            element = "TMAX", active_since = 2025)
-#>       station     name distance_km
-#> 1 UKM00003772 HEATHROW    25.11402
-#> 2 UKE00107650 HEATHROW    38.07617
+near <- noaa_nearby(51.5, -0.1, radius_km = 40,
+                    element = "TMAX", active_since = 2025)
+near[, c("station", "name", "latitude", "longitude", "distance_km")]
+#>      station     name latitude longitude distance_km
+#>  UKM00003772 HEATHROW  51.4780   -0.4610    25.11402
+#>  UKE00107650 HEATHROW  51.4789    0.4489    38.07617
 ```
+
+GHCN-Daily lists some stations from the European Climate Assessment (IDs
+beginning `UKE`) with the longitude sign reversed. Hampstead
+(`UKE00105915`) and the second Heathrow entry (`UKE00107650`) are west
+of Greenwich, not east of it as their metadata say, so their distances
+are computed from coordinates that are wrong at source. The `UKM`
+Heathrow entry is correct.
 
 ### Monthly precipitation summary
 
@@ -124,22 +133,24 @@ noaa_nearby(51.5, -0.1, radius_km = 40,
 
 df <- noaa_monthly("USW00094728", "2024-01", "2024-12", datatypes = "PRCP")
 head(df, 3)
-#>       station                        name       date  prcp
-#> 1 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01 134.1
-#> 2 USW00094728 NY CITY CENTRAL PARK, NY US 2024-02-01  52.1
-#> 3 USW00094728 NY CITY CENTRAL PARK, NY US 2024-03-01 230.3
+#>      station                        name       date  prcp
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01 134.1
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-02-01  52.1
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-03-01 230.3
 ```
 
 ### Climate normals
 
 ``` r
 
-noaa_normals("USW00094728", "monthly",
-             datatypes = c("MLY-TAVG-NORMAL", "MLY-PRCP-NORMAL"))
-#>       station                         name date month mly_prcp_normal mly_tavg_normal
-#> 1 USW00094728 NEW YORK CNTRL PK TWR, NY US   01     1            92.5            33.7
-#> 2 USW00094728 NEW YORK CNTRL PK TWR, NY US   02     2            81.0            35.9
-#> 3 USW00094728 NEW YORK CNTRL PK TWR, NY US   03     3           109.0            42.8
+nrm <- noaa_normals("USW00094728", "monthly",
+                    datatypes = c("MLY-TAVG-NORMAL", "MLY-PRCP-NORMAL"))
+# Normals are published in US customary units: inches and Fahrenheit
+head(nrm[, c("station", "month", "mly_prcp_normal", "mly_tavg_normal")], 3)
+#>      station month mly_prcp_normal mly_tavg_normal
+#>  USW00094728     1            3.64            33.7
+#>  USW00094728     2            3.19            35.9
+#>  USW00094728     3            4.29            42.8
 ```
 
 Normals carry a climatological pseudo-date rather than a calendar date
@@ -149,9 +160,13 @@ joining. Four periods are available: `"monthly"`, `"daily"`, `"hourly"`,
 and `"annual"`. The daily and hourly periods accept `start_date` and
 `end_date` to narrow the window.
 
-Note that the NCEI normals datasets are published in US customary units
-(Fahrenheit and inches) and ignore the `units` argument, so unlike the
-observational functions there is no metric option.
+The NCEI normals datasets are published in US customary units
+(Fahrenheit and inches), and unlike the observational functions
+[`noaa_normals()`](https://charlescoverdale.github.io/readnoaa/reference/noaa_normals.md)
+has no metric option: asked for metric units, the API converts some
+variables and not others (monthly average temperature stays in
+Fahrenheit) and turns temperature ranges negative, so the package always
+requests the published units.
 
 ### Multiple stations in one call
 
@@ -160,11 +175,11 @@ observational functions there is no metric option.
 df <- noaa_monthly(c("USW00094728", "USW00023174", "USW00094846"),
                    "2024-01", "2024-03", datatypes = "PRCP")
 head(df, 4)
-#>       station                                     name       date  prcp
-#> 1 USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-01-01  49.6
-#> 2 USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-02-01 254.7
-#> 3 USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-03-01  83.5
-#> 4 USW00094728              NY CITY CENTRAL PARK, NY US 2024-01-01 134.1
+#>      station                                     name       date  prcp
+#>  USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-01-01  49.6
+#>  USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-02-01 254.7
+#>  USW00023174 LOS ANGELES INTERNATIONAL AIRPORT, CA US 2024-03-01  83.5
+#>  USW00094728              NY CITY CENTRAL PARK, NY US 2024-01-01 134.1
 ```
 
 ### Annual temperature trends
@@ -174,10 +189,10 @@ head(df, 4)
 df <- noaa_annual("USW00094728", "2020-01-01", "2024-01-01",
                   datatypes = "TAVG")
 head(df, 3)
-#>       station                        name       date tavg
-#> 1 USW00094728 NY CITY CENTRAL PARK, NY US 2020-01-01 14.1
-#> 2 USW00094728 NY CITY CENTRAL PARK, NY US 2021-01-01 13.8
-#> 3 USW00094728 NY CITY CENTRAL PARK, NY US 2022-01-01 13.5
+#>      station                        name       date tavg
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2020-01-01 14.1
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2021-01-01 13.8
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2022-01-01 13.5
 ```
 
 ### Hourly data with the generic fetcher
@@ -193,11 +208,11 @@ the GHCN-Daily identifiers used elsewhere, and their `date` column is a
 df <- noaa_get("global-hourly", station = "72505394728",
                start_date = "2024-07-01", end_date = "2024-07-01",
                datatypes = c("TMP", "WND"))
-head(df, 3)
-#>       station                        name                date     tmp            wnd
-#> 1 72505394728 NY CITY CENTRAL PARK, NY US 2024-07-01 00:04:00 +0228,5 999,9,C,0000,5
-#> 2 72505394728 NY CITY CENTRAL PARK, NY US 2024-07-01 00:41:00 +0228,5 999,9,C,0000,5
-#> 3 72505394728 NY CITY CENTRAL PARK, NY US 2024-07-01 00:49:00 +0230,5 999,9,V,0015,5
+df[1:3, c("station", "date", "tmp", "wnd")]
+#>      station                date     tmp            wnd
+#>  72505394728 2024-07-01 00:04:00 +0228,5 999,9,C,0000,5
+#>  72505394728 2024-07-01 00:41:00 +0228,5 999,9,C,0000,5
+#>  72505394728 2024-07-01 00:49:00 +0230,5 999,9,V,0015,5
 ```
 
 ## Finding stations
@@ -210,13 +225,16 @@ with them.
 
 ``` r
 
-noaa_nearby(-33.87, 151.21, radius_km = 30,
-            element = "TMAX", active_since = 2025)
-#>       station                           name distance_km
-#> 1 ASN00066196 SYDNEY HARBOUR (WEDDING CAKE W    5.859814
-#> 2 ASN00066037             SYDNEY AIRPORT AMO    9.162697
-#> 3 ASN00066194      CANTERBURY RACECOURSE AWS    9.760497
-#> 4 ASN00066124 PARRAMATTA NORTH (MASONS DRIVE   19.748268
+syd <- noaa_nearby(-33.87, 151.21, radius_km = 30,
+                   element = "TMAX", active_since = 2025)
+syd[, c("station", "name", "wmo_id", "distance_km")]
+#>      station                           name wmo_id distance_km
+#>  ASN00066196 SYDNEY HARBOUR (WEDDING CAKE W  95766    5.859814
+#>  ASN00066037             SYDNEY AIRPORT AMO  94767    9.162697
+#>  ASN00066194      CANTERBURY RACECOURSE AWS  94766    9.760497
+#>  ASN00066124 PARRAMATTA NORTH (MASONS DRIVE  94764   19.748268
+#>  ASN00066059               TERREY HILLS AWS  94759   19.976242
+#>  ASN00066137          BANKSTOWN AIRPORT AWS  94765   21.319963
 ```
 
 **2. Search by name or bounding box** using
@@ -224,10 +242,10 @@ noaa_nearby(-33.87, 151.21, radius_km = 30,
 
 ``` r
 
-noaa_stations(text = "Heathrow")
-#>       station     name latitude longitude elevation wmo_id
-#> 1 UKE00107650 HEATHROW  51.4789    0.4489      25.0   <NA>
-#> 2 UKM00003772 HEATHROW  51.4780   -0.4610      25.3  03772
+noaa_stations(text = "Heathrow")[, c("station", "name", "latitude", "longitude", "wmo_id")]
+#>      station     name latitude longitude wmo_id
+#>  UKE00107650 HEATHROW  51.4789    0.4489   <NA>
+#>  UKM00003772 HEATHROW  51.4780   -0.4610  03772
 
 # Search by bounding box (south, west, north, east)
 noaa_stations(bbox = c(35, -120, 40, -115))
@@ -242,11 +260,11 @@ Pass `regex = TRUE` if you want a regular expression instead.
 ``` r
 
 noaa_coverage("USW00094728", element = c("TMAX", "TMIN", "PRCP", "SNOW"))
-#>       station element first_year last_year years
-#> 1 USW00094728    PRCP       1869      2026   158
-#> 2 USW00094728    SNOW       1869      2026   158
-#> 3 USW00094728    TMAX       1869      2026   158
-#> 4 USW00094728    TMIN       1869      2026   158
+#>      station element first_year last_year years
+#>  USW00094728    PRCP       1869      2026   158
+#>  USW00094728    SNOW       1869      2026   158
+#>  USW00094728    TMAX       1869      2026   158
+#>  USW00094728    TMIN       1869      2026   158
 ```
 
 ### How current is the data?
@@ -299,7 +317,12 @@ only what it still records:
 ``` r
 
 list_datatypes("daily-summaries", "USW00094728")
-#> 59 codes, covering the station's full record back to 1869
+#>  [1] "ACMH" "ACSH" "ADPT" "ASLP" "ASTP" "AWBT" "AWND" "DAEV" "DASF" "DAWM"
+#> [11] "EVAP" "FMTM" "MDEV" "MDSF" "MDWM" "PGTM" "PRCP" "PSUN" "RHAV" "RHMN"
+#> [21] "RHMX" "SNOW" "SNWD" "TAVG" "TMAX" "TMIN" "TOBS" "TSUN" "WDF1" "WDF2"
+#> [31] "WDF5" "WDFG" "WDFM" "WDMV" "WESD" "WSF1" "WSF2" "WSF5" "WSFG" "WSFM"
+#> [41] "WT01" "WT02" "WT03" "WT04" "WT05" "WT06" "WT07" "WT08" "WT09" "WT11"
+#> [51] "WT13" "WT14" "WT15" "WT16" "WT17" "WT18" "WT19" "WT21" "WT22"
 
 list_datatypes("daily-summaries", "USW00094728", start_date = "2025-01-01")
 #>  [1] "AWND" "PGTM" "PRCP" "SNOW" "SNWD" "TMAX" "TMIN" "WDF2" "WDF5" "WSF2"
@@ -321,9 +344,12 @@ setting `include_flags = TRUE`:
 
 noaa_daily("USW00094728", "2024-01-01", "2024-01-05",
            datatypes = "TMAX", include_flags = TRUE)
-#>       station                        name       date tmax tmax_attributes
-#> 1 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3             ,,W
-#> 2 USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6             ,,W
+#>      station                        name       date tmax tmax_attributes
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  8.3             ,,W
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-02  5.6             ,,W
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-03  6.1             ,,W
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-04  7.2             ,,W
+#>  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-05  2.8             ,,W
 ```
 
 This adds attribute columns alongside each data column containing

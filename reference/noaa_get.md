@@ -57,8 +57,10 @@ noaa_get(
 
 - units:
 
-  Character. `"metric"` (default) or `"standard"`. Ignored by the
-  normals datasets, which are published in US customary units.
+  Character. `"metric"` (default) or `"standard"`. The normals datasets
+  are always requested in their published US customary units: asked for
+  metric, the API converts only some of their variables, and converts
+  temperature ranges as if they were temperatures.
 
 - include_flags:
 
@@ -107,7 +109,7 @@ try({
   start_date = "2024-01-01", end_date = "2024-01-31")
 })
 #> ℹ Fetching daily-summaries data
-#> ✔ Fetching daily-summaries data [366ms]
+#> ✔ Fetching daily-summaries data [1.4s]
 #> 
 #>        station                        name       date  adpt   aslp   astp awbt
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  -1.1 1016.6 1011.5  2.8

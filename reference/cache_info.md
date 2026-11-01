@@ -39,7 +39,7 @@ Other data access:
 op <- options(readnoaa.cache_dir = tempdir())
 cache_info()
 #>                                     file size_kb age_days
-#> 1 bslib-e9b2b13fa612f50d23e4850d93d60d01       4        0
+#> 1 bslib-7db53ff92ec092c0dbca0588320fd109       4        0
 #> 2                                downlit       4        0
 options(op)
 # }
