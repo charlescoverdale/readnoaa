@@ -35,3 +35,30 @@ test_that("each normals period maps to a live NCEI dataset", {
   expect_identical(daily$month, rep(1L, 31))
   expect_identical(daily$day, 1:31)
 })
+
+test_that("normals are requested in their published units", {
+  # A metric request converts precipitation but not temperature, so the
+  # normals must always be fetched in standard units.
+  seen <- character(0)
+  local_mocked_bindings(noaa_fetch = function(...) {
+    seen <<- c(seen, list(...)$units)
+    data.frame(station = "USW00094728", date = "01", mly_tavg_normal = 33.7)
+  })
+  noaa_normals("USW00094728", "monthly", cache = FALSE)
+  noaa_get("normals-monthly-1991-2020", station = "USW00094728",
+           units = "metric", cache = FALSE)
+  expect_identical(seen, c("standard", "standard"))
+})
+
+test_that("monthly normals come back in inches and Fahrenheit", {
+  skip_on_cran()
+  skip_if_offline()
+  op <- options(readnoaa.cache_dir = file.path(tempdir(), "readnoaa_units"))
+  on.exit(options(op), add = TRUE)
+  df <- noaa_normals("USW00094728", "monthly",
+                     datatypes = c("MLY-PRCP-NORMAL", "MLY-TAVG-NORMAL"))
+  jan <- df[df$month == 1L, ]
+  # Central Park, January 1991-2020: 3.64 in of precipitation, 33.7 F
+  expect_equal(jan$mly_prcp_normal, 3.64)
+  expect_equal(jan$mly_tavg_normal, 33.7)
+})

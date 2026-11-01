@@ -31,10 +31,10 @@ options(op)
 }
 }
 \seealso{
-Other data access: 
-\code{\link{clear_cache}()},
-\code{\link{list_datasets}()},
-\code{\link{list_datatypes}()},
-\code{\link{noaa_get}()}
+Other data access:
+\code{\link[=clear_cache]{clear_cache()}},
+\code{\link[=list_datasets]{list_datasets()}},
+\code{\link[=list_datatypes]{list_datatypes()}},
+\code{\link[=noaa_get]{noaa_get()}}
 }
 \concept{data access}

@@ -39,8 +39,10 @@ GHCN-Daily IDs such as \code{"USW00094728"}, while \code{global-hourly} and
 \code{c(south_lat, west_lon, north_lat, east_lon)}. Required by
 \code{global-marine}.}
 
-\item{units}{Character. \code{"metric"} (default) or \code{"standard"}. Ignored by
-the normals datasets, which are published in US customary units.}
+\item{units}{Character. \code{"metric"} (default) or \code{"standard"}. The normals
+datasets are always requested in their published US customary units:
+asked for metric, the API converts their precipitation but not their
+temperatures.}
 
 \item{include_flags}{Logical. Include data quality flags from NCEI
 (default \code{FALSE}).}
@@ -78,10 +80,10 @@ options(op)
 }
 }
 \seealso{
-Other data access: 
-\code{\link{cache_info}()},
-\code{\link{clear_cache}()},
-\code{\link{list_datasets}()},
-\code{\link{list_datatypes}()}
+Other data access:
+\code{\link[=cache_info]{cache_info()}},
+\code{\link[=clear_cache]{clear_cache()}},
+\code{\link[=list_datasets]{list_datasets()}},
+\code{\link[=list_datatypes]{list_datatypes()}}
 }
 \concept{data access}

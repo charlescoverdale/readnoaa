@@ -84,8 +84,8 @@ options(op)
 \seealso{
 \code{\link[=noaa_coverage]{noaa_coverage()}} for the full element record of a station.
 
-Other station discovery: 
-\code{\link{noaa_coverage}()},
-\code{\link{noaa_nearby}()}
+Other station discovery:
+\code{\link[=noaa_coverage]{noaa_coverage()}},
+\code{\link[=noaa_nearby]{noaa_nearby()}}
 }
 \concept{station discovery}

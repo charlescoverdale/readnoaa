@@ -90,9 +90,9 @@ options(op)
 \code{\link[=noaa_coverage]{noaa_coverage()}} to check which elements a station reports
 and how current its record is.
 
-Other weather data: 
-\code{\link{noaa_annual}()},
-\code{\link{noaa_monthly}()},
-\code{\link{noaa_normals}()}
+Other weather data:
+\code{\link[=noaa_annual]{noaa_annual()}},
+\code{\link[=noaa_monthly]{noaa_monthly()}},
+\code{\link[=noaa_normals]{noaa_normals()}}
 }
 \concept{weather data}

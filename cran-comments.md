@@ -1,25 +1,14 @@
-# CRAN submission comments: readnoaa 0.2.1
+# CRAN submission comments: readnoaa 0.2.2
 
-## This is a resubmission
+## Reason for this submission
 
-0.2.0 was rejected by the incoming checks on 2026-09-08 for three problems,
-all fixed here.
-
-**A Windows-only test ERROR.** `write_cache()` closed its connection with
-`on.exit()`, which registers against the enclosing function's frame rather
-than the `tryCatch` block, so the handle was still open when `file.rename()`
-ran. Unix renames an open file without complaint; Windows refuses, so every
-cache write returned `FALSE` there. The connection is now closed before the
-rename. This was invisible on macOS and only your Windows builder caught it,
-which I am grateful for.
-
-**A DESCRIPTION URL that answers HTTP 400.** It cited the bare NCEI Data
-Service endpoint, which rejects a request carrying no query parameters. It
-now points at the NCEI API user documentation. The endpoint the package
-actually calls is unchanged.
-
-**A dead README link.** `library.wmo.int` is unreachable and returned an
-HTTP/2 protocol error. Replaced with a plain citation to WMO-No. 1203.
+A bug-fix release. The NCEI normals endpoint converts precipitation but
+not temperature when asked for metric units. `noaa_normals()` asked for
+metric units while documenting US customary units, so it returned normal
+precipitation in millimetres beside temperatures in Fahrenheit. It now
+requests standard units, so every column matches the documentation. The
+citation entry also reported a hard-coded version; it now reads the
+installed one.
 
 ## R CMD check results
 

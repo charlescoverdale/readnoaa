@@ -1,3 +1,24 @@
+# readnoaa 0.2.2
+
+## Normal precipitation was in millimetres, documented as inches
+
+The NCEI normals are published in US customary units, and the help page
+said `noaa_normals()` returned inches and degrees Fahrenheit. But the
+request asked for metric units, which the normals endpoint applies to
+precipitation and not to temperature, so the function returned
+millimetres next to Fahrenheit: Central Park's January normal came back
+as 92.5 (millimetres) beside 33.7 (Fahrenheit), with nothing in the
+output to say the units differed. `noaa_normals()`, and `noaa_get()` for
+any `normals-` dataset, now request standard units, so every column is
+in the documented units (3.64 inches beside 33.7 F). Normal
+precipitation, snowfall and snow depth values therefore change by a
+factor of 25.4 from 0.2.1.
+
+## Citation
+
+`citation("readnoaa")` reported version 0.1.0 whatever version was
+installed. It now reads the installed version.
+
 # readnoaa 0.2.1
 
 Resubmission of 0.2.0, which CRAN's incoming checks rejected on 2026-09-08.

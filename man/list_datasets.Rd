@@ -28,10 +28,10 @@ organised by area rather than by station, so it requires a bounding box.
 list_datasets()
 }
 \seealso{
-Other data access: 
-\code{\link{cache_info}()},
-\code{\link{clear_cache}()},
-\code{\link{list_datatypes}()},
-\code{\link{noaa_get}()}
+Other data access:
+\code{\link[=cache_info]{cache_info()}},
+\code{\link[=clear_cache]{clear_cache()}},
+\code{\link[=list_datatypes]{list_datatypes()}},
+\code{\link[=noaa_get]{noaa_get()}}
 }
 \concept{data access}

@@ -28,9 +28,11 @@
 #'
 #' @section Units:
 #' The NCEI normals datasets are published in United States customary units
-#' (degrees Fahrenheit, inches) and ignore the API's `units` parameter, so
-#' unlike the observational functions there is no metric option. Convert
-#' after the fact if you need Celsius or millimetres.
+#' (degrees Fahrenheit, inches). Asked for metric units, the API converts
+#' precipitation to millimetres but leaves temperature in Fahrenheit, so
+#' this function always requests the published units and, unlike the
+#' observational functions, has no metric option. Convert after the fact if
+#' you need Celsius or millimetres.
 #'
 #' @param station Character. One or more station IDs.
 #' @param period Character. One of `"monthly"`, `"daily"`, `"hourly"`, or
@@ -106,12 +108,15 @@ noaa_normals <- function(station, period = "monthly", datatypes = NULL,
   }
 
   cli::cli_progress_step("Fetching {period} climate normals")
+  # Standard units: a metric request converts precipitation but not
+  # temperature, giving millimetres next to degrees Fahrenheit.
   df <- noaa_fetch(
     dataset = dataset,
     stations = station,
     start_date = start_date,
     end_date = end_date,
     datatypes = datatypes,
+    units = "standard",
     include_flags = include_flags,
     include_location = include_location,
     cache = cache,

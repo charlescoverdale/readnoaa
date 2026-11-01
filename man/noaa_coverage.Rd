@@ -56,8 +56,8 @@ options(op)
 }
 }
 \seealso{
-Other station discovery: 
-\code{\link{noaa_nearby}()},
-\code{\link{noaa_stations}()}
+Other station discovery:
+\code{\link[=noaa_nearby]{noaa_nearby()}},
+\code{\link[=noaa_stations]{noaa_stations()}}
 }
 \concept{station discovery}

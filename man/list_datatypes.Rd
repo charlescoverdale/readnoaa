@@ -60,10 +60,10 @@ options(op)
 \seealso{
 \code{\link[=noaa_coverage]{noaa_coverage()}} for the years each element spans.
 
-Other data access: 
-\code{\link{cache_info}()},
-\code{\link{clear_cache}()},
-\code{\link{list_datasets}()},
-\code{\link{noaa_get}()}
+Other data access:
+\code{\link[=cache_info]{cache_info()}},
+\code{\link[=clear_cache]{clear_cache()}},
+\code{\link[=list_datasets]{list_datasets()}},
+\code{\link[=noaa_get]{noaa_get()}}
 }
 \concept{data access}

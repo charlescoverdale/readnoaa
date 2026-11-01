@@ -66,9 +66,9 @@ options(op)
 }
 }
 \seealso{
-Other weather data: 
-\code{\link{noaa_daily}()},
-\code{\link{noaa_monthly}()},
-\code{\link{noaa_normals}()}
+Other weather data:
+\code{\link[=noaa_daily]{noaa_daily()}},
+\code{\link[=noaa_monthly]{noaa_monthly()}},
+\code{\link[=noaa_normals]{noaa_normals()}}
 }
 \concept{weather data}

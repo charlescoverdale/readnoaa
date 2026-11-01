@@ -17,8 +17,10 @@
 #' @param bbox Optional numeric vector of length 4 defining a bounding box:
 #'   `c(south_lat, west_lon, north_lat, east_lon)`. Required by
 #'   `global-marine`.
-#' @param units Character. `"metric"` (default) or `"standard"`. Ignored by
-#'   the normals datasets, which are published in US customary units.
+#' @param units Character. `"metric"` (default) or `"standard"`. The normals
+#'   datasets are always requested in their published US customary units:
+#'   asked for metric, the API converts their precipitation but not their
+#'   temperatures.
 #' @param include_flags Logical. Include data quality flags from NCEI
 #'   (default `FALSE`).
 #' @param include_location Logical. Include station latitude, longitude,
@@ -54,6 +56,10 @@ noaa_get <- function(dataset, station = NULL, start_date = NULL,
   if (!is.null(start_date)) start_date <- validate_date(start_date, "start_date")
   if (!is.null(end_date))   end_date   <- validate_date(end_date, "end_date")
   validate_date_range(start_date, end_date)
+
+  # A metric request converts the normals' precipitation but not their
+  # temperatures, so request them in the units they are published in.
+  if (startsWith(dataset, "normals-")) units <- "standard"
 
   cli::cli_progress_step("Fetching {dataset} data")
   df <- noaa_fetch(

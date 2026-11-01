@@ -20,6 +20,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Charles Coverdale \email{charlesfcoverdale@gmail.com} [copyright holder]
 
+Authors:
+\itemize{
+  \item Charles Coverdale \email{charlesfcoverdale@gmail.com} [copyright holder]
+}
+
 }
 \concept{NCEI}
 \concept{NOAA}
