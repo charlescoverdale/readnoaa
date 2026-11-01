@@ -2,7 +2,7 @@
 
 > Provides clean, tidy access to climate and weather data from the 'National Oceanic and Atmospheric Administration' ('NOAA') via the 'National Centers for Environmental Information' ('NCEI') Data Se...
 
-- Version: 0.2.1
+- Version: 0.2.2
 - Install: `install.packages("readnoaa")`
 - CRAN: https://CRAN.R-project.org/package=readnoaa
 - GitHub: https://github.com/charlescoverdale/readnoaa
@@ -309,7 +309,7 @@ noaa_get(
 - `end_date`: Optional end date in the same format.
 - `datatypes`: Optional character vector of data type codes.
 - `bbox`: Optional numeric vector of length 4 defining a bounding box: `c(south_lat, west_lon, north_lat, east_lon)`. Required by `global-marine`.
-- `units`: Character. `"metric"` (default) or `"standard"`. Ignored by the normals datasets, which are published in US customary units.
+- `units`: Character. `"metric"` (default) or `"standard"`. The normals datasets are always requested in their published US customary units: asked for metric, the API converts only some of their variables, and converts temperature ranges as if they were temperatures.
 - `include_flags`: Logical. Include data quality flags from NCEI (default `FALSE`).
 - `include_location`: Logical. Include station latitude, longitude, and elevation columns (default `FALSE`).
 - `drop_empty`: Logical. Drop columns that contain no data at all. Defaults to `TRUE` when `datatypes` is `NULL`.
