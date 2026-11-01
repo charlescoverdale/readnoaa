@@ -2,11 +2,13 @@
 
 ## Reason for this submission
 
-A bug-fix release. The NCEI normals endpoint converts precipitation but
-not temperature when asked for metric units. `noaa_normals()` asked for
-metric units while documenting US customary units, so it returned normal
-precipitation in millimetres beside temperatures in Fahrenheit. It now
-requests standard units, so every column matches the documentation. The
+A bug-fix release. The NCEI normals endpoint applies metric units
+inconsistently: it converts precipitation and some temperatures but not
+others, and converts temperature ranges as if they were temperatures,
+giving negative values. `noaa_normals()` asked for metric units while
+documenting US customary units, so it returned a mix of millimetres,
+Fahrenheit and Celsius, and some wrong values. It now requests standard
+units, so every column matches the documentation. The
 citation entry also reported a hard-coded version; it now reads the
 installed one.
 

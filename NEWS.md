@@ -1,18 +1,23 @@
 # readnoaa 0.2.2
 
-## Normal precipitation was in millimetres, documented as inches
+## Normals mixed units, and some values were wrong
 
 The NCEI normals are published in US customary units, and the help page
 said `noaa_normals()` returned inches and degrees Fahrenheit. But the
-request asked for metric units, which the normals endpoint applies to
-precipitation and not to temperature, so the function returned
-millimetres next to Fahrenheit: Central Park's January normal came back
-as 92.5 (millimetres) beside 33.7 (Fahrenheit), with nothing in the
-output to say the units differed. `noaa_normals()`, and `noaa_get()` for
-any `normals-` dataset, now request standard units, so every column is
-in the documented units (3.64 inches beside 33.7 F). Normal
-precipitation, snowfall and snow depth values therefore change by a
-factor of 25.4 from 0.2.1.
+request asked for metric units, and the normals endpoint applies those
+inconsistently: it converts precipitation, snowfall, and monthly maximum
+and minimum temperature, but not monthly average temperature, and it
+converts temperature ranges as if they were temperatures. For Central
+Park in January it returned precipitation of 92.5 (millimetres) beside an
+average temperature of 33.7 (Fahrenheit), a maximum of 4.2 (Celsius),
+and a diurnal temperature range of -11.4, where the published value is
+11.5 F (6.4 C). Nothing in the output said the units differed.
+
+`noaa_normals()`, and `noaa_get()` for any `normals-` dataset, now
+request standard units, so every column is in the units the help page
+documents: 3.64 inches, 33.7 F, 39.5 F and 11.5 F. Precipitation,
+snowfall and most temperature normals therefore change from 0.2.1. The
+observational datasets convert consistently and still default to metric.
 
 ## Citation
 

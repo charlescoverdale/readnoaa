@@ -41,8 +41,8 @@ GHCN-Daily IDs such as \code{"USW00094728"}, while \code{global-hourly} and
 
 \item{units}{Character. \code{"metric"} (default) or \code{"standard"}. The normals
 datasets are always requested in their published US customary units:
-asked for metric, the API converts their precipitation but not their
-temperatures.}
+asked for metric, the API converts only some of their variables, and
+converts temperature ranges as if they were temperatures.}
 
 \item{include_flags}{Logical. Include data quality flags from NCEI
 (default \code{FALSE}).}

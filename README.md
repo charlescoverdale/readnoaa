@@ -99,7 +99,7 @@ head(nrm[, c("station", "month", "mly_prcp_normal", "mly_tavg_normal")], 3)
 
 Normals carry a climatological pseudo-date rather than a calendar date (`"01"` for a month, `"01-31"` for a day of the year), so integer `month`, `day`, and `hour` columns are added alongside for filtering and joining. Four periods are available: `"monthly"`, `"daily"`, `"hourly"`, and `"annual"`. The daily and hourly periods accept `start_date` and `end_date` to narrow the window.
 
-The NCEI normals datasets are published in US customary units (Fahrenheit and inches), and unlike the observational functions `noaa_normals()` has no metric option: asked for metric units, the API converts precipitation but not temperature, so the package always requests the published units.
+The NCEI normals datasets are published in US customary units (Fahrenheit and inches), and unlike the observational functions `noaa_normals()` has no metric option: asked for metric units, the API converts some variables and not others (monthly average temperature stays in Fahrenheit) and turns temperature ranges negative, so the package always requests the published units.
 
 ### Multiple stations in one call
 

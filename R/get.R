@@ -19,8 +19,8 @@
 #'   `global-marine`.
 #' @param units Character. `"metric"` (default) or `"standard"`. The normals
 #'   datasets are always requested in their published US customary units:
-#'   asked for metric, the API converts their precipitation but not their
-#'   temperatures.
+#'   asked for metric, the API converts only some of their variables, and
+#'   converts temperature ranges as if they were temperatures.
 #' @param include_flags Logical. Include data quality flags from NCEI
 #'   (default `FALSE`).
 #' @param include_location Logical. Include station latitude, longitude,
@@ -57,8 +57,8 @@ noaa_get <- function(dataset, station = NULL, start_date = NULL,
   if (!is.null(end_date))   end_date   <- validate_date(end_date, "end_date")
   validate_date_range(start_date, end_date)
 
-  # A metric request converts the normals' precipitation but not their
-  # temperatures, so request them in the units they are published in.
+  # A metric request converts only some normals, and turns temperature
+  # ranges negative, so request them in the units they are published in.
   if (startsWith(dataset, "normals-")) units <- "standard"
 
   cli::cli_progress_step("Fetching {dataset} data")

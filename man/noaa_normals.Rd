@@ -81,10 +81,12 @@ no date column at all.
 
 The NCEI normals datasets are published in United States customary units
 (degrees Fahrenheit, inches). Asked for metric units, the API converts
-precipitation to millimetres but leaves temperature in Fahrenheit, so
-this function always requests the published units and, unlike the
-observational functions, has no metric option. Convert after the fact if
-you need Celsius or millimetres.
+them inconsistently: precipitation and monthly maximum and minimum
+temperature are converted, monthly average temperature is not, and
+temperature ranges are converted as if they were temperatures (giving
+negative diurnal ranges). This function therefore always requests the
+published units and, unlike the observational functions, has no metric
+option. Convert after the fact if you need Celsius or millimetres.
 }
 
 \examples{

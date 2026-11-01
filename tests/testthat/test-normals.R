@@ -37,8 +37,8 @@ test_that("each normals period maps to a live NCEI dataset", {
 })
 
 test_that("normals are requested in their published units", {
-  # A metric request converts precipitation but not temperature, so the
-  # normals must always be fetched in standard units.
+  # A metric request converts some normals and not others, so they must
+  # always be fetched in standard units.
   seen <- character(0)
   local_mocked_bindings(noaa_fetch = function(...) {
     seen <<- c(seen, list(...)$units)
