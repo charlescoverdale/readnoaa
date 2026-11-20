@@ -85,10 +85,10 @@ try({
   element = "TMAX", active_since = 2024)
 })
 #> ℹ Searching for nearby stations
-#> ✔ Searching for nearby stations [1.3s]
+#> ✔ Searching for nearby stations [1.2s]
 #> 
 #> ℹ Searching for nearby stations
-#> ✔ Searching for nearby stations [237ms]
+#> ✔ Searching for nearby stations [191ms]
 #> 
 #>  [1] station      latitude     longitude    elevation    state       
 #>  [6] name         gsn_flag     hcn_crn_flag wmo_id       distance_km 

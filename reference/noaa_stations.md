@@ -130,10 +130,10 @@ try({
   noaa_stations(text = "Heathrow")
 })
 #> ℹ Searching for stations
-#> ✔ Searching for stations [147ms]
+#> ✔ Searching for stations [135ms]
 #> 
 #> ℹ Searching for stations
-#> ✔ Searching for stations [179ms]
+#> ✔ Searching for stations [156ms]
 #> 
 #>       station latitude longitude elevation state     name gsn_flag hcn_crn_flag
 #> 1 UKE00107650  51.4789    0.4489      25.0  <NA> HEATHROW     <NA>         <NA>

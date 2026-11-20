@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">readnoaa</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.2" id="readnoaa-022">readnoaa 0.2.2<a class="anchor" aria-label="anchor" href="#readnoaa-022"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="readnoaa-development-version">readnoaa (development version)<a class="anchor" aria-label="anchor" href="#readnoaa-development-version"></a></h2>
+<ul><li>Requests to NCEI now time out instead of hanging. httr2 sets no transfer timeout, so a server that accepted the connection and then stalled froze the R session indefinitely. Every request now gives up if the connection takes more than 20 seconds to open or the transfer stalls for 60 seconds, and reports the usual “Failed to connect” error. Slow but progressing downloads, such as the ~36 MB GHCN-Daily element inventory, still finish. Set <code>options(readnoaa.timeout = &lt;seconds&gt;)</code> for a hard cap on the whole request. This affected every data function, <code><a href="../reference/noaa_stations.html">noaa_stations()</a></code>, <code><a href="../reference/noaa_nearby.html">noaa_nearby()</a></code> and <code><a href="../reference/noaa_coverage.html">noaa_coverage()</a></code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.2" id="readnoaa-022">readnoaa 0.2.2<a class="anchor" aria-label="anchor" href="#readnoaa-022"></a></h2><p class="text-muted">CRAN release: 2026-11-01</p>
 <div class="section level3">
 <h3 id="normals-mixed-units-and-some-values-were-wrong-0-2-2">Normals mixed units, and some values were wrong<a class="anchor" aria-label="anchor" href="#normals-mixed-units-and-some-values-were-wrong-0-2-2"></a></h3>
 <p>The NCEI normals are published in US customary units, and the help page said <code><a href="../reference/noaa_normals.html">noaa_normals()</a></code> returned inches and degrees Fahrenheit. But the request asked for metric units, and the normals endpoint applies those inconsistently: it converts precipitation, snowfall, and monthly maximum and minimum temperature, but not monthly average temperature, and it converts temperature ranges as if they were temperatures. For Central Park in January it returned precipitation of 92.5 (millimetres) beside an average temperature of 33.7 (Fahrenheit), a maximum of 4.2 (Celsius), and a diurnal temperature range of -11.4, where the published value is 11.5 F (6.4 C). Nothing in the output said the units differed.</p>

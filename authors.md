@@ -10,12 +10,13 @@ Source:
 [`inst/CITATION`](https://github.com/charlescoverdale/readnoaa/blob/main/inst/CITATION)
 
 Coverdale C (2026). *readnoaa: Access NOAA Climate and Weather Data*. R
-package version 0.2.2, <https://github.com/charlescoverdale/readnoaa>.
+package version 0.2.2.9000,
+<https://github.com/charlescoverdale/readnoaa>.
 
     @Manual{,
       title = {readnoaa: Access NOAA Climate and Weather Data},
       author = {Charles Coverdale},
       year = {2026},
-      note = {R package version 0.2.2},
+      note = {R package version 0.2.2.9000},
       url = {https://github.com/charlescoverdale/readnoaa},
     }

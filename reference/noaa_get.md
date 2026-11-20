@@ -109,7 +109,7 @@ try({
   start_date = "2024-01-01", end_date = "2024-01-31")
 })
 #> ℹ Fetching daily-summaries data
-#> ✔ Fetching daily-summaries data [1.4s]
+#> ✔ Fetching daily-summaries data [715ms]
 #> 
 #>        station                        name       date  adpt   aslp   astp awbt
 #> 1  USW00094728 NY CITY CENTRAL PARK, NY US 2024-01-01  -1.1 1016.6 1011.5  2.8
