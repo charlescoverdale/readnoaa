@@ -10,6 +10,40 @@ noaa_cache_dir <- function() {
 }
 
 
+# ---- requests --------------------------------------------------------------
+
+#' Build a request to NCEI with stall protection
+#'
+#' httr2 sets no transfer timeout, so a server that accepts the connection
+#' and then stops sending would hang the session indefinitely. These options
+#' abort a connection that takes over 20 seconds to open, or a transfer that
+#' moves under 1 byte per second for 60 seconds, while letting a slow but
+#' progressing download (such as the ~36 MB GHCN-Daily inventory) finish.
+#' Set the `readnoaa.timeout` option to a number of seconds for a hard cap
+#' on the whole request as well.
+#' @param url Character. The full request URL.
+#' @return An httr2 request.
+#' @noRd
+noaa_request <- function(url) {
+  req <- httr2::request(url)
+  req <- httr2::req_options(
+    req,
+    connecttimeout = 20L,
+    low_speed_limit = 1L,
+    low_speed_time = 60L
+  )
+  timeout <- getOption("readnoaa.timeout", default = NULL)
+  if (!is.null(timeout)) {
+    if (!is.numeric(timeout) || length(timeout) != 1L || is.na(timeout) ||
+        timeout <= 0) {
+      cli::cli_abort("Option {.code readnoaa.timeout} must be a single positive number of seconds.")
+    }
+    req <- httr2::req_timeout(req, timeout)
+  }
+  httr2::req_user_agent(req, "readnoaa R package (https://github.com/charlescoverdale/readnoaa)")
+}
+
+
 # ---- cache keys ------------------------------------------------------------
 
 #' MD5 digest of a character string
@@ -253,7 +287,7 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
     params$boundingBox <- paste(bbox, collapse = ",")
   }
 
-  req <- httr2::request(noaa_data_url)
+  req <- noaa_request(noaa_data_url)
   req <- httr2::req_url_query(req, !!!params)
   req <- httr2::req_throttle(req, rate = 3 / 10)
   req <- httr2::req_retry(
@@ -262,7 +296,6 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
       httr2::resp_status(resp) %in% c(429L, 500L, 502L, 503L, 504L)
     }
   )
-  req <- httr2::req_user_agent(req, "readnoaa R package (https://github.com/charlescoverdale/readnoaa)")
   req <- httr2::req_error(req, is_error = function(resp) FALSE)
 
   resp <- tryCatch(
@@ -327,9 +360,8 @@ noaa_fetch <- function(dataset, stations = NULL, start_date = NULL,
 #' @return Character vector of lines.
 #' @noRd
 fetch_ghcnd_file <- function(url, label) {
-  req <- httr2::request(url)
+  req <- noaa_request(url)
   req <- httr2::req_retry(req, max_tries = 3L, backoff = ~ 5)
-  req <- httr2::req_user_agent(req, "readnoaa R package (https://github.com/charlescoverdale/readnoaa)")
 
   resp <- tryCatch(
     httr2::req_perform(req),

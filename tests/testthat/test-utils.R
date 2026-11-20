@@ -166,3 +166,40 @@ test_that("drop_empty_cols removes all-NA columns but keeps identifiers", {
   expect_true(all(c("station", "date", "tmax") %in% names(out)))
   expect_false("tobs" %in% names(out))
 })
+
+test_that("noaa_request sets connect and stall timeouts", {
+  req <- readnoaa:::noaa_request("https://www.ncei.noaa.gov/access/services/data/v1")
+  expect_equal(req$options$connecttimeout, 20L)
+  expect_equal(req$options$low_speed_limit, 1L)
+  expect_equal(req$options$low_speed_time, 60L)
+  expect_null(req$options$timeout_ms)
+  expect_match(req$options$useragent, "readnoaa")
+})
+
+test_that("readnoaa.timeout adds a hard cap and is validated", {
+  op <- options(readnoaa.timeout = 90)
+  on.exit(options(op), add = TRUE)
+  req <- readnoaa:::noaa_request("https://www.ncei.noaa.gov/access/services/data/v1")
+  expect_equal(req$options$timeout_ms, 90000)
+
+  options(readnoaa.timeout = "soon")
+  expect_error(readnoaa:::noaa_request("https://example.org"), "readnoaa.timeout")
+})
+
+test_that("a stalled transfer surfaces as the informative connection error", {
+  op <- options(readnoaa.cache_dir = tempfile("readnoaa-cache-"))
+  on.exit(options(op), add = TRUE)
+  httr2::local_mocked_responses(function(req) {
+    stop("Timeout was reached [www.ncei.noaa.gov]: Operation too slow")
+  })
+  expect_error(
+    readnoaa:::noaa_fetch("daily-summaries", stations = "USW00094728",
+                          start_date = "2020-01-01", end_date = "2020-01-02",
+                          cache = FALSE),
+    "Failed to connect to the NCEI Data Service API"
+  )
+  expect_error(
+    readnoaa:::fetch_ghcnd_file("https://www.ncei.noaa.gov/x.txt", "station list"),
+    "Failed to download the GHCN-Daily station list"
+  )
+})

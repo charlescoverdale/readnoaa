@@ -1,3 +1,15 @@
+# readnoaa (development version)
+
+* Requests to NCEI now time out instead of hanging. httr2 sets no transfer
+  timeout, so a server that accepted the connection and then stalled froze
+  the R session indefinitely. Every request now gives up if the connection
+  takes more than 20 seconds to open or the transfer stalls for 60 seconds,
+  and reports the usual "Failed to connect" error. Slow but progressing
+  downloads, such as the ~36 MB GHCN-Daily element inventory, still finish.
+  Set `options(readnoaa.timeout = <seconds>)` for a hard cap on the whole
+  request. This affected every data function, `noaa_stations()`,
+  `noaa_nearby()` and `noaa_coverage()`.
+
 # readnoaa 0.2.2
 
 ## Normals mixed units, and some values were wrong
